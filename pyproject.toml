@@ -1,0 +1,22 @@
+[project]
+name = "barq-ai-support"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Karim3637", email = "karimtaha0303@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.141.1",
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.15.0",
+    "uvicorn>=0.52.4",
+]
+
+[project.scripts]
+barq-ai-support = "barq_ai_support:main"
+
+[build-system]
+requires = ["uv_build>=0.12.11,<0.13.0"]
+build-backend = "uv_build"
