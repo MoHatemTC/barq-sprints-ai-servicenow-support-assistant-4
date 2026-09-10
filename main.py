@@ -8,7 +8,7 @@ load_dotenv()
 from fastapi import BackgroundTasks, FastAPI, Header, HTTPException, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from pydantic import AliasChoices, BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 
 app = FastAPI(title="AI ServiceNow Support Assistant")
 
@@ -27,31 +27,17 @@ async def on_validation_error(request, exc):
 
 
 class IncidentEvent(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    sys_id: str = Field(
-        ...,
-        min_length=1,
-        description="ServiceNow sys_id",
-        validation_alias=AliasChoices("sys_id", "incident_sys_id"),
-    )
-    number: str = Field(..., description="ServiceNow Incident Number (e.g. INC0010001)")
-    short_description: str
-    description: str | None = ""
-    category: str = "inquiry"
-    priority: int = 3
-    caller_id: str | None = ""
-    created_on: str | None = None
+    incident_sys_id: str = Field(..., description="ServiceNow 32-character sys_id")
+    number: str = Field(..., description="Incident number (e.g., INC0010001)")
+    short_description: str = Field(..., description="Short description")
+    description: str | None = Field(default="", description="Detailed description")
 
 
 def handle_event(payload: IncidentEvent):
     # Sprint 1 scope ends here: just prove the event was received.
     # AI processing, retrieval, and write-back belong to later sprints.
     print(f"Background task ran for {payload.number}: {payload.short_description}")
-    print(
-        f"Details -> Category: {payload.category} | "
-        f"Priority: {payload.priority} | Sys ID: {payload.sys_id}"
-    )
+    print(f"Details -> Sys ID: {payload.incident_sys_id}")
 
 
 @app.post("/webhook", status_code=status.HTTP_202_ACCEPTED)
@@ -69,7 +55,7 @@ async def webhook(
             detail="Invalid or missing X-ServiceNow-Secret header.",
         )
 
-    print(f"Received event for {payload.number} (sys_id: {payload.sys_id})")
+    print(f"Received event for {payload.number} (sys_id: {payload.incident_sys_id})")
 
     background_tasks.add_task(handle_event, payload)
 
