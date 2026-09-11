@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     servicenow_instance_url: str
     servicenow_username: str
     servicenow_password: str
-    servicenow_knowledge_base_sys_id: str | None = None
+    servicenow_knowledge_base_sys_id: str
 
     model_config = SettingsConfigDict(
         env_file=".env",
