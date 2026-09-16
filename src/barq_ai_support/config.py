@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     servicenow_username: str
     servicenow_password: str
     servicenow_knowledge_base_sys_id: str
+    # Shared secret checked against the "X-ServiceNow-Secret" header the
+    # Business Rule sends (see businessRule/business_rule.js).
+    servicenow_webhook_secret: str = ""
 
     model_config = SettingsConfigDict(
         env_file=".env",
