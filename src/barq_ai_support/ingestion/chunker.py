@@ -5,7 +5,7 @@ def parse_html_sections(html: str) -> list[dict]:
     soup = BeautifulSoup(html, "html.parser")
 
     sections = []
-    heading_path = []
+    heading_stack = []
 
     for element in soup.find_all(
         ["h1", "h2", "h3", "h4", "h5", "h6", "p", "ol", "ul"]
@@ -14,8 +14,12 @@ def parse_html_sections(html: str) -> list[dict]:
             level = int(element.name[1])
             heading = element.get_text(" ", strip=True)
 
-            heading_path = heading_path[: level - 2]
-            heading_path.append(heading)
+            while heading_stack and heading_stack[-1][0] >= level:
+                heading_stack.pop()
+
+            heading_stack.append((level, heading))
+
+            current_path = [h for _, h in heading_stack]
 
         else:
             text = element.get_text(" ", strip=True)
@@ -23,7 +27,7 @@ def parse_html_sections(html: str) -> list[dict]:
             if not text:
                 continue
 
-            current_heading_path = heading_path.copy()
+            current_heading_path = [h for _, h in heading_stack]
 
             if (
                 sections
@@ -48,13 +52,11 @@ def find_split_position(
 ) -> int:
     end = min(target_end, len(text))
 
-    # First preference: paragraph/newline boundary
     newline_position = text.rfind("\n", start, end)
 
     if newline_position > start:
         return newline_position
 
-    # Second preference: sentence boundary
     sentence_positions = [
         text.rfind(".", start, end),
         text.rfind("?", start, end),
@@ -66,14 +68,13 @@ def find_split_position(
     if sentence_position > start:
         return sentence_position + 1
 
-    # Third preference: whitespace between words
     whitespace_position = text.rfind(" ", start, end)
 
     if whitespace_position > start:
         return whitespace_position
 
-    # Last fallback: hard character split
     return end
+
 
 def find_overlap_start(
     text: str,
@@ -114,7 +115,6 @@ def chunk_sections(
         text = section["text"]
         heading_path = section["heading_path"]
 
-        # Section is small enough, so keep it as one chunk.
         if len(text) <= chunk_size:
             chunks.append(
                 {
@@ -124,8 +124,6 @@ def chunk_sections(
             )
             continue
 
-        # Section is too large, so split it using
-        # natural boundaries whenever possible.
         start = 0
 
         while start < len(text):
@@ -178,7 +176,6 @@ def chunk_article(
     for index, chunk in enumerate(chunks):
         heading = " > ".join(chunk["heading_path"])
 
-        # Pass the original article metadata without modifying it.
         metadata = {
             key: value
             for key, value in article.items()
