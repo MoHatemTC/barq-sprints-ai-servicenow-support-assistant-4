@@ -10,6 +10,13 @@ class Settings(BaseSettings):
     # Business Rule sends (see businessRule/business_rule.js).
     servicenow_webhook_secret: str = ""
 
+    # --- Qdrant / retrieval settings (S2.3) ---
+    qdrant_url: str = ""
+    qdrant_api_key: str = ""
+    qdrant_collection_name: str = "kb_chunks"
+    retrieval_score_threshold: float = 0.75
+    retrieval_top_k: int = 5
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
