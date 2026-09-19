@@ -24,11 +24,12 @@ class ServiceNowClient:
             "sysparm_display_value": "true",
             "sysparm_fields": (
                 "sys_id,number,short_description,"
-                "text,workflow_state,published,"
+                "text,workflow_state,published,version,"
                 "kb_knowledge_base,kb_category,x_2215387_sprint_0_service"
             ),
             "sysparm_query": (
                f"workflow_state=published^"
+               "revised_by=f1654ec4839f0f1058aef1d6feaad30e^"
                 f"kb_knowledge_base="
                 f"{settings.servicenow_knowledge_base_sys_id}"
                 f"^ORDERBYDESCsys_updated_on"

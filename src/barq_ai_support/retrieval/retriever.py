@@ -1,4 +1,4 @@
-"""
+﻿"""
 S2.3 - Semantic Retrieval & Threshold Gate
 
 Step 1: Qdrant client connection.
@@ -46,6 +46,7 @@ def get_qdrant_client() -> QdrantClient:
         api_key=settings.qdrant_api_key or None,
     )
 
+
 @dataclass
 class RetrievedChunk:
     """One retrieved chunk, with its score and article provenance."""
@@ -56,6 +57,7 @@ class RetrievedChunk:
     category: str | None = None
     short_description: str | None = None
     heading_path: list[str] | None = None
+
 
 @dataclass
 class RetrievalResult:
@@ -70,6 +72,7 @@ class RetrievalResult:
     best_score: float | None
     chunks: list[RetrievedChunk] = field(default_factory=list)
     refusal_message: str | None = None
+
 
 def retrieve(
     query: str,
@@ -86,7 +89,6 @@ def retrieve(
     and article provenance. If the best score doesn't meet the threshold,
     returns a refusal instead (see threshold gating, added next).
     """
-    # Use config defaults for anything the caller didn't specify.
     if top_k is None:
         top_k = settings.retrieval_top_k
     if score_threshold is None:
@@ -136,24 +138,35 @@ def retrieve(
         with_payload=True,
     ).points
 
-    chunks = [
-        RetrievedChunk(
-            chunk_id=str(hit.id),
-            score=hit.score,
-            text=hit.payload.get("text", ""),
-            article_number=hit.payload.get("article_number", ""),
-            category=hit.payload.get("category"),
-            short_description=hit.payload.get("short_description"),
-            heading_path=hit.payload.get("heading_path"),
+    chunks = []
+    for hit in hits:
+        payload = hit.payload or {}
+
+        # Support both payload formats:
+        # - Our format: text, article_number, category, short_description, heading_path
+        # - S2.2 format (embedding.py/qdrant_store.py): short_description, number, kb_category dict
+        text = payload.get("text") or payload.get("short_description", "")
+        article_number = payload.get("article_number") or payload.get("number", "")
+        category_val = payload.get("category")
+        if isinstance(category_val, dict):
+            category_val = category_val.get("display_value") or category_val.get("value")
+        short_description = payload.get("short_description")
+        heading_path = payload.get("heading_path")
+
+        chunks.append(
+            RetrievedChunk(
+                chunk_id=str(hit.id),
+                score=hit.score,
+                text=text,
+                article_number=article_number,
+                category=category_val,
+                short_description=short_description,
+                heading_path=heading_path,
+            )
         )
-        for hit in hits
-    ]
 
     best_score = max((c.score for c in chunks), default=None)
 
-    # Threshold gating: if nothing cleared the bar, refuse instead of
-    # returning weak/irrelevant matches. This is normal, successful
-    # behavior per the brief — not an error.
     if best_score is None or best_score < score_threshold:
         refusal_message = (
             f"No relevant knowledge articles found for query: {query!r}. "
