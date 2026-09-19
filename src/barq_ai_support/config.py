@@ -6,14 +6,20 @@ class Settings(BaseSettings):
     servicenow_username: str
     servicenow_password: str
     servicenow_knowledge_base_sys_id: str
-    # Shared secret checked against the "X-ServiceNow-Secret" header the
-    # Business Rule sends (see businessRule/business_rule.js).
+
+    # Shared secret checked against the
+    # "X-ServiceNow-Secret" header.
     servicenow_webhook_secret: str = ""
 
-    # --- Qdrant / retrieval settings (S2.3) ---
+    # --- Gemini / Embedding settings (S2.2) ---
+    gemini_api_key: str = ""
+
+    # --- Qdrant / vector storage settings (S2.2) ---
     qdrant_url: str = ""
     qdrant_api_key: str = ""
-    qdrant_collection_name: str = "kb_chunks"
+    qdrant_collection_name: str = "barq_kb_chunks"
+
+    # --- Retrieval settings (S2.3) ---
     retrieval_score_threshold: float = 0.75
     retrieval_top_k: int = 5
 
