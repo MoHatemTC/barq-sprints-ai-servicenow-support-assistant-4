@@ -1,4 +1,4 @@
-"""
+﻿"""
 S2.3 - Semantic Retrieval & Threshold Gate
 
 Step 1: Qdrant client connection.
@@ -73,19 +73,48 @@ def default_embedding_fn(text: str, dim: int = 384) -> list[float]:
     is passed to it.
     """
     digest = hashlib.sha256(text.encode("utf-8")).digest()
-    # Repeat the hash bytes until we have enough to fill `dim` numbers.
     raw_bytes = (digest * (dim // len(digest) + 1))[:dim]
-    # Map each byte (0-255) into a small range around 0, e.g. -1.0 to 1.0.
     vector = [(b / 127.5) - 1.0 for b in raw_bytes]
     return vector
 
+import os
+from google import genai
+
+_gemini_client = None
+
+
+def gemini_embedding_fn(text: str) -> list[float]:
+    """
+    Real embedding function using Google's Gemini API — matches Mathew's
+    S2.2 ingestion setup exactly (same model, same output dimension),
+    so search queries are embedded the same way his article chunks were.
+
+    Requires GEMINI_API_KEY in .env. Falls back to raising a clear error
+    if the key isn't set, rather than failing with a confusing API error.
+    """
+    global _gemini_client
+    if _gemini_client is None:
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key:
+            raise RuntimeError(
+                "GEMINI_API_KEY is not set. Add it to your .env file to "
+                "use real embeddings instead of the stub."
+            )
+        _gemini_client = genai.Client(api_key=api_key)
+
+    response = _gemini_client.models.embed_content(
+        model="gemini-embedding-001",
+        contents=text,
+        config={"output_dimensionality": 768},
+    )
+    return response.embeddings[0].values
 
 def retrieve(
     query: str,
     top_k: int | None = None,
     category: str | None = None,
     score_threshold: float | None = None,
-    embedding_fn=default_embedding_fn,
+    embedding_fn=gemini_embedding_fn,
     client: QdrantClient | None = None,
 ) -> RetrievalResult:
     """
@@ -95,7 +124,6 @@ def retrieve(
     and article provenance. If the best score doesn't meet the threshold,
     returns a refusal instead (see threshold gating, added next).
     """
-    # Use config defaults for anything the caller didn't specify.
     if top_k is None:
         top_k = settings.retrieval_top_k
     if score_threshold is None:
@@ -139,9 +167,6 @@ def retrieve(
 
     best_score = max((c.score for c in chunks), default=None)
 
-    # Threshold gating: if nothing cleared the bar, refuse instead of
-    # returning weak/irrelevant matches. This is normal, successful
-    # behavior per the brief — not an error.
     if best_score is None or best_score < score_threshold:
         refusal_message = (
             f"No relevant knowledge articles found for query: {query!r}. "

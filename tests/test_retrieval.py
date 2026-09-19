@@ -1,4 +1,4 @@
-"""
+﻿"""
 Tests for the S2.3 semantic retrieval module (retrieve()).
 
 These tests run against an in-memory Qdrant instance (no real Qdrant
@@ -7,6 +7,11 @@ chunks, using retrieve()'s own stub embedding function. This proves the
 retrieval logic itself (search, scoring, category filtering, threshold
 gating) works correctly, independent of what real embedding model or
 real Qdrant collection the team ends up using.
+
+NOTE: retrieve()'s real default is now gemini_embedding_fn (Mathew's
+real model), so every retrieve() call below explicitly passes
+embedding_fn=default_embedding_fn to keep these tests fast, offline,
+and independent of any API key or network access.
 """
 import sys
 import os
@@ -19,7 +24,6 @@ from qdrant_client import models as qmodels
 
 from barq_ai_support.config import settings
 from barq_ai_support.retrieval.retriever import retrieve, default_embedding_fn
-
 
 
 COLLECTION = "test_kb_chunks"
@@ -36,8 +40,8 @@ SAMPLE_CHUNKS = [
 def _seeded_client(monkeypatch):
     """
     Creates a fresh in-memory Qdrant client with SAMPLE_CHUNKS uploaded,
-    using the module's own stub embedding function. A new client per
-    call keeps tests isolated from each other (no shared state).
+    using the stub embedding function. A new client per call keeps tests
+    isolated from each other (no shared state).
 
     Also points settings.qdrant_collection_name at our test collection
     for the duration of the test (via monkeypatch), since retrieve()
@@ -75,6 +79,7 @@ def test_retrieve_returns_ranked_results_with_score_and_provenance(monkeypatch):
         "How to reset your ServiceNow password",
         client=client,
         score_threshold=0.0,
+        embedding_fn=default_embedding_fn,
     )
     assert result.ok is True
     assert len(result.chunks) > 0
@@ -95,6 +100,7 @@ def test_retrieve_refuses_below_threshold(monkeypatch):
         "I forgot my password",
         client=client,
         score_threshold=0.75,
+        embedding_fn=default_embedding_fn,
     )
     assert result.ok is False
     assert result.chunks == []
@@ -114,11 +120,13 @@ def test_retrieve_filters_by_category(monkeypatch):
         client=client,
         category="Identity & Access",
         score_threshold=0.0,
+        embedding_fn=default_embedding_fn,
     )
     assert result.ok is True
     assert len(result.chunks) > 0
     for chunk in result.chunks:
         assert chunk.category == "Identity & Access"
+
 
 def test_retrieve_refuses_completely_unrelated_query(monkeypatch):
     """
@@ -132,11 +140,13 @@ def test_retrieve_refuses_completely_unrelated_query(monkeypatch):
         "best pancake recipe with blueberries",
         client=client,
         score_threshold=0.75,
+        embedding_fn=default_embedding_fn,
     )
     assert result.ok is False
     assert result.chunks == []
     assert result.refusal_message is not None
     assert "pancake" in result.refusal_message
+
 
 def test_retrieve_uses_config_default_threshold_when_not_specified(monkeypatch):
     """
@@ -150,10 +160,10 @@ def test_retrieve_uses_config_default_threshold_when_not_specified(monkeypatch):
     result = retrieve(
         "best pancake recipe with blueberries",
         client=client,
+        embedding_fn=default_embedding_fn,
     )
     assert result.threshold == 0.75
     assert result.ok is False  # pancake query shouldn't clear a real 0.75 bar
-
 
 
 def test_retrieve_returns_results_in_descending_score_order(monkeypatch):
@@ -167,6 +177,7 @@ def test_retrieve_returns_results_in_descending_score_order(monkeypatch):
         "How to reset your ServiceNow password",
         client=client,
         score_threshold=0.0,
+        embedding_fn=default_embedding_fn,
     )
     scores = [chunk.score for chunk in result.chunks]
     assert scores == sorted(scores, reverse=True)
@@ -184,9 +195,10 @@ def test_retrieve_respects_top_k_limit(monkeypatch):
         client=client,
         top_k=2,
         score_threshold=0.0,
+        embedding_fn=default_embedding_fn,
     )
     assert result.ok is True
-    assert len(result.chunks) <= 2
+    assert len(result.chunks) == 2
 
 
 def test_get_qdrant_client_fails_closed_when_url_unset(monkeypatch):
