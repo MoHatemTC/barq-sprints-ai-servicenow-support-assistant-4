@@ -17,6 +17,12 @@ class Settings(BaseSettings):
     retrieval_score_threshold: float = 0.75
     retrieval_top_k: int = 5
 
+    # --- LLM / Agent settings (S2.4 - S2.5) ---
+    litellm_base_url: str = "https://management.sprints.ai/litellm"
+    litellm_api_key: str = ""
+    llm_model: str = "gemini/gemini-3.6-flash"
+    llm_temperature: float = 0.0
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

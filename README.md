@@ -20,9 +20,9 @@ FastAPI /webhook                      src/barq_ai_support/webhook.py
         v
 (Sprint 2 pieces -- in progress)
         |
-        +-- Chunking            src/barq_ai_support/ingestion/chunking.py
+        +-- Chunking            src/barq_ai_support/ingestion/chunker.py
         +-- Embedding + Qdrant  src/barq_ai_support/ingestion/embed_and_store.py
-        +-- Semantic retrieval  src/barq_ai_support/retrieval/search.py
+        +-- Semantic retrieval  src/barq_ai_support/retrieval/retriever.py
         +-- Agent + tools       src/barq_ai_support/agent/
                 |
                 v
@@ -87,6 +87,16 @@ Requires Python 3.14+ and [uv](https://docs.astral.sh/uv/).
 ```bash
 uv run pytest
 ```
+
+## Running Retrieval Benchmark (S2.6)
+
+To execute the automated retrieval evaluation harness against Qdrant:
+
+```bash
+uv run python benchmark/run_benchmark.py
+```
+
+This generates granular per-incident logs and saves the aggregate metrics (`Hit Rate` and `Refusal Correctness`) along with score distribution analysis to `benchmark/benchmark_results.json`. Detailed analysis and threshold rationale are documented in `benchmark/RETRIEVAL_EVALUATION.md`.
 
 ## Endpoints
 

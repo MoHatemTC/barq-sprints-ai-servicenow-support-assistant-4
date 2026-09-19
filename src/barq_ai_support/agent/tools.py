@@ -1,28 +1,30 @@
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 
+from ..retrieval.retriever import retrieve, RetrievedChunk
+
 
 class KnowledgeBaseSearchInput(BaseModel):
     query: str = Field(..., description="Search text describing the incident's symptom.")
+    category: str | None = Field(default=None, description="Optional category to filter results (e.g., 'Network & Remote Access').")
 
 
 @tool("search_knowledge_base", args_schema=KnowledgeBaseSearchInput)
-def search_knowledge_base(query: str) -> list[dict]:
+def search_knowledge_base(query: str, category: str | None = None) -> list[dict]:
     """Search the knowledge base for articles matching the query.
     Repeatable - can be called multiple times without ending the run."""
+    result = retrieve(query=query, category=category, score_threshold=0.75)
+    if not result.ok:
+        return []
     return [
         {
-            "article_id": "KB0001",
-            "title": "VPN authentication fails after a password change",
-            "section": "Resolution",
-            "score": 0.85,
-        },
-        {
-            "article_id": "KB0005",
-            "title": "Account is locked after repeated failed sign-ins",
-            "section": "Symptom",
-            "score": 0.62,
-        },
+            "article_id": c.article_number,
+            "title": c.short_description or "",
+            "section": " > ".join(c.heading_path) if c.heading_path else "",
+            "text": c.text,
+            "score": c.score,
+        }
+        for c in result.chunks
     ]
 
 

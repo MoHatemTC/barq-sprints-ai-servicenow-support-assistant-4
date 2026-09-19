@@ -1,15 +1,38 @@
+import re
 from bs4 import BeautifulSoup
 
 
+# Regex to strip <script>, <style>, and event handler attributes
+SCRIPT_STYLE_RE = re.compile(r"<(script|style)[^>]*>.*?</\1>", re.IGNORECASE | re.DOTALL)
+EVENT_HANDLER_RE = re.compile(r'\s(on\w+)\s*=\s*["\'][^"\']*["\']', re.IGNORECASE)
+
+
+def sanitize_html(html: str) -> str:
+    """Remove scripts, styles, and event handlers from HTML before parsing."""
+    html = SCRIPT_STYLE_RE.sub("", html)
+    html = EVENT_HANDLER_RE.sub("", html)
+    return html
+
+
 def parse_html_sections(html: str) -> list[dict]:
+    html = sanitize_html(html)
     soup = BeautifulSoup(html, "html.parser")
 
     sections = []
     heading_stack = []
 
-    for element in soup.find_all(
+    elements = soup.find_all(
         ["h1", "h2", "h3", "h4", "h5", "h6", "p", "ol", "ul"]
-    ):
+    )
+    if not elements:
+        elements = soup.find_all(["div", "span"])
+    if not elements:
+        text = soup.get_text(" ", strip=True)
+        if text:
+            return [{"heading_path": [], "text": text}]
+        return []
+
+    for element in elements:
         if element.name.startswith("h"):
             level = int(element.name[1])
             heading = element.get_text(" ", strip=True)
@@ -41,6 +64,11 @@ def parse_html_sections(html: str) -> list[dict]:
                         "text": text,
                     }
                 )
+
+    if not sections:
+        text = soup.get_text(" ", strip=True)
+        if text:
+            return [{"heading_path": [], "text": text}]
 
     return sections
 
@@ -148,11 +176,16 @@ def chunk_sections(
             if end >= len(text):
                 break
 
-            start = find_overlap_start(
+            next_start = find_overlap_start(
                 text,
                 end,
                 overlap,
             )
+
+            if next_start <= start:
+                next_start = end
+
+            start = next_start
 
     return chunks
 

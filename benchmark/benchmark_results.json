@@ -1,0 +1,369 @@
+{
+  "metrics": {
+    "total_incidents": 20,
+    "hit_rate": 1.0,
+    "refusal_correctness": 1.0,
+    "answerable_passed": 15,
+    "answerable_total": 15,
+    "negative_passed": 5,
+    "negative_total": 5,
+    "score_threshold_used": 0.75
+  },
+  "score_distribution": {
+    "answerable": {
+      "min": 0.99999976,
+      "max": 1.0000002,
+      "avg": 1.000000016
+    },
+    "negative": {
+      "min": 0.42694092,
+      "max": 0.6263738,
+      "avg": 0.505492516
+    },
+    "separation_margin": 0.37362596000000003
+  },
+  "answerable_details": [
+    {
+      "id": "INC-BENCH-001",
+      "incident_number": "INC0010010",
+      "short_description": "Cannot browse internet or access cloud services",
+      "status": "PASS",
+      "best_score": 0.99999994,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010010"
+      ],
+      "retrieved": [
+        "KB0010010",
+        "KB0010089",
+        "KB0010089",
+        "KB0010030",
+        "KB0010097"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-002",
+      "incident_number": "INC0010013",
+      "short_description": "Cannot connect to remote desktop workstation",
+      "status": "PASS",
+      "best_score": 1.0000002,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010013"
+      ],
+      "retrieved": [
+        "KB0010013",
+        "KB0010097",
+        "KB0010074",
+        "KB0010078",
+        "KB0010076"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-003",
+      "incident_number": "INC0010015",
+      "short_description": "Mail client crashing and unable to open user profile",
+      "status": "PASS",
+      "best_score": 0.9999999,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010015"
+      ],
+      "retrieved": [
+        "KB0010015",
+        "KB0010034",
+        "KB0010083",
+        "KB0010076",
+        "KB0010074"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-004",
+      "incident_number": "INC0010021",
+      "short_description": "Office network printer offline and jobs not printing",
+      "status": "PASS",
+      "best_score": 1.0,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010021"
+      ],
+      "retrieved": [
+        "KB0010021",
+        "KB0010027",
+        "KB0010095",
+        "KB0010078",
+        "KB0010024"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-005",
+      "incident_number": "INC0010024",
+      "short_description": "Accidentally overwritten or missing document file",
+      "status": "PASS",
+      "best_score": 1.0000002,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010024"
+      ],
+      "retrieved": [
+        "KB0010024",
+        "KB0010013",
+        "KB0010096",
+        "KB0010025",
+        "KB0010015"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-006",
+      "incident_number": "INC0010025",
+      "short_description": "OneDrive and SharePoint synchronization conflict errors",
+      "status": "PASS",
+      "best_score": 1.0000001,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010025"
+      ],
+      "retrieved": [
+        "KB0010025",
+        "KB0010030",
+        "KB0010097",
+        "KB0010078",
+        "KB0010081"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-007",
+      "incident_number": "INC0010026",
+      "short_description": "Suspicious phishing email with QR code received",
+      "status": "PASS",
+      "best_score": 0.9999999,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010026"
+      ],
+      "retrieved": [
+        "KB0010026",
+        "KB0010094",
+        "KB0010080",
+        "KB0010097",
+        "KB0010081"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-008",
+      "incident_number": "INC0010027",
+      "short_description": "Ransom note pop-ups and unexpected security alerts",
+      "status": "PASS",
+      "best_score": 1.0000001,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010027"
+      ],
+      "retrieved": [
+        "KB0010027",
+        "KB0010015",
+        "KB0010094",
+        "KB0010025",
+        "KB0010083"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-009",
+      "incident_number": "INC0010030",
+      "short_description": "Teams and Zoom microphone and audio failure in meetings",
+      "status": "PASS",
+      "best_score": 0.9999999,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010030"
+      ],
+      "retrieved": [
+        "KB0010030",
+        "KB0010089",
+        "KB0010093",
+        "KB0010097",
+        "KB0010031"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-010",
+      "incident_number": "INC0010031",
+      "short_description": "Operating system update stuck in repeated install loop",
+      "status": "PASS",
+      "best_score": 1.0,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010031"
+      ],
+      "retrieved": [
+        "KB0010031",
+        "KB0010097",
+        "KB0010081",
+        "KB0010093",
+        "KB0010083"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-011",
+      "incident_number": "INC0010033",
+      "short_description": "Low disk space alert on workstation primary drive",
+      "status": "PASS",
+      "best_score": 0.99999976,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010033"
+      ],
+      "retrieved": [
+        "KB0010033",
+        "KB0010074",
+        "KB0010081",
+        "KB0010076",
+        "KB0010035"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-012",
+      "incident_number": "INC0010034",
+      "short_description": "Computer freezes or crashes with blue screen unexpectedly",
+      "status": "PASS",
+      "best_score": 1.0000002,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010034"
+      ],
+      "retrieved": [
+        "KB0010034",
+        "KB0010015",
+        "KB0010097",
+        "KB0010088",
+        "KB0010074"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-013",
+      "incident_number": "INC0010035",
+      "short_description": "Software installer rolls back due to permission error",
+      "status": "PASS",
+      "best_score": 1.0,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010035"
+      ],
+      "retrieved": [
+        "KB0010035",
+        "KB0010093",
+        "KB0010031",
+        "KB0010033",
+        "KB0010081"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-014",
+      "incident_number": "INC0010084",
+      "short_description": "Laptop sluggish and slow after recent fleet update",
+      "status": "PASS",
+      "best_score": 0.99999994,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010084"
+      ],
+      "retrieved": [
+        "KB0010084",
+        "KB0010081",
+        "KB0010026",
+        "KB0010033",
+        "KB0010027"
+      ],
+      "res_ok": true
+    },
+    {
+      "id": "INC-BENCH-015",
+      "incident_number": "INC0010094",
+      "short_description": "MFA prompts failing after user upgraded smartphone",
+      "status": "PASS",
+      "best_score": 1.0000001,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010094"
+      ],
+      "retrieved": [
+        "KB0010094",
+        "KB0010094",
+        "KB0010013",
+        "KB0010097",
+        "KB0010074"
+      ],
+      "res_ok": true
+    }
+  ],
+  "negative_details": [
+    {
+      "id": "INC-BENCH-NEG-001",
+      "incident_number": "INC0099901",
+      "short_description": "Tachyon warp manifold containment breach in reactor compartment",
+      "status": "PASS",
+      "best_score": 0.51409453,
+      "retrieved_count": 0,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false
+    },
+    {
+      "id": "INC-BENCH-NEG-002",
+      "incident_number": "INC0099902",
+      "short_description": "Cafeteria weekly hot lunch menu schedule and coffee machine service",
+      "status": "PASS",
+      "best_score": 0.5008114,
+      "retrieved_count": 0,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false
+    },
+    {
+      "id": "INC-BENCH-NEG-003",
+      "incident_number": "INC0099903",
+      "short_description": "Company gym locker combination lock jammed on 2nd floor",
+      "status": "PASS",
+      "best_score": 0.45924193,
+      "retrieved_count": 0,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false
+    },
+    {
+      "id": "INC-BENCH-NEG-004",
+      "incident_number": "INC0099904",
+      "short_description": "Visitor weekend parking spot decal and garage pass",
+      "status": "PASS",
+      "best_score": 0.42694092,
+      "retrieved_count": 0,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false
+    },
+    {
+      "id": "INC-BENCH-NEG-005",
+      "incident_number": "INC0099905",
+      "short_description": "Ergonomic standing desk manual hand crank replacement",
+      "status": "PASS",
+      "best_score": 0.6263738,
+      "retrieved_count": 0,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false
+    }
+  ]
+}

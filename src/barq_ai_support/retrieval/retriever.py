@@ -11,6 +11,7 @@ from qdrant_client import QdrantClient
 from qdrant_client import models as qmodels
 
 from ..config import settings
+from ..embeddings import default_embedding_fn, sync_embedding_fn
 
 from dataclasses import dataclass, field
 
@@ -43,6 +44,8 @@ class RetrievedChunk:
     text: str
     article_number: str
     category: str | None = None
+    short_description: str | None = None
+    heading_path: list[str] | None = None
 
 @dataclass
 class RetrievalResult:
@@ -85,7 +88,7 @@ def retrieve(
     top_k: int | None = None,
     category: str | None = None,
     score_threshold: float | None = None,
-    embedding_fn=default_embedding_fn,
+    embedding_fn=sync_embedding_fn,
     client: QdrantClient | None = None,
 ) -> RetrievalResult:
     """
@@ -131,6 +134,8 @@ def retrieve(
             text=hit.payload.get("text", ""),
             article_number=hit.payload.get("article_number", ""),
             category=hit.payload.get("category"),
+            short_description=hit.payload.get("short_description"),
+            heading_path=hit.payload.get("heading_path"),
         )
         for hit in hits
     ]
