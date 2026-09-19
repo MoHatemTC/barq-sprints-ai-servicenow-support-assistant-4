@@ -1,0 +1,417 @@
+[
+  {
+    "id": "INC-BENCH-001",
+    "type": "answerable",
+    "category": "Network & Remote Access",
+    "incident": {
+      "number": "INC0010010",
+      "short_description": "Cannot browse internet or access cloud services",
+      "description": "User reports complete loss of internet browsing capability. Wi-Fi adapter or local cable connection suspected."
+    },
+    "query": "Symptom. The user cannot browse the internet or access cloud services.\nCause. The issue may be caused by disabled Wi-Fi, a faulty network cable or adapter, a router problem, a local network outage, or an internet service provider (ISP) outage.\nResolution.",
+    "expected_article_numbers": [
+      "KB0010010"
+    ]
+  },
+  {
+    "id": "INC-BENCH-002",
+    "type": "answerable",
+    "category": "Network & Remote Access",
+    "incident": {
+      "number": "INC0010013",
+      "short_description": "Cannot connect to remote desktop workstation",
+      "description": "User is unable to establish RDP connection to their assigned office desktop."
+    },
+    "query": "Symptom. The user cannot connect to a remote desktop or assigned workstation.\nCause. The issue may be caused by the target device being offline, insufficient access permissions, a VPN or firewall issue, or an incompatible remote desktop client.\nResolution.",
+    "expected_article_numbers": [
+      "KB0010013"
+    ]
+  },
+  {
+    "id": "INC-BENCH-003",
+    "type": "answerable",
+    "category": "Email & Collaboration",
+    "incident": {
+      "number": "INC0010015",
+      "short_description": "Mail client crashing and unable to open user profile",
+      "description": "Outlook client hangs and crashes upon startup when attempting to load the primary mailbox profile."
+    },
+    "query": "Symptom\nThe mail client crashes, becomes unresponsive, or cannot load the user profile. The application may stop responding or fail to open the user's profile correctly.",
+    "expected_article_numbers": [
+      "KB0010015"
+    ]
+  },
+  {
+    "id": "INC-BENCH-004",
+    "type": "answerable",
+    "category": "Printing & Peripherals",
+    "incident": {
+      "number": "INC0010021",
+      "short_description": "Office network printer offline and jobs not printing",
+      "description": "Network printer in 3rd floor finance department shows offline status on all client machines."
+    },
+    "query": "Symptom\nThe printer appears offline or print jobs do not print.",
+    "expected_article_numbers": [
+      "KB0010021"
+    ]
+  },
+  {
+    "id": "INC-BENCH-005",
+    "type": "answerable",
+    "category": "Files & Cloud",
+    "incident": {
+      "number": "INC0010024",
+      "short_description": "Accidentally overwritten or missing document file",
+      "description": "Employee cannot locate Q3 budget spreadsheet from shared corporate drive folder."
+    },
+    "query": "Symptom\nA file is missing, has been deleted or overwritten, or cannot be located.",
+    "expected_article_numbers": [
+      "KB0010024"
+    ]
+  },
+  {
+    "id": "INC-BENCH-006",
+    "type": "answerable",
+    "category": "Files & Cloud",
+    "incident": {
+      "number": "INC0010025",
+      "short_description": "OneDrive and SharePoint synchronization conflict errors",
+      "description": "User files are not syncing across laptop and mobile device, resulting in constant sync errors."
+    },
+    "query": "Symptom\nSynchronization errors or conflicts occur, or files do not appear across devices. Files may not be synchronized correctly or may not be available on other devices as expected.",
+    "expected_article_numbers": [
+      "KB0010025"
+    ]
+  },
+  {
+    "id": "INC-BENCH-007",
+    "type": "answerable",
+    "category": "Security",
+    "incident": {
+      "number": "INC0010026",
+      "short_description": "Suspicious phishing email with QR code received",
+      "description": "User received an email pretending to be executive management requesting urgent gift card purchases."
+    },
+    "query": "Symptom. The user receives a suspicious email, link, attachment, QR code, or request for credentials or payment.\nCause. The message may be an impersonation attempt, malicious campaign, or business email compromise (BEC) attempt.\nResolution.",
+    "expected_article_numbers": [
+      "KB0010026"
+    ]
+  },
+  {
+    "id": "INC-BENCH-008",
+    "type": "answerable",
+    "category": "Security",
+    "incident": {
+      "number": "INC0010027",
+      "short_description": "Ransom note pop-ups and unexpected security alerts",
+      "description": "User computer is displaying strange pop-ups and unknown processes utilizing high CPU."
+    },
+    "query": "Symptom\nThe device displays unexpected pop-ups, unknown processes, security alerts, an encryption or ransom note, or other unusual behavior.",
+    "expected_article_numbers": [
+      "KB0010027"
+    ]
+  },
+  {
+    "id": "INC-BENCH-009",
+    "type": "answerable",
+    "category": "Email & Collaboration",
+    "incident": {
+      "number": "INC0010030",
+      "short_description": "Teams and Zoom microphone and audio failure in meetings",
+      "description": "Microphone and speaker are not detected or transmitting audio during online video calls."
+    },
+    "query": "Symptom\nThe camera, microphone, speaker, or meeting connection does not work as expected. One or more of these devices or the meeting connection may fail to function correctly during a meeting.",
+    "expected_article_numbers": [
+      "KB0010030"
+    ]
+  },
+  {
+    "id": "INC-BENCH-010",
+    "type": "answerable",
+    "category": "Applications",
+    "incident": {
+      "number": "INC0010031",
+      "short_description": "Operating system update stuck in repeated install loop",
+      "description": "Windows cumulative security patch repeatedly fails with error code during reboot cycle."
+    },
+    "query": "Symptom\nA software update becomes stuck, fails to install, or repeatedly attempts to install. The update may not complete successfully and may continue attempting installation without reaching a completed state.",
+    "expected_article_numbers": [
+      "KB0010031"
+    ]
+  },
+  {
+    "id": "INC-BENCH-011",
+    "type": "answerable",
+    "category": "Devices & Performance",
+    "incident": {
+      "number": "INC0010033",
+      "short_description": "Low disk space alert on workstation primary drive",
+      "description": "C drive is down to 200MB free space causing apps to freeze and fail to save files."
+    },
+    "query": "Symptom\nThe device displays a storage warning, software updates fail, or files cannot be saved. These issues may occur when available storage space is insufficient for normal device, update, or file operations.",
+    "expected_article_numbers": [
+      "KB0010033"
+    ]
+  },
+  {
+    "id": "INC-BENCH-012",
+    "type": "answerable",
+    "category": "Devices & Performance",
+    "incident": {
+      "number": "INC0010034",
+      "short_description": "Computer freezes or crashes with blue screen unexpectedly",
+      "description": "Workstation restarts randomly multiple times per day during normal productivity tasks."
+    },
+    "query": "Symptom\nThe device or application becomes unresponsive, restarts unexpectedly, or displays error messages. The issue may cause the affected device or application to stop responding or restart without completing the expected operation.",
+    "expected_article_numbers": [
+      "KB0010034"
+    ]
+  },
+  {
+    "id": "INC-BENCH-013",
+    "type": "answerable",
+    "category": "Applications",
+    "incident": {
+      "number": "INC0010035",
+      "short_description": "Software installer rolls back due to permission error",
+      "description": "Attempting to install licensed engineering CAD software fails and undoes installation."
+    },
+    "query": "Symptom\nThe software installation stops, rolls back, or reports insufficient permissions or storage space. The installation may fail before the application is fully installed, or the installer may stop and undo the changes that were already made. In some cases, the user may receive an error indicating that additional permissions or storage space are required.",
+    "expected_article_numbers": [
+      "KB0010035"
+    ]
+  },
+  {
+    "id": "INC-BENCH-014",
+    "type": "answerable",
+    "category": "Devices & Performance",
+    "incident": {
+      "number": "INC0010084",
+      "short_description": "Laptop sluggish and slow after recent fleet update",
+      "description": "Following yesterday's fleet-wide maintenance patch, laptop boot and response times are severely degraded."
+    },
+    "query": "Symptom\nThe laptop has become noticeably slower since a recent update was applied. System performance may remain reduced after the update and may affect normal device operation.",
+    "expected_article_numbers": [
+      "KB0010084"
+    ]
+  },
+  {
+    "id": "INC-BENCH-015",
+    "type": "answerable",
+    "category": "Identity & Access",
+    "incident": {
+      "number": "INC0010094",
+      "short_description": "MFA prompts failing after user upgraded smartphone",
+      "description": "User switched to a new phone and cannot receive Authenticator push notifications or OTP codes."
+    },
+    "query": "Symptom\nMFA prompts or verification codes fail after the user switches to a new phone.",
+    "expected_article_numbers": [
+      "KB0010094"
+    ]
+  },
+  {
+    "id": "INC-BENCH-NEG-001",
+    "type": "negative_control",
+    "category": "Devices & Performance",
+    "incident": {
+      "number": "INC0099901",
+      "short_description": "Tachyon warp manifold containment breach in reactor compartment",
+      "description": "Plasma coolant leaking in sub-light propulsion module sector 4."
+    },
+    "query": "Tachyon warp core breach in engineering compartment sector 4",
+    "expected_article_numbers": [],
+    "note": "Far out-of-domain query filtered to a REAL KB category so the refusal is genuine, not a vacuous filter miss."
+  },
+  {
+    "id": "INC-BENCH-NEG-002",
+    "type": "negative_control",
+    "category": "Files & Cloud",
+    "incident": {
+      "number": "INC0099902",
+      "short_description": "Cafeteria weekly hot lunch menu schedule and coffee machine service",
+      "description": "Inquiring about vegan meal choices for Thursday's cafeteria catering."
+    },
+    "query": "Cafeteria weekly lunch menu and beverage machine service schedule",
+    "expected_article_numbers": [],
+    "note": "Far out-of-domain query filtered to a REAL KB category so the refusal is genuine, not a vacuous filter miss."
+  },
+  {
+    "id": "INC-BENCH-NEG-003",
+    "type": "negative_control",
+    "category": "Identity & Access",
+    "incident": {
+      "number": "INC0099903",
+      "short_description": "Company gym locker combination lock jammed on 2nd floor",
+      "description": "Gym locker #42 will not open with current combination code."
+    },
+    "query": "Company gym locker combination reset request for 2nd floor fitness center",
+    "expected_article_numbers": [],
+    "note": "Far out-of-domain query filtered to a REAL KB category so the refusal is genuine, not a vacuous filter miss."
+  },
+  {
+    "id": "INC-BENCH-NEG-004",
+    "type": "negative_control",
+    "category": "Applications",
+    "incident": {
+      "number": "INC0099904",
+      "short_description": "Visitor weekend parking spot decal and garage pass",
+      "description": "Requesting visitor vehicle entry decal for weekend guest."
+    },
+    "query": "Requesting parking pass sticker for visiting relative during weekend",
+    "expected_article_numbers": [],
+    "note": "Far out-of-domain query filtered to a REAL KB category so the refusal is genuine, not a vacuous filter miss."
+  },
+  {
+    "id": "INC-BENCH-NEG-005",
+    "type": "negative_control",
+    "category": "Printing & Peripherals",
+    "incident": {
+      "number": "INC0099905",
+      "short_description": "Ergonomic standing desk manual hand crank replacement",
+      "description": "Plastic manual height adjustment handle broke on office standing desk."
+    },
+    "query": "Office ergonomic standing desk manual crank replacement handle inquiry",
+    "expected_article_numbers": [],
+    "note": "Far out-of-domain query filtered to a REAL KB category so the refusal is genuine, not a vacuous filter miss."
+  },
+  {
+    "id": "INC-BENCH-016",
+    "type": "answerable",
+    "category": "Network & Remote Access",
+    "note": "Paraphrase of INC-BENCH-001: same issue, user wording, typos included.",
+    "incident": {
+      "number": "INC0010110",
+      "short_description": "No internet on my laptop, cant open any website",
+      "description": "Wifi shows connected but nothing loads. Tried unpluging the cable and restarting. Stil cant surf the web or reach cloud apps."
+    },
+    "query": "No internet on my laptop, cant open any website. Wifi shows connected but nothing loads.",
+    "expected_article_numbers": [
+      "KB0010010"
+    ]
+  },
+  {
+    "id": "INC-BENCH-017",
+    "type": "answerable",
+    "category": "Email & Collaboration",
+    "note": "Paraphrase of INC-BENCH-003: synonym-heavy rewording.",
+    "incident": {
+      "number": "INC0010115",
+      "short_description": "Email app freezes on launch, mailbox wont load",
+      "description": "Every morning the mail program locks up when opening my inbox. Have to kill it from task manager. Started after the weekend."
+    },
+    "query": "Email app freezes on launch, mailbox wont load. Mail program locks up opening inbox.",
+    "expected_article_numbers": [
+      "KB0010015"
+    ]
+  },
+  {
+    "id": "INC-BENCH-018",
+    "type": "answerable",
+    "category": "Security",
+    "note": "Paraphrase of INC-BENCH-007: different scam wording.",
+    "incident": {
+      "number": "INC0010126",
+      "short_description": "Weird message from CEO asking for gift cards",
+      "description": "Got a mail that looks like its from the boss asking me to buy itunes cards and send the codes. Seems fishy, didnt reply."
+    },
+    "query": "Weird message from CEO asking for gift cards. Mail impersonating executive requesting payment.",
+    "expected_article_numbers": [
+      "KB0010026"
+    ]
+  },
+  {
+    "id": "INC-BENCH-019",
+    "type": "answerable",
+    "category": "Devices & Performance",
+    "note": "Paraphrase of INC-BENCH-011: terse user phrasing.",
+    "incident": {
+      "number": "INC0010133",
+      "short_description": "Disk full, cant save anything",
+      "description": "Laptop says drive is full. Word wont save my document and updates keep failing."
+    },
+    "query": "Disk full, cant save anything. Drive full, cannot save documents, updates fail.",
+    "expected_article_numbers": [
+      "KB0010033"
+    ]
+  },
+  {
+    "id": "INC-BENCH-020",
+    "type": "answerable",
+    "category": "Identity & Access",
+    "note": "Paraphrase of INC-BENCH-015: colloquial rewording.",
+    "incident": {
+      "number": "INC0010194",
+      "short_description": "Authenticator app stopped working on new mobile",
+      "description": "Got a new smartphone and now the login approval popups never arrive. Locked out of several work apps."
+    },
+    "query": "Authenticator app stopped working on new mobile. Verification prompts never arrive after phone change.",
+    "expected_article_numbers": [
+      "KB0010094"
+    ]
+  },
+  {
+    "id": "INC-BENCH-NEAR-001",
+    "type": "negative_control",
+    "category": "Network & Remote Access",
+    "note": "Near-miss: IT-adjacent (desk phone) but outside the indexed KB topics. Validate against KB after ingestion.",
+    "incident": {
+      "number": "INC0099911",
+      "short_description": "Desk phone has no dial tone in meeting room",
+      "description": "Conference room IP phone shows no signal and cannot make or receive calls since this morning."
+    },
+    "query": "Desk phone has no dial tone in meeting room. IP phone cannot make calls.",
+    "expected_article_numbers": []
+  },
+  {
+    "id": "INC-BENCH-NEAR-002",
+    "type": "negative_control",
+    "category": "Applications",
+    "note": "Near-miss: software request (procurement), not a troubleshooting article. Validate against KB after ingestion.",
+    "incident": {
+      "number": "INC0099912",
+      "short_description": "Request new Adobe license for design team hire",
+      "description": "New graphic designer starts Monday and needs a licensed copy of the creative suite installed."
+    },
+    "query": "Request new Adobe license for design team hire. Software procurement for new employee.",
+    "expected_article_numbers": []
+  },
+  {
+    "id": "INC-BENCH-NEAR-003",
+    "type": "negative_control",
+    "category": "Devices & Performance",
+    "note": "Near-miss: personal-device WiFi onboarding, likely uncovered. Validate against KB after ingestion.",
+    "incident": {
+      "number": "INC0099913",
+      "short_description": "Connect personal smartwatch to corporate wifi",
+      "description": "Employee wants to pair a personal wearable with the office wireless network for notifications."
+    },
+    "query": "Connect personal smartwatch to corporate wifi. Personal wearable onboarding.",
+    "expected_article_numbers": []
+  },
+  {
+    "id": "INC-BENCH-NEAR-004",
+    "type": "negative_control",
+    "category": "Files & Cloud",
+    "note": "Near-miss: retention-policy question, not a recovery procedure. Validate against KB after ingestion.",
+    "incident": {
+      "number": "INC0099914",
+      "short_description": "How long are deleted emails kept before purge",
+      "description": "Manager asks about the retention period for items in the deleted folder for a legal hold request."
+    },
+    "query": "How long are deleted emails kept before purge. Retention policy for legal hold.",
+    "expected_article_numbers": []
+  },
+  {
+    "id": "INC-BENCH-NEAR-005",
+    "type": "negative_control",
+    "category": "Identity & Access",
+    "note": "Near-miss: physical badge access, adjacent to identity but a different system. Validate against KB after ingestion.",
+    "incident": {
+      "number": "INC0099915",
+      "short_description": "Office entry badge not opening ground floor door",
+      "description": "Employee access card stopped working on the main entrance turnstile after the weekend."
+    },
+    "query": "Office entry badge not opening ground floor door. Physical access card failure.",
+    "expected_article_numbers": []
+  }
+]

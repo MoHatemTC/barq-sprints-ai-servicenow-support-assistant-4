@@ -1,0 +1,373 @@
+{
+  "provenance": {
+    "embedding_model": "gemini/gemini-embedding-001",
+    "embedding_dim": 768,
+    "collection": "kb_chunks",
+    "query_source": "incident_text",
+    "top_k": 5
+  },
+  "metrics": {
+    "total_incidents": 13,
+    "hit_rate": 0.7,
+    "refusal_correctness": 1.0,
+    "answerable_passed": 7,
+    "answerable_total": 10,
+    "negative_passed": 3,
+    "negative_total": 3,
+    "score_threshold_used": 0.75
+  },
+  "score_distribution": {
+    "answerable": {
+      "min": 0.5573715,
+      "max": 0.8641317,
+      "avg": 0.769806339
+    },
+    "negative": {
+      "min": 0.5472332,
+      "max": 0.60603285,
+      "avg": 0.5832511833333333
+    },
+    "separation_margin": -0.04866134999999994
+  },
+  "threshold_sweep": [
+    {
+      "threshold": 0.5,
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
+      "refusal_correctness": 0.0,
+      "refusal_count": "0/3"
+    },
+    {
+      "threshold": 0.55,
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
+      "refusal_correctness": 0.3333333333333333,
+      "refusal_count": "1/3"
+    },
+    {
+      "threshold": 0.6,
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
+      "refusal_correctness": 0.6666666666666666,
+      "refusal_count": "2/3"
+    },
+    {
+      "threshold": 0.65,
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
+      "refusal_correctness": 1.0,
+      "refusal_count": "3/3"
+    },
+    {
+      "threshold": 0.7,
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
+      "refusal_correctness": 1.0,
+      "refusal_count": "3/3"
+    },
+    {
+      "threshold": 0.75,
+      "hit_rate": 0.7,
+      "hit_count": "7/10",
+      "refusal_correctness": 1.0,
+      "refusal_count": "3/3"
+    },
+    {
+      "threshold": 0.8,
+      "hit_rate": 0.4,
+      "hit_count": "4/10",
+      "refusal_correctness": 1.0,
+      "refusal_count": "3/3"
+    },
+    {
+      "threshold": 0.85,
+      "hit_rate": 0.2,
+      "hit_count": "2/10",
+      "refusal_correctness": 1.0,
+      "refusal_count": "3/3"
+    },
+    {
+      "threshold": 0.9,
+      "hit_rate": 0.0,
+      "hit_count": "0/10",
+      "refusal_correctness": 1.0,
+      "refusal_count": "3/3"
+    }
+  ],
+  "answerable_details": [
+    {
+      "id": "INC-BENCH-001",
+      "incident_number": "INC0010010",
+      "short_description": "Cannot browse internet or access cloud services",
+      "status": "PASS",
+      "best_score": 0.86123455,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010010"
+      ],
+      "retrieved": [
+        "KB0010010",
+        "KB0010010",
+        "KB0010010",
+        "KB0010010",
+        "KB0010013"
+      ],
+      "res_ok": true,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Cannot browse internet or access cloud services User reports complete loss of internet browsing capability. Wi-Fi adapter or local cable connection suspected.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-002",
+      "incident_number": "INC0010013",
+      "short_description": "Cannot connect to remote desktop workstation",
+      "status": "PASS",
+      "best_score": 0.81926244,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010013"
+      ],
+      "retrieved": [
+        "KB0010013",
+        "KB0010013",
+        "KB0010013",
+        "KB0010082",
+        "KB0010013"
+      ],
+      "res_ok": true,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Cannot connect to remote desktop workstation User is unable to establish RDP connection to their assigned office desktop.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-003",
+      "incident_number": "INC0010015",
+      "short_description": "Mail client crashing and unable to open user profile",
+      "status": "PASS",
+      "best_score": 0.8641317,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010015"
+      ],
+      "retrieved": [
+        "KB0010015",
+        "KB0010015",
+        "KB0010015",
+        "KB0010015",
+        "KB0010096"
+      ],
+      "res_ok": true,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Mail client crashing and unable to open user profile Outlook client hangs and crashes upon startup when attempting to load the primary mailbox profile.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-004",
+      "incident_number": "INC0010021",
+      "short_description": "Office network printer offline and jobs not printing",
+      "status": "PASS",
+      "best_score": 0.77549076,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010021"
+      ],
+      "retrieved": [
+        "KB0010021",
+        "KB0010021",
+        "KB0010021",
+        "KB0010021",
+        "KB0010021"
+      ],
+      "res_ok": true,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Office network printer offline and jobs not printing Network printer in 3rd floor finance department shows offline status on all client machines.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-005",
+      "incident_number": "INC0010024",
+      "short_description": "Accidentally overwritten or missing document file",
+      "status": "FAIL",
+      "best_score": 0.73973364,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010024"
+      ],
+      "retrieved": [
+        "KB0010024",
+        "KB0010024",
+        "KB0010024",
+        "KB0010024",
+        "KB0010024"
+      ],
+      "res_ok": false,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Accidentally overwritten or missing document file Employee cannot locate Q3 budget spreadsheet from shared corporate drive folder.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-006",
+      "incident_number": "INC0010025",
+      "short_description": "OneDrive and SharePoint synchronization conflict errors",
+      "status": "PASS",
+      "best_score": 0.7683798,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010025"
+      ],
+      "retrieved": [
+        "KB0010025",
+        "KB0010025",
+        "KB0010025",
+        "KB0010025",
+        "KB0010024"
+      ],
+      "res_ok": true,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "OneDrive and SharePoint synchronization conflict errors User files are not syncing across laptop and mobile device, resulting in constant sync errors.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-007",
+      "incident_number": "INC0010026",
+      "short_description": "Suspicious phishing email with QR code received",
+      "status": "PASS",
+      "best_score": 0.7633904,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010026"
+      ],
+      "retrieved": [
+        "KB0010026",
+        "KB0010026",
+        "KB0010026",
+        "KB0010026",
+        "KB0010026"
+      ],
+      "res_ok": true,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Suspicious phishing email with QR code received User received an email pretending to be executive management requesting urgent gift card purchases.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-008",
+      "incident_number": "INC0010027",
+      "short_description": "Ransom note pop-ups and unexpected security alerts",
+      "status": "PASS",
+      "best_score": 0.8015981,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010027"
+      ],
+      "retrieved": [
+        "KB0010027",
+        "KB0010027",
+        "KB0010027",
+        "KB0010027",
+        "KB0010026"
+      ],
+      "res_ok": true,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Ransom note pop-ups and unexpected security alerts User computer is displaying strange pop-ups and unknown processes utilizing high CPU.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-009",
+      "incident_number": "INC0010030",
+      "short_description": "Teams and Zoom microphone and audio failure in meetings",
+      "status": "FAIL",
+      "best_score": 0.5573715,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010030"
+      ],
+      "retrieved": [
+        "KB0010096",
+        "KB0010077",
+        "KB0010096",
+        "KB0010083",
+        "KB0010083"
+      ],
+      "res_ok": false,
+      "ranked_hit": false,
+      "filter_empty": false,
+      "query_text": "Teams and Zoom microphone and audio failure in meetings Microphone and speaker are not detected or transmitting audio during online video calls.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-010",
+      "incident_number": "INC0010031",
+      "short_description": "Operating system update stuck in repeated install loop",
+      "status": "FAIL",
+      "best_score": 0.7474705,
+      "retrieved_count": 5,
+      "expected": [
+        "KB0010031"
+      ],
+      "retrieved": [
+        "KB0010031",
+        "KB0010031",
+        "KB0010031",
+        "KB0010031",
+        "KB0010031"
+      ],
+      "res_ok": false,
+      "ranked_hit": true,
+      "filter_empty": false,
+      "query_text": "Operating system update stuck in repeated install loop Windows cumulative security patch repeatedly fails with error code during reboot cycle.",
+      "query_source": "incident_text"
+    }
+  ],
+  "negative_details": [
+    {
+      "id": "INC-BENCH-NEG-001",
+      "incident_number": "INC0099901",
+      "short_description": "Tachyon warp manifold containment breach in reactor compartment",
+      "status": "PASS",
+      "best_score": 0.5964875,
+      "retrieved_count": 5,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false,
+      "filter_empty": false,
+      "query_text": "Tachyon warp manifold containment breach in reactor compartment Plasma coolant leaking in sub-light propulsion module sector 4.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-NEG-002",
+      "incident_number": "INC0099902",
+      "short_description": "Cafeteria weekly hot lunch menu schedule and coffee machine service",
+      "status": "PASS",
+      "best_score": 0.5472332,
+      "retrieved_count": 5,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false,
+      "filter_empty": false,
+      "query_text": "Cafeteria weekly hot lunch menu schedule and coffee machine service Inquiring about vegan meal choices for Thursday's cafeteria catering.",
+      "query_source": "incident_text"
+    },
+    {
+      "id": "INC-BENCH-NEG-003",
+      "incident_number": "INC0099903",
+      "short_description": "Company gym locker combination lock jammed on 2nd floor",
+      "status": "PASS",
+      "best_score": 0.60603285,
+      "retrieved_count": 5,
+      "expected": "CLEAN REFUSAL",
+      "retrieved": "REFUSED",
+      "res_ok": false,
+      "filter_empty": false,
+      "query_text": "Company gym locker combination lock jammed on 2nd floor Gym locker #42 will not open with current combination code.",
+      "query_source": "incident_text"
+    }
+  ]
+}

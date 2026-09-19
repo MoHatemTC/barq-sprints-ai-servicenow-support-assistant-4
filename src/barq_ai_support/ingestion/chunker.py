@@ -1,15 +1,37 @@
 from bs4 import BeautifulSoup
 
 
-def parse_html_sections(html: str) -> list[dict]:
+def sanitize_html(html: str) -> str:
+    """Strip active content (scripts, styles) before text extraction.
+
+    Implemented with BeautifulSoup instead of regexes so unquoted event
+    handlers (e.g. <div onerror=alert(1)>) and nested markup can't slip
+    through. Returns sanitized HTML safe for downstream parsing.
+    """
     soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+    return str(soup)
+
+
+def parse_html_sections(html: str) -> list[dict]:
+    soup = BeautifulSoup(sanitize_html(html), "html.parser")
 
     sections = []
     heading_stack = []
 
-    for element in soup.find_all(
+    elements = soup.find_all(
         ["h1", "h2", "h3", "h4", "h5", "h6", "p", "ol", "ul"]
-    ):
+    )
+    if not elements:
+        elements = soup.find_all(["div", "span"])
+    if not elements:
+        text = soup.get_text(" ", strip=True)
+        if text:
+            return [{"heading_path": [], "text": text}]
+        return []
+
+    for element in elements:
         if element.name.startswith("h"):
             level = int(element.name[1])
             heading = element.get_text(" ", strip=True)
@@ -41,6 +63,11 @@ def parse_html_sections(html: str) -> list[dict]:
                         "text": text,
                     }
                 )
+
+    if not sections:
+        text = soup.get_text(" ", strip=True)
+        if text:
+            return [{"heading_path": [], "text": text}]
 
     return sections
 
@@ -148,11 +175,16 @@ def chunk_sections(
             if end >= len(text):
                 break
 
-            start = find_overlap_start(
+            next_start = find_overlap_start(
                 text,
                 end,
                 overlap,
             )
+
+            if next_start <= start:
+                next_start = end
+
+            start = next_start
 
     return chunks
 

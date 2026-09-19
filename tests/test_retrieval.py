@@ -151,19 +151,19 @@ def test_retrieve_refuses_completely_unrelated_query(monkeypatch):
 def test_retrieve_uses_config_default_threshold_when_not_specified(monkeypatch):
     """
     Confirms retrieve() actually falls back to settings.retrieval_score_threshold
-    (0.75 by default) when the caller doesn't pass score_threshold at all —
+    (settings.retrieval_score_threshold by default) when the caller doesn't pass score_threshold at all —
     proving the config default is really wired up, not just documented.
     """
     client = _seeded_client(monkeypatch)
 
-    # No score_threshold passed at all — should use settings default (0.75).
+    # No score_threshold passed at all — should use settings default.
     result = retrieve(
         "best pancake recipe with blueberries",
         client=client,
         embedding_fn=default_embedding_fn,
     )
-    assert result.threshold == 0.75
-    assert result.ok is False  # pancake query shouldn't clear a real 0.75 bar
+    assert result.threshold == settings.retrieval_score_threshold
+    assert result.ok is False  # pancake query shouldn't clear the configured bar
 
 
 def test_retrieve_returns_results_in_descending_score_order(monkeypatch):
