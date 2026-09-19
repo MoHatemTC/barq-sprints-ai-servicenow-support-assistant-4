@@ -128,9 +128,11 @@ def retrieve(
         RetrievedChunk(
             chunk_id=str(hit.id),
             score=hit.score,
-            text=hit.payload.get("text", ""),
-            article_number=hit.payload.get("article_number", ""),
-            category=hit.payload.get("category"),
+            text=hit.payload.get("short_description", "") or hit.payload.get("text", ""),
+            article_number=hit.payload.get("number", "") or hit.payload.get("article_number", ""),
+            category=(hit.payload.get("kb_category") or {}).get("display_value")
+                if isinstance(hit.payload.get("kb_category"), dict)
+                else hit.payload.get("category"),
         )
         for hit in hits
     ]
