@@ -1,14 +1,9 @@
 # Retrieval Benchmark & Threshold Evaluation Report (S2.6)
 
-> **Methodology note (2026-09-19):** the runner now queries with the **incident
-> text** (`short_description + description`, the runtime input) and records
-> `provenance.embedding_model / embedding_dim / collection` in
-> [`benchmark_results.json`](benchmark_results.json). The tables below were
-> produced with the pre-fix runner, which queried with KB chunk text under
-> SHA-256 stub embeddings (exact-text match, all scores `1.0000`) — they
-> validate the harness plumbing, **not** retrieval quality. Re-run with
-> `uv run python benchmark/run_benchmark.py --real` (requires `LITELLM_API_KEY`
-> and a 768-dim Gemini-ingested collection) before calibrating any threshold.
+> **Calibrated 2026-09-19 on real embeddings** (Gemini `gemini-embedding-001`,
+> 768-dim, collection `kb_chunks`, incident-text queries, 30 cases).
+> **Recommended threshold: `0.65` → 95% hit rate, 100% refusal correctness.**
+> Full provenance and per-case detail: [`benchmark_results.json`](benchmark_results.json).
 
 ## 1. Overview & Objective
 This report documents the quantitative benchmarking and score distribution analysis for the semantic retrieval pipeline of the **BARQ AI ServiceNow Support Assistant**. 
@@ -35,8 +30,17 @@ The benchmark dataset is stored in [`benchmark_dataset.json`](benchmark_dataset.
 The benchmark runner is implemented in [`run_benchmark.py`](run_benchmark.py) and can be executed via a single command:
 
 ```bash
+# Offline plumbing check (SHA-256 stub — validates the harness, not quality)
 uv run python benchmark/run_benchmark.py
+# Real evaluation (Gemini embeddings — requires LITELLM_API_KEY + 768-dim collection)
+uv run python benchmark/run_benchmark.py --real
 ```
+
+Each case is queried with the **incident text** (`short_description + description`,
+the runtime input the agent receives), never the stored KB chunk text. Retrieval
+runs ungated (`threshold=0.0`) so ranking quality is recorded even below the bar;
+the gate is applied in pure Python (identical semantics), and a threshold sweep
+(0.50–0.90) is recomputed from the same pass without re-querying.
 
 ### Metrics Definitions
 - **Hit Rate**:
@@ -46,7 +50,50 @@ uv run python benchmark/run_benchmark.py
 
 ---
 
-## 4. Benchmark Results & Granular Evaluation
+## 4. Benchmark Results & Granular Evaluation (real embeddings, 2026-09-19)
+
+Setup: 33 ServiceNow articles → 211 chunks → Gemini 768-dim vectors in `kb_chunks`;
+30 cases (20 answerable incl. 5 paraphrases, 10 negative incl. 5 near-miss), top-k 5.
+
+### Aggregate Metrics (at recommended threshold 0.65)
+
+| Metric | Result | Count / Total | Performance Target |
+|---|---|---|---|
+| **Hit Rate** | **95.0%** | 19 / 20 | $\ge 85\%$ |
+| **Refusal Correctness** | **100.0%** | 10 / 10 | $\ge 90\%$ |
+| Ranking accuracy (ignoring threshold) | 95.0% | 19 / 20 | — |
+
+### Threshold Sweep (same retrieval pass)
+
+| Threshold | Hit Rate | Refusal Correctness |
+|---|---|---|
+| 0.50 | 95.0% (19/20) | 0.0% (0/10) |
+| 0.55 | 95.0% (19/20) | 30.0% (3/10) |
+| 0.60 | 95.0% (19/20) | 50.0% (5/10) |
+| **0.65** | **95.0% (19/20)** | **100.0% (10/10)** |
+| 0.70 | 80.0% (16/20) | 100.0% (10/10) |
+| 0.75 (old) | 55.0% (11/20) | 100.0% (10/10) |
+| 0.80 | 30.0% (6/20) | 100.0% (10/10) |
+
+Score distributions: answerable min 0.5574 / max 0.8930 / avg 0.7607;
+negative min 0.5261 / max 0.6396 / avg 0.5892. The single ranking miss
+(`INC-BENCH-009`, Teams/Zoom audio → wrong article at 0.5574) falls below 0.65
+and is therefore **refused instead of served** — the safe failure mode.
+
+### Analytical Justification for `RETRIEVAL_SCORE_THRESHOLD = 0.65`
+1. **Pareto-optimal on measured data**: 0.65 is the highest threshold keeping the
+   full 95% ranking accuracy while refusing 100% of negatives (max negative:
+   0.6396, cushion +0.0104; min kept positive: 0.6697).
+2. **Fail-safe misses**: the one sub-threshold answerable is a *wrong-article*
+   case, so the gate converts a would-be wrong answer into a clean refusal.
+3. **Old 0.75 retired**: it rejected 9 correctly-ranked articles (scores
+   0.67–0.75, incl. 4/5 paraphrases) — a 55% hit rate that would refuse nearly
+   half of genuine traffic.
+
+### Pre-fix stub numbers (superseded, kept for history)
+
+The tables below came from the original runner (KB-chunk queries + SHA-256 stub,
+all scores `1.0000`). They validate harness plumbing, not retrieval quality.
 
 ### Aggregate Metrics
 | Metric | Result | Count / Total | Performance Target |
@@ -83,7 +130,7 @@ uv run python benchmark/run_benchmark.py
 
 ## 5. Score Distribution & Threshold Recommendation
 
-### Empirical Score Distribution
+### Empirical Score Distribution (stub era — superseded, see §4 above)
 ```
 Cosine Similarity Score Distribution:
 0.00          0.40   0.50   0.60   0.70   0.75   0.80          1.00
@@ -105,7 +152,7 @@ Cosine Similarity Score Distribution:
 - **Separation Margin**:
   $$\text{Margin} = \min(\text{Positive Scores}) - \max(\text{Negative Scores}) = 1.0000 - 0.6264 = \mathbf{0.3736}$$
 
-### Analytical Justification for `RETRIEVAL_SCORE_THRESHOLD = 0.75`
+### Analytical Justification for `RETRIEVAL_SCORE_THRESHOLD = 0.75` (stub era — retired, see §4)
 1. **Zero False Positives**: The maximum noise score recorded across unanswerable and out-of-domain negative controls was `0.6264`. Setting the threshold at `0.75` provides a **safety cushion of $+0.1236$** above the highest false-positive candidate.
 2. **Zero False Negatives**: All legitimate answerable incidents produced scores $\ge 0.75$, ensuring genuine support requests are never rejected erroneously.
 3. **Safety-First Philosophy**: In an IT service management environment, serving an ungrounded or hallucinatory resolution to an IT engineer wastes time and risks security incidents. Threshold gating at `0.75` ensures that only high-confidence, verified knowledge base matches proceed to the agent generation stage.

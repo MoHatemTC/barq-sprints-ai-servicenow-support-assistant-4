@@ -93,22 +93,30 @@ def evaluate_retrieval_benchmark(
         query_fallback = not (item.get("incident", {}).get("short_description") or item.get("incident", {}).get("description"))
         expected_arts = item.get("expected_article_numbers", [])
 
-        # Execute retrieval with the configured threshold
+        # Retrieve WITHOUT gating (threshold=0.0) so ranking quality is
+        # recorded even when the score falls below the evaluation threshold.
+        # The gate is applied below in pure Python — identical semantics.
         res = retrieve(
             query=query,
             top_k=top_k,
-            score_threshold=threshold,
+            score_threshold=0.0,
             category=item.get("category"),
             embedding_fn=embedding_fn,
         )
 
         retrieved_arts = [c.article_number for c in res.chunks]
-        best_score = res.best_score or 0.0
+        best_score = res.best_score if res.best_score is not None else 0.0
+        # Empty result set = filter matched nothing (e.g. unknown category).
+        filter_empty = len(res.chunks) == 0
+        # Gate applied here (equivalent to retrieve(threshold=threshold)).
+        passed_gate = (
+            res.best_score is not None and res.best_score >= threshold
+        )
 
         if item_type == "answerable":
             positive_scores.append(best_score)
             # A hit occurs if the expected article is among the retrieved chunks that met the threshold
-            is_hit = res.ok and any(exp in retrieved_arts for exp in expected_arts)
+            is_hit = passed_gate and any(exp in retrieved_arts for exp in expected_arts)
             status = "PASS" if is_hit else "FAIL"
             
             answerable_results.append({
@@ -120,7 +128,9 @@ def evaluate_retrieval_benchmark(
                 "retrieved_count": len(res.chunks),
                 "expected": expected_arts,
                 "retrieved": retrieved_arts,
-                "res_ok": res.ok,
+                "res_ok": passed_gate,
+                "ranked_hit": any(exp in retrieved_arts for exp in expected_arts),
+                "filter_empty": filter_empty,
                 "query_text": query,
                 "query_source": "legacy_query_field" if query_fallback else "incident_text",
             })
@@ -130,13 +140,19 @@ def evaluate_retrieval_benchmark(
             print(f"     Expected:    {expected_arts}")
             print(f"     Retrieved:   {retrieved_arts} (Best Score: {best_score:.4f})")
             if not is_hit:
-                print(f"     Reason:      Threshold not met ({best_score:.4f} < {threshold:.2f}) or wrong article.")
+                if filter_empty:
+                    print(f"     Reason:      Category filter matched nothing — check 'category' label.")
+                elif not passed_gate:
+                    print(f"     Reason:      Threshold not met ({best_score:.4f} < {threshold:.2f}).")
+                else:
+                    print(f"     Reason:      Wrong article ranked above expected.")
             print()
 
         else:
             negative_scores.append(best_score)
-            # Correct refusal occurs when the gate refuses (ok=False) because score < threshold
-            is_correct_refusal = not res.ok
+            # Correct refusal occurs when the gate refuses (score < threshold).
+            # A filter matching nothing also refuses — flagged, not celebrated.
+            is_correct_refusal = not passed_gate
             status = "PASS" if is_correct_refusal else "FAIL"
 
             negative_results.append({
@@ -147,8 +163,9 @@ def evaluate_retrieval_benchmark(
                 "best_score": best_score,
                 "retrieved_count": len(res.chunks),
                 "expected": "CLEAN REFUSAL",
-                "retrieved": retrieved_arts if res.ok else "REFUSED",
-                "res_ok": res.ok,
+                "retrieved": retrieved_arts if passed_gate else "REFUSED",
+                "res_ok": passed_gate,
+                "filter_empty": filter_empty,
                 "query_text": query,
                 "query_source": "legacy_query_field" if query_fallback else "incident_text",
             })
@@ -156,7 +173,9 @@ def evaluate_retrieval_benchmark(
             print(f"[{idx:02d}] {item_id} ({incident_num}) [NEGATIVE CONTROL] - {status}")
             print(f"     Description: {short_desc}")
             print(f"     Expected:    CLEAN REFUSAL (Score < {threshold:.2f})")
-            print(f"     Retrieved:   {'REFUSED' if not res.ok else retrieved_arts} (Best Score: {best_score:.4f})")
+            print(f"     Retrieved:   {'REFUSED' if not passed_gate else retrieved_arts} (Best Score: {best_score:.4f})")
+            if filter_empty:
+                print(f"     Note:        Filter matched nothing (unknown category) — vacuous refusal.")
             print()
 
     # Aggregate Metrics Calculation
@@ -189,6 +208,41 @@ def evaluate_retrieval_benchmark(
         print("  NOTE: stub embeddings carry no semantic meaning — scores measure")
         print("        exact-text overlap only. Re-run with --real for a threshold")
         print("        that generalizes to real incident phrasing.")
+    # Threshold sweep on the SAME retrieval pass: recompute hit/refusal at
+    # each candidate threshold without re-querying.
+    sweep_thresholds = [round(0.50 + 0.05 * i, 2) for i in range(9)]  # 0.50..0.90
+    sweep = []
+    for t in sweep_thresholds:
+        a_pass = sum(
+            1
+            for r, c in zip(answerable_results, [c for c in cases if c["type"] == "answerable"])
+            if r["best_score"] is not None
+            and r["best_score"] >= t
+            and any(exp in r["retrieved"] for exp in c.get("expected_article_numbers", []))
+            and not r["filter_empty"]
+        )
+        n_pass = sum(
+            1 for r in negative_results if r["best_score"] < t
+        )
+        sweep.append(
+            {
+                "threshold": t,
+                "hit_rate": (a_pass / num_answerable) if num_answerable else 0.0,
+                "hit_count": f"{a_pass}/{num_answerable}",
+                "refusal_correctness": (n_pass / num_negative) if num_negative else 0.0,
+                "refusal_count": f"{n_pass}/{num_negative}",
+            }
+        )
+
+    print("  THRESHOLD SWEEP (same retrieval pass):")
+    print("  thresh | hit rate  | refusal")
+    for row in sweep:
+        mark = " <-- evaluated" if abs(row["threshold"] - threshold) < 1e-9 else ""
+        print(
+            f"  {row['threshold']:.2f}   | {row['hit_rate']*100:5.1f}% ({row['hit_count']:>5}) "
+            f"| {row['refusal_correctness']*100:5.1f}% ({row['refusal_count']:>5}){mark}"
+        )
+
     print("=" * 80)
 
     def _dist(scores: list[float]) -> dict[str, float | None]:
@@ -223,6 +277,7 @@ def evaluate_retrieval_benchmark(
             "negative": _dist(negative_scores),
             "separation_margin": separation,
         },
+        "threshold_sweep": sweep,
         "answerable_details": answerable_results,
         "negative_details": negative_results,
     }

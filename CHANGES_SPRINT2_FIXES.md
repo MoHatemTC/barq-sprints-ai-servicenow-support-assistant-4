@@ -330,9 +330,9 @@ tests/test_webhook.py ....        [100%]  # 4 tests
 | Optional `langchain-openai` + dev group | ✅ Done (round 2) |
 | Fake-model executor tests (no network) | ✅ Done (round 2) |
 | Doc links relative + stale-numbers notice | ✅ Done (round 2) |
-| **Re-ingest with real embeddings (768-dim)** | ⏳ Pending (requires `.env` credentials) |
-| **Re-run benchmark `--real`, recalibrate threshold** | ⏳ Pending (old 0.75 retired) |
-| **Expand benchmark: paraphrases + near-miss negatives** | ⏳ Pending |
+| **Re-ingest with real embeddings (768-dim)** | ✅ Done — 33 articles → 211 Gemini 768-dim chunks in `kb_chunks` |
+| **Re-run benchmark `--real`, recalibrate threshold** | ✅ Done — **0.65: 95% hit, 100% refusal** (old 0.75 retired: 55% hit) |
+| **Expand benchmark: paraphrases + near-miss negatives** | ✅ Done — 30 cases (20 answerable + 10 negative) |
 
 ---
 

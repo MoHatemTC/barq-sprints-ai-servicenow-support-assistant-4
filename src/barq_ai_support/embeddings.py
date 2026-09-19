@@ -52,6 +52,9 @@ def _post_litellm_embeddings(texts: list[str]) -> list[list[float]]:
         "model": GEMINI_MODEL,
         "input": texts,
         "encoding_format": "float",
+        # gemini-embedding-001 natively returns 3072 dims; truncate to 768
+        # (Matryoshka) so the Qdrant collection stays compact.
+        "dimensions": GEMINI_DIM,
     }
     with httpx.Client(timeout=30.0) as client:
         response = client.post(url, headers=headers, json=payload)
@@ -83,7 +86,7 @@ async def gemini_embedding_fn_async(text: str, dim: int = GEMINI_DIM) -> list[fl
         "Authorization": f"Bearer {settings.litellm_api_key}",
         "Content-Type": "application/json",
     }
-    payload = {"model": GEMINI_MODEL, "input": text, "encoding_format": "float"}
+    payload = {"model": GEMINI_MODEL, "input": text, "encoding_format": "float", "dimensions": dim}
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.post(url, headers=headers, json=payload)
         response.raise_for_status()

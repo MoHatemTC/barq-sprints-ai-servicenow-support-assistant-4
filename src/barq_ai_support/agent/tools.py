@@ -1,6 +1,7 @@
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 
+from ..config import settings
 from ..retrieval.retriever import retrieve, RetrievedChunk
 
 
@@ -13,7 +14,9 @@ class KnowledgeBaseSearchInput(BaseModel):
 def search_knowledge_base(query: str, category: str | None = None) -> list[dict]:
     """Search the knowledge base for articles matching the query.
     Repeatable - can be called multiple times without ending the run."""
-    result = retrieve(query=query, category=category, score_threshold=0.75)
+    result = retrieve(
+        query=query, category=category, score_threshold=settings.retrieval_score_threshold
+    )
     if not result.ok:
         return []
     return [

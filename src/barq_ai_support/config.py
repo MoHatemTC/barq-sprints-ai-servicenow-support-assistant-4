@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     qdrant_url: str = ""
     qdrant_api_key: str = ""
     qdrant_collection_name: str = "kb_chunks"
-    retrieval_score_threshold: float = 0.75
+    retrieval_score_threshold: float = 0.65
     retrieval_top_k: int = 5
 
     # --- LLM / Agent settings (S2.4 - S2.5) ---
