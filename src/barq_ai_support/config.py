@@ -17,11 +17,15 @@ class Settings(BaseSettings):
     # --- Qdrant / vector storage settings (S2.2) ---
     qdrant_url: str = ""
     qdrant_api_key: str = ""
-    qdrant_collection_name: str = "barq_kb_chunks"
-
-    # --- Retrieval settings (S2.3) ---
-    retrieval_score_threshold: float = 0.75
+    qdrant_collection_name: str = "kb_chunks"
+    retrieval_score_threshold: float = 0.65
     retrieval_top_k: int = 5
+
+    # --- LLM / Agent settings (S2.4 - S2.5) ---
+    litellm_base_url: str = "https://management.sprints.ai/litellm"
+    litellm_api_key: str = ""
+    llm_model: str = "gemini/gemini-3.6-flash"
+    llm_temperature: float = 0.0
 
     model_config = SettingsConfigDict(
         env_file=".env",

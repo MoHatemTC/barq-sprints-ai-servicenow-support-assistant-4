@@ -11,8 +11,19 @@ from qdrant_client import QdrantClient
 from qdrant_client import models as qmodels
 
 from ..config import settings
+from ..embeddings import default_embedding_fn, sync_embedding_fn
 
 from dataclasses import dataclass, field
+
+# Re-exported for backwards compatibility (tests import it from here).
+__all__ = [
+    "default_embedding_fn",
+    "sync_embedding_fn",
+    "get_qdrant_client",
+    "retrieve",
+    "RetrievedChunk",
+    "RetrievalResult",
+]
 
 
 @lru_cache(maxsize=1)
@@ -35,6 +46,7 @@ def get_qdrant_client() -> QdrantClient:
         api_key=settings.qdrant_api_key or None,
     )
 
+
 @dataclass
 class RetrievedChunk:
     """One retrieved chunk, with its score and article provenance."""
@@ -43,6 +55,9 @@ class RetrievedChunk:
     text: str
     article_number: str
     category: str | None = None
+    short_description: str | None = None
+    heading_path: list[str] | None = None
+
 
 @dataclass
 class RetrievalResult:
@@ -58,63 +73,13 @@ class RetrievalResult:
     chunks: list[RetrievedChunk] = field(default_factory=list)
     refusal_message: str | None = None
 
-import hashlib
-
-
-def default_embedding_fn(text: str, dim: int = 384) -> list[float]:
-    """
-    Stub embedding function — NOT a real AI model. Turns text into a
-    deterministic fake vector using a hash, just so we have *something*
-    consistent to test retrieve() against.
-
-    Per the brief: "You may build and test against stub vectors" — real
-    embeddings (e.g. sentence-transformers) can replace this later without
-    changing any other code, since retrieve() just calls whatever function
-    is passed to it.
-    """
-    digest = hashlib.sha256(text.encode("utf-8")).digest()
-    raw_bytes = (digest * (dim // len(digest) + 1))[:dim]
-    vector = [(b / 127.5) - 1.0 for b in raw_bytes]
-    return vector
-
-import os
-from google import genai
-
-_gemini_client = None
-
-
-def gemini_embedding_fn(text: str) -> list[float]:
-    """
-    Real embedding function using Google's Gemini API — matches Mathew's
-    S2.2 ingestion setup exactly (same model, same output dimension),
-    so search queries are embedded the same way his article chunks were.
-
-    Requires GEMINI_API_KEY in .env. Falls back to raising a clear error
-    if the key isn't set, rather than failing with a confusing API error.
-    """
-    global _gemini_client
-    if _gemini_client is None:
-        api_key = os.environ.get("GEMINI_API_KEY")
-        if not api_key:
-            raise RuntimeError(
-                "GEMINI_API_KEY is not set. Add it to your .env file to "
-                "use real embeddings instead of the stub."
-            )
-        _gemini_client = genai.Client(api_key=api_key)
-
-    response = _gemini_client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=text,
-        config={"output_dimensionality": 768},
-    )
-    return response.embeddings[0].values
 
 def retrieve(
     query: str,
     top_k: int | None = None,
     category: str | None = None,
     score_threshold: float | None = None,
-    embedding_fn=gemini_embedding_fn,
+    embedding_fn=sync_embedding_fn,
     client: QdrantClient | None = None,
 ) -> RetrievalResult:
     """
@@ -132,6 +97,27 @@ def retrieve(
         client = get_qdrant_client()
 
     query_vector = embedding_fn(query)
+
+    # Fail fast on embedding/collection dimension mismatch (e.g. 384-dim
+    # stub vectors against a 768-dim Gemini collection) instead of letting
+    # Qdrant return a cryptic 400.
+    try:
+        collection_info = client.get_collection(
+            collection_name=settings.qdrant_collection_name
+        )
+        expected_size = collection_info.config.params.vectors.size
+        if len(query_vector) != expected_size:
+            raise ValueError(
+                f"Embedding dimension mismatch: query vector has "
+                f"{len(query_vector)} dims but collection "
+                f"'{settings.qdrant_collection_name}' expects "
+                f"{expected_size}. Re-ingest with the same embedding "
+                f"function used for retrieval."
+            )
+    except ValueError:
+        raise
+    except Exception:
+        pass  # Collection may not exist yet / server unreachable — let query surface it.
 
     query_filter = None
     if category is not None:
@@ -152,18 +138,32 @@ def retrieve(
         with_payload=True,
     ).points
 
-    chunks = [
-        RetrievedChunk(
-            chunk_id=str(hit.id),
-            score=hit.score,
-            text=hit.payload.get("short_description", "") or hit.payload.get("text", ""),
-            article_number=hit.payload.get("number", "") or hit.payload.get("article_number", ""),
-            category=(hit.payload.get("kb_category") or {}).get("display_value")
-                if isinstance(hit.payload.get("kb_category"), dict)
-                else hit.payload.get("category"),
+    chunks = []
+    for hit in hits:
+        payload = hit.payload or {}
+
+        # Support both payload formats:
+        # - Our format: text, article_number, category, short_description, heading_path
+        # - S2.2 format (embedding.py/qdrant_store.py): short_description, number, kb_category dict
+        text = payload.get("text") or payload.get("short_description", "")
+        article_number = payload.get("article_number") or payload.get("number", "")
+        category_val = payload.get("category")
+        if isinstance(category_val, dict):
+            category_val = category_val.get("display_value") or category_val.get("value")
+        short_description = payload.get("short_description")
+        heading_path = payload.get("heading_path")
+
+        chunks.append(
+            RetrievedChunk(
+                chunk_id=str(hit.id),
+                score=hit.score,
+                text=text,
+                article_number=article_number,
+                category=category_val,
+                short_description=short_description,
+                heading_path=heading_path,
+            )
         )
-        for hit in hits
-    ]
 
     best_score = max((c.score for c in chunks), default=None)
 
