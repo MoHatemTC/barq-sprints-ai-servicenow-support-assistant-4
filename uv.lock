@@ -54,6 +54,7 @@ agent = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "langchain-openai" },
     { name = "pytest" },
 ]
 
@@ -71,7 +72,10 @@ requires-dist = [
 provides-extras = ["agent"]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.1.1" }]
+dev = [
+    { name = "langchain-openai", specifier = ">=1.6.2" },
+    { name = "pytest", specifier = ">=9.1.1" },
+]
 
 [[package]]
 name = "beautifulsoup4"

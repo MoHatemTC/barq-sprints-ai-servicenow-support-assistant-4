@@ -1,5 +1,15 @@
 # Retrieval Benchmark & Threshold Evaluation Report (S2.6)
 
+> **Methodology note (2026-09-19):** the runner now queries with the **incident
+> text** (`short_description + description`, the runtime input) and records
+> `provenance.embedding_model / embedding_dim / collection` in
+> [`benchmark_results.json`](benchmark_results.json). The tables below were
+> produced with the pre-fix runner, which queried with KB chunk text under
+> SHA-256 stub embeddings (exact-text match, all scores `1.0000`) — they
+> validate the harness plumbing, **not** retrieval quality. Re-run with
+> `uv run python benchmark/run_benchmark.py --real` (requires `LITELLM_API_KEY`
+> and a 768-dim Gemini-ingested collection) before calibrating any threshold.
+
 ## 1. Overview & Objective
 This report documents the quantitative benchmarking and score distribution analysis for the semantic retrieval pipeline of the **BARQ AI ServiceNow Support Assistant**. 
 
@@ -11,7 +21,7 @@ The goal of this evaluation harness is to:
 ---
 
 ## 2. Benchmark Dataset Design
-The benchmark dataset is stored in [`benchmark/benchmark_dataset.json`](file:///workspaces/barq-sprints-ai-servicenow-support-assistant-4/benchmark/benchmark_dataset.json) and comprises **20 total incidents**:
+The benchmark dataset is stored in [`benchmark_dataset.json`](benchmark_dataset.json) and comprises **20 total incidents**:
 - **15 Answerable Incidents (`type: "answerable"`)**:
   - Spanning 7 distinct IT enterprise categories: *Network & Remote Access, Email & Collaboration, Hardware & Peripherals, Files & Cloud, Security, Applications, and Devices & Performance*.
   - Ground-truth mappings target published ServiceNow knowledge articles indexed in the Qdrant Cloud cluster (`kb_chunks`).
@@ -22,7 +32,7 @@ The benchmark dataset is stored in [`benchmark/benchmark_dataset.json`](file:///
 ---
 
 ## 3. Evaluation Harness Execution
-The benchmark runner is implemented in [`benchmark/run_benchmark.py`](file:///workspaces/barq-sprints-ai-servicenow-support-assistant-4/benchmark/run_benchmark.py) and can be executed via a single command:
+The benchmark runner is implemented in [`run_benchmark.py`](run_benchmark.py) and can be executed via a single command:
 
 ```bash
 uv run python benchmark/run_benchmark.py

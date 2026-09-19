@@ -12,6 +12,28 @@ from ..embeddings import sync_embedding_fn
 from ..retrieval.retriever import get_qdrant_client
 
 
+def ensure_payload_indexes(
+    client: QdrantClient,
+    collection_name: str = settings.qdrant_collection_name,
+) -> None:
+    """Create keyword indexes for filterable payload fields, idempotently.
+
+    Safe to call on every run: existing indexes are left untouched, and
+    failures for one field don't block the others.
+    """
+    for field_name in ("category", "article_number", "sys_id"):
+        try:
+            client.create_payload_index(
+                collection_name=collection_name,
+                field_name=field_name,
+                field_schema=PayloadSchemaType.KEYWORD,
+            )
+            print(f"Created payload index for '{field_name}'.")
+        except Exception as e:
+            # Index already exists or server rejected it — log and continue.
+            print(f"Note: payload index for '{field_name}' not created: {e}")
+
+
 def ensure_collection_exists(
     client: QdrantClient,
     collection_name: str = settings.qdrant_collection_name,
@@ -19,8 +41,9 @@ def ensure_collection_exists(
     distance: Distance = Distance.COSINE,
 ) -> None:
     """
-    Checks if the collection exists in Qdrant Cloud; if not, creates it
-    and adds payload indexes for filterable fields.
+    Checks if the collection exists in Qdrant Cloud; if not, creates it.
+    Payload indexes for filterable fields are ensured on EVERY run, so an
+    existing collection created before filtering was added still gets them.
     """
     collections = client.get_collections().collections
     exists = any(c.name == collection_name for c in collections)
@@ -32,20 +55,10 @@ def ensure_collection_exists(
             vectors_config=VectorParams(size=vector_size, distance=distance),
         )
         print(f"Collection '{collection_name}' created successfully.")
-        
-        # Create payload indexes for filtering
-        for field_name in ("category", "article_number", "sys_id"):
-            try:
-                client.create_payload_index(
-                    collection_name=collection_name,
-                    field_name=field_name,
-                    field_schema=PayloadSchemaType.KEYWORD,
-                )
-                print(f"Created payload index for '{field_name}'.")
-            except Exception as e:
-                print(f"Note: Could not create index for '{field_name}': {e}")
     else:
         print(f"Collection '{collection_name}' already exists.")
+
+    ensure_payload_indexes(client, collection_name=collection_name)
 
 
 def ingest_chunks_to_qdrant(
@@ -54,6 +67,7 @@ def ingest_chunks_to_qdrant(
     collection_name: str = settings.qdrant_collection_name,
     embedding_fn: Callable[[str], list[float]] = sync_embedding_fn,
     recreate_collection: bool = False,
+    vector_size: int = 384,
 ) -> int:
     """
     Embeds list of article chunks and upserts them into Qdrant collection.
@@ -80,9 +94,13 @@ def ingest_chunks_to_qdrant(
             client.delete_collection(collection_name=collection_name)
         except Exception:
             pass  # Collection may not exist
-        ensure_collection_exists(client, collection_name=collection_name)
+        ensure_collection_exists(
+            client, collection_name=collection_name, vector_size=vector_size
+        )
     else:
-        ensure_collection_exists(client, collection_name=collection_name)
+        ensure_collection_exists(
+            client, collection_name=collection_name, vector_size=vector_size
+        )
 
     points = []
     for chunk in chunks:

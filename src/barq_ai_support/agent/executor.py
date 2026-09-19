@@ -5,7 +5,12 @@ Wired to real LLM endpoint via LiteLLM / Gemini proxy, utilizing tools defined i
 """
 
 from typing import Any, Sequence
-from langchain_openai import ChatOpenAI
+
+try:
+    from langchain_openai import ChatOpenAI
+except ImportError:  # pragma: no cover - optional dependency
+    ChatOpenAI = None  # type: ignore[assignment,misc]
+
 from langchain_core.messages import (
     BaseMessage,
     SystemMessage,
@@ -25,10 +30,17 @@ def get_llm(
     temperature: float | None = None,
     base_url: str | None = None,
     api_key: str | None = None,
-) -> ChatOpenAI:
+):
     """
     Constructs and returns the configured ChatOpenAI client pointed at the LiteLLM proxy.
+
+    Requires the optional `langchain-openai` package (`uv sync --extra agent`).
     """
+    if ChatOpenAI is None:
+        raise RuntimeError(
+            "langchain-openai is not installed. Install it with "
+            "'uv sync --extra agent' to use the live agent executor."
+        )
     return ChatOpenAI(
         model=model or settings.llm_model,
         temperature=temperature if temperature is not None else settings.llm_temperature,
@@ -48,7 +60,7 @@ class SupportAgentExecutor:
 
     def __init__(
         self,
-        llm: ChatOpenAI | None = None,
+        llm=None,
         tools: Sequence[BaseTool] | None = None,
         system_prompt: str = SYSTEM_PROMPT,
         max_iterations: int = 6,

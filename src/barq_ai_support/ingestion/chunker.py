@@ -1,22 +1,21 @@
-import re
 from bs4 import BeautifulSoup
 
 
-# Regex to strip <script>, <style>, and event handler attributes
-SCRIPT_STYLE_RE = re.compile(r"<(script|style)[^>]*>.*?</\1>", re.IGNORECASE | re.DOTALL)
-EVENT_HANDLER_RE = re.compile(r'\s(on\w+)\s*=\s*["\'][^"\']*["\']', re.IGNORECASE)
-
-
 def sanitize_html(html: str) -> str:
-    """Remove scripts, styles, and event handlers from HTML before parsing."""
-    html = SCRIPT_STYLE_RE.sub("", html)
-    html = EVENT_HANDLER_RE.sub("", html)
-    return html
+    """Strip active content (scripts, styles) before text extraction.
+
+    Implemented with BeautifulSoup instead of regexes so unquoted event
+    handlers (e.g. <div onerror=alert(1)>) and nested markup can't slip
+    through. Returns sanitized HTML safe for downstream parsing.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+    return str(soup)
 
 
 def parse_html_sections(html: str) -> list[dict]:
-    html = sanitize_html(html)
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(sanitize_html(html), "html.parser")
 
     sections = []
     heading_stack = []

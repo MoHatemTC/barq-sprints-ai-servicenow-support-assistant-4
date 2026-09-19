@@ -15,6 +15,16 @@ from ..embeddings import default_embedding_fn, sync_embedding_fn
 
 from dataclasses import dataclass, field
 
+# Re-exported for backwards compatibility (tests import it from here).
+__all__ = [
+    "default_embedding_fn",
+    "sync_embedding_fn",
+    "get_qdrant_client",
+    "retrieve",
+    "RetrievedChunk",
+    "RetrievalResult",
+]
+
 
 @lru_cache(maxsize=1)
 def get_qdrant_client() -> QdrantClient:
@@ -61,28 +71,6 @@ class RetrievalResult:
     chunks: list[RetrievedChunk] = field(default_factory=list)
     refusal_message: str | None = None
 
-import hashlib
-
-
-def default_embedding_fn(text: str, dim: int = 384) -> list[float]:
-    """
-    Stub embedding function — NOT a real AI model. Turns text into a
-    deterministic fake vector using a hash, just so we have *something*
-    consistent to test retrieve() against.
-
-    Per the brief: "You may build and test against stub vectors" — real
-    embeddings (e.g. sentence-transformers) can replace this later without
-    changing any other code, since retrieve() just calls whatever function
-    is passed to it.
-    """
-    digest = hashlib.sha256(text.encode("utf-8")).digest()
-    # Repeat the hash bytes until we have enough to fill `dim` numbers.
-    raw_bytes = (digest * (dim // len(digest) + 1))[:dim]
-    # Map each byte (0-255) into a small range around 0, e.g. -1.0 to 1.0.
-    vector = [(b / 127.5) - 1.0 for b in raw_bytes]
-    return vector
-
-
 def retrieve(
     query: str,
     top_k: int | None = None,
@@ -107,6 +95,27 @@ def retrieve(
         client = get_qdrant_client()
 
     query_vector = embedding_fn(query)
+
+    # Fail fast on embedding/collection dimension mismatch (e.g. 384-dim
+    # stub vectors against a 768-dim Gemini collection) instead of letting
+    # Qdrant return a cryptic 400.
+    try:
+        collection_info = client.get_collection(
+            collection_name=settings.qdrant_collection_name
+        )
+        expected_size = collection_info.config.params.vectors.size
+        if len(query_vector) != expected_size:
+            raise ValueError(
+                f"Embedding dimension mismatch: query vector has "
+                f"{len(query_vector)} dims but collection "
+                f"'{settings.qdrant_collection_name}' expects "
+                f"{expected_size}. Re-ingest with the same embedding "
+                f"function used for retrieval."
+            )
+    except ValueError:
+        raise
+    except Exception:
+        pass  # Collection may not exist yet / server unreachable — let query surface it.
 
     query_filter = None
     if category is not None:
