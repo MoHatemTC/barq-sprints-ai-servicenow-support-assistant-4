@@ -288,8 +288,13 @@ def evaluate_retrieval_benchmark(
 def main(argv: list[str] | None = None):
     parser = argparse.ArgumentParser(description="S2.6 retrieval benchmark harness")
     parser.add_argument(
-        "threshold",
+        "dataset",
         nargs="?",
+        default="benchmark_dataset.json",
+        help="Benchmark dataset JSON file (default: benchmark_dataset.json)",
+    )
+    parser.add_argument(
+        "--threshold",
         type=float,
         default=None,
         help="Score threshold (default: settings.retrieval_score_threshold)",
@@ -304,7 +309,7 @@ def main(argv: list[str] | None = None):
     )
     args = parser.parse_args(argv)
 
-    dataset_path = Path(__file__).resolve().parent / "benchmark_dataset.json"
+    dataset_path = Path(__file__).resolve().parent / args.dataset
     threshold = args.threshold if args.threshold is not None else settings.retrieval_score_threshold
 
     results = evaluate_retrieval_benchmark(

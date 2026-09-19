@@ -1,7 +1,7 @@
 # Sprint 2.6+ Code Review Fixes Summary
 
-**Date:** September 19, 2026 (updated — round 2: external review findings)
-**Branch:** `feature/sprint-2-fixes`
+**Date:** September 19, 2026 (updated — round 3: merge + benchmark variants)
+**Branch:** `S2.6-Goldenset-trail-yousefmalak`
 **Base Commit:** `main`
 
 ---
@@ -10,7 +10,9 @@
 
 This document summarizes all edits made in response to the Sprint 2 code review. The fixes address critical bugs, code quality issues, security hardening, and prepare the codebase for Sprint 3 (real embeddings).
 
-**Round 2** addresses the external review of `b488c67`, which found that the benchmark measured exact-text lookup (SHA-256 stub scores `1.0000` on byte-identical queries), the Gemini embedding path was async-under-a-sync-type and unreachable, the test suite broke on a default install, payload indexes were only created for new collections, doc links used Codespaces-only `file:///` URLs, and the HTML sanitizer used bypassable regexes. All code-side findings are fixed below.
+**Round 2** addressed the external review of `b488c67`, which found that the benchmark measured exact-text lookup (SHA-256 stub scores `1.0000` on byte-identical queries), the Gemini embedding path was async-under-a-sync-type and unreachable, the test suite broke on a default install, payload indexes were only created for new collections, doc links used Codespaces-only `file:///` URLs, and the HTML sanitizer used bypassable regexes. All code-side findings were fixed.
+
+**Round 3** merged `origin/main` (commit `25224fe` — S2.3 follow-up, S2.5 agent, S2.2 embedding/Qdrant) into the current branch, resolving conflicts by keeping the current architecture. Added a 10-answerable + 3-negative benchmark dataset variant, updated the runner to accept a custom dataset path, and verified threshold calibration at 0.65 (95% hit, 100% refusal).
 
 ---
 
@@ -24,8 +26,24 @@ This document summarizes all edits made in response to the Sprint 2 code review.
 | `src/barq_ai_support/retrieval/retriever.py` | **Refactor** | Single canonical stub (re-export), dim-mismatch fail-fast, richer `RetrievedChunk` dataclass |
 | `src/barq_ai_support/agent/tools.py` | **Feature** | `search_knowledge_base` now calls real `retrieve()` with category filter |
 | `src/barq_ai_support/agent/executor.py` | **Robustness** | Guarded `langchain_openai` import — module loads without the optional dep |
-| `benchmark/run_benchmark.py` | **Feature (rewritten round 2)** | Incident-text queries, `--real`/`--top-k` flags, provenance record, stub warning |
-| `benchmark/RETRIEVAL_EVALUATION.md` | **Docs** | Relative links, methodology note marking pre-fix numbers as plumbing-only |
+| `benchmark/run_benchmark.py` | **Feature (rewritten round 2, extended round 3)** | Incident-text queries, `--real`/`--top-k` flags, provenance record, stub warning, custom dataset path |
+| `benchmark/RETRIEVAL_EVALUATION.md` | **Docs** | Relative links, methodology note marking pre-fix numbers as plumbing-only, threshold 0.65 justification |
+| `benchmark/benchmark_dataset.json` | **New** | 20 answerable + 10 negative incidents with KB mappings |
+| `benchmark/benchmark_dataset_10_mapped.json` | **New (round 3)** | 10 answerable + 3 negative controls for quick validation |
+| `benchmark/benchmark_results.json` | **Output** | Granular per-incident + aggregate metrics with provenance |
+| `tests/test_agent.py` | **Tests** | Combined live-LLM skip, 2 new fake-model executor tests (no network) |
+| `pyproject.toml` | **Config** | `langchain-openai` optional `[agent]` extra + added to `dev` group |
+| `src/barq_ai_support/ingestion/embed_and_store.py` | **Bug Fix + Refactor** | Fixed `metadata` NameError, replaced deprecated `recreate_collection`, idempotent payload indexes, `vector_size` param |
+| `src/barq_ai_support/ingestion/chunker.py` | **Security** | HTML sanitization via BeautifulSoup `decompose()` (replaced bypassable regexes) |
+| `src/barq_ai_support/embeddings.py` | **New File (rewritten round 2)** | Sync-first embeddings: sync Gemini via LiteLLM, explicit stub, model/dim helpers |
+| `src/barq_ai_support/retrieval/retriever.py` | **Refactor** | Single canonical stub (re-export), dim-mismatch fail-fast, richer `RetrievedChunk` dataclass |
+| `src/barq_ai_support/agent/tools.py` | **Feature** | `search_knowledge_base` now calls real `retrieve()` with category filter |
+| `src/barq_ai_support/agent/executor.py` | **Robustness** | Guarded `langchain_openai` import — module loads without the optional dep |
+| `benchmark/run_benchmark.py` | **Feature (rewritten round 2, extended round 3)** | Incident-text queries, `--real`/`--top-k` flags, provenance record, stub warning, custom dataset path |
+| `benchmark/RETRIEVAL_EVALUATION.md` | **Docs** | Relative links, methodology note marking pre-fix numbers as plumbing-only, threshold 0.65 justification |
+| `benchmark/benchmark_dataset.json` | **New** | 20 answerable + 10 negative incidents with KB mappings |
+| `benchmark/benchmark_dataset_10_mapped.json` | **New (round 3)** | 10 answerable + 3 negative controls for quick validation |
+| `benchmark/benchmark_results.json` | **Output** | Granular per-incident + aggregate metrics with provenance |
 | `tests/test_agent.py` | **Tests** | Combined live-LLM skip, 2 new fake-model executor tests (no network) |
 | `pyproject.toml` | **Config** | `langchain-openai` optional `[agent]` extra + added to `dev` group |
 

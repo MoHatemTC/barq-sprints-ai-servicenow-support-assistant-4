@@ -7,91 +7,91 @@
     "top_k": 5
   },
   "metrics": {
-    "total_incidents": 30,
-    "hit_rate": 0.55,
+    "total_incidents": 13,
+    "hit_rate": 0.7,
     "refusal_correctness": 1.0,
-    "answerable_passed": 11,
-    "answerable_total": 20,
-    "negative_passed": 10,
-    "negative_total": 10,
+    "answerable_passed": 7,
+    "answerable_total": 10,
+    "negative_passed": 3,
+    "negative_total": 3,
     "score_threshold_used": 0.75
   },
   "score_distribution": {
     "answerable": {
       "min": 0.5573715,
-      "max": 0.892974,
-      "avg": 0.7607116119999999
+      "max": 0.8641317,
+      "avg": 0.769806339
     },
     "negative": {
-      "min": 0.5260862,
-      "max": 0.6395525,
-      "avg": 0.589156305
+      "min": 0.5472332,
+      "max": 0.60603285,
+      "avg": 0.5832511833333333
     },
-    "separation_margin": -0.08218099999999995
+    "separation_margin": -0.04866134999999994
   },
   "threshold_sweep": [
     {
       "threshold": 0.5,
-      "hit_rate": 0.95,
-      "hit_count": "19/20",
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
       "refusal_correctness": 0.0,
-      "refusal_count": "0/10"
+      "refusal_count": "0/3"
     },
     {
       "threshold": 0.55,
-      "hit_rate": 0.95,
-      "hit_count": "19/20",
-      "refusal_correctness": 0.3,
-      "refusal_count": "3/10"
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
+      "refusal_correctness": 0.3333333333333333,
+      "refusal_count": "1/3"
     },
     {
       "threshold": 0.6,
-      "hit_rate": 0.95,
-      "hit_count": "19/20",
-      "refusal_correctness": 0.5,
-      "refusal_count": "5/10"
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
+      "refusal_correctness": 0.6666666666666666,
+      "refusal_count": "2/3"
     },
     {
       "threshold": 0.65,
-      "hit_rate": 0.95,
-      "hit_count": "19/20",
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
       "refusal_correctness": 1.0,
-      "refusal_count": "10/10"
+      "refusal_count": "3/3"
     },
     {
       "threshold": 0.7,
-      "hit_rate": 0.8,
-      "hit_count": "16/20",
+      "hit_rate": 0.9,
+      "hit_count": "9/10",
       "refusal_correctness": 1.0,
-      "refusal_count": "10/10"
+      "refusal_count": "3/3"
     },
     {
       "threshold": 0.75,
-      "hit_rate": 0.55,
-      "hit_count": "11/20",
+      "hit_rate": 0.7,
+      "hit_count": "7/10",
       "refusal_correctness": 1.0,
-      "refusal_count": "10/10"
+      "refusal_count": "3/3"
     },
     {
       "threshold": 0.8,
-      "hit_rate": 0.3,
-      "hit_count": "6/20",
+      "hit_rate": 0.4,
+      "hit_count": "4/10",
       "refusal_correctness": 1.0,
-      "refusal_count": "10/10"
+      "refusal_count": "3/3"
     },
     {
       "threshold": 0.85,
-      "hit_rate": 0.15,
-      "hit_count": "3/20",
+      "hit_rate": 0.2,
+      "hit_count": "2/10",
       "refusal_correctness": 1.0,
-      "refusal_count": "10/10"
+      "refusal_count": "3/3"
     },
     {
       "threshold": 0.9,
       "hit_rate": 0.0,
-      "hit_count": "0/20",
+      "hit_count": "0/10",
       "refusal_correctness": 1.0,
-      "refusal_count": "10/10"
+      "refusal_count": "3/3"
     }
   ],
   "answerable_details": [
@@ -324,236 +324,6 @@
       "filter_empty": false,
       "query_text": "Operating system update stuck in repeated install loop Windows cumulative security patch repeatedly fails with error code during reboot cycle.",
       "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-011",
-      "incident_number": "INC0010033",
-      "short_description": "Low disk space alert on workstation primary drive",
-      "status": "FAIL",
-      "best_score": 0.69909596,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010033"
-      ],
-      "retrieved": [
-        "KB0010033",
-        "KB0010033",
-        "KB0010033",
-        "KB0010033",
-        "KB0010033"
-      ],
-      "res_ok": false,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Low disk space alert on workstation primary drive C drive is down to 200MB free space causing apps to freeze and fail to save files.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-012",
-      "incident_number": "INC0010034",
-      "short_description": "Computer freezes or crashes with blue screen unexpectedly",
-      "status": "FAIL",
-      "best_score": 0.66967696,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010034"
-      ],
-      "retrieved": [
-        "KB0010034",
-        "KB0010034",
-        "KB0010034",
-        "KB0010034",
-        "KB0010084"
-      ],
-      "res_ok": false,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Computer freezes or crashes with blue screen unexpectedly Workstation restarts randomly multiple times per day during normal productivity tasks.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-013",
-      "incident_number": "INC0010035",
-      "short_description": "Software installer rolls back due to permission error",
-      "status": "PASS",
-      "best_score": 0.7896193,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010035"
-      ],
-      "retrieved": [
-        "KB0010035",
-        "KB0010035",
-        "KB0010089",
-        "KB0010035",
-        "KB0010035"
-      ],
-      "res_ok": true,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Software installer rolls back due to permission error Attempting to install licensed engineering CAD software fails and undoes installation.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-014",
-      "incident_number": "INC0010084",
-      "short_description": "Laptop sluggish and slow after recent fleet update",
-      "status": "PASS",
-      "best_score": 0.828053,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010084"
-      ],
-      "retrieved": [
-        "KB0010084",
-        "KB0010084",
-        "KB0010084",
-        "KB0010084",
-        "KB0010084"
-      ],
-      "res_ok": true,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Laptop sluggish and slow after recent fleet update Following yesterday's fleet-wide maintenance patch, laptop boot and response times are severely degraded.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-015",
-      "incident_number": "INC0010094",
-      "short_description": "MFA prompts failing after user upgraded smartphone",
-      "status": "PASS",
-      "best_score": 0.892974,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010094"
-      ],
-      "retrieved": [
-        "KB0010094",
-        "KB0010094",
-        "KB0010094",
-        "KB0010094",
-        "KB0010085"
-      ],
-      "res_ok": true,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "MFA prompts failing after user upgraded smartphone User switched to a new phone and cannot receive Authenticator push notifications or OTP codes.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-016",
-      "incident_number": "INC0010110",
-      "short_description": "No internet on my laptop, cant open any website",
-      "status": "FAIL",
-      "best_score": 0.7162525,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010010"
-      ],
-      "retrieved": [
-        "KB0010010",
-        "KB0010010",
-        "KB0010010",
-        "KB0010010",
-        "KB0010082"
-      ],
-      "res_ok": false,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "No internet on my laptop, cant open any website Wifi shows connected but nothing loads. Tried unpluging the cable and restarting. Stil cant surf the web or reach cloud apps.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-017",
-      "incident_number": "INC0010115",
-      "short_description": "Email app freezes on launch, mailbox wont load",
-      "status": "FAIL",
-      "best_score": 0.74814767,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010015"
-      ],
-      "retrieved": [
-        "KB0010015",
-        "KB0010015",
-        "KB0010015",
-        "KB0010096",
-        "KB0010096"
-      ],
-      "res_ok": false,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Email app freezes on launch, mailbox wont load Every morning the mail program locks up when opening my inbox. Have to kill it from task manager. Started after the weekend.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-018",
-      "incident_number": "INC0010126",
-      "short_description": "Weird message from CEO asking for gift cards",
-      "status": "FAIL",
-      "best_score": 0.6837356,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010026"
-      ],
-      "retrieved": [
-        "KB0010026",
-        "KB0010026",
-        "KB0010026",
-        "KB0010026",
-        "KB0010026"
-      ],
-      "res_ok": false,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Weird message from CEO asking for gift cards Got a mail that looks like its from the boss asking me to buy itunes cards and send the codes. Seems fishy, didnt reply.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-019",
-      "incident_number": "INC0010133",
-      "short_description": "Disk full, cant save anything",
-      "status": "FAIL",
-      "best_score": 0.71988666,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010033"
-      ],
-      "retrieved": [
-        "KB0010033",
-        "KB0010033",
-        "KB0010033",
-        "KB0010033",
-        "KB0010084"
-      ],
-      "res_ok": false,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Disk full, cant save anything Laptop says drive is full. Word wont save my document and updates keep failing.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-020",
-      "incident_number": "INC0010194",
-      "short_description": "Authenticator app stopped working on new mobile",
-      "status": "PASS",
-      "best_score": 0.7687272,
-      "retrieved_count": 5,
-      "expected": [
-        "KB0010094"
-      ],
-      "retrieved": [
-        "KB0010094",
-        "KB0010094",
-        "KB0010094",
-        "KB0010094",
-        "KB0010081"
-      ],
-      "res_ok": true,
-      "ranked_hit": true,
-      "filter_empty": false,
-      "query_text": "Authenticator app stopped working on new mobile Got a new smartphone and now the login approval popups never arrive. Locked out of several work apps.",
-      "query_source": "incident_text"
     }
   ],
   "negative_details": [
@@ -597,104 +367,6 @@
       "res_ok": false,
       "filter_empty": false,
       "query_text": "Company gym locker combination lock jammed on 2nd floor Gym locker #42 will not open with current combination code.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-NEG-004",
-      "incident_number": "INC0099904",
-      "short_description": "Visitor weekend parking spot decal and garage pass",
-      "status": "PASS",
-      "best_score": 0.55673575,
-      "retrieved_count": 5,
-      "expected": "CLEAN REFUSAL",
-      "retrieved": "REFUSED",
-      "res_ok": false,
-      "filter_empty": false,
-      "query_text": "Visitor weekend parking spot decal and garage pass Requesting visitor vehicle entry decal for weekend guest.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-NEG-005",
-      "incident_number": "INC0099905",
-      "short_description": "Ergonomic standing desk manual hand crank replacement",
-      "status": "PASS",
-      "best_score": 0.5358945,
-      "retrieved_count": 5,
-      "expected": "CLEAN REFUSAL",
-      "retrieved": "REFUSED",
-      "res_ok": false,
-      "filter_empty": false,
-      "query_text": "Ergonomic standing desk manual hand crank replacement Plastic manual height adjustment handle broke on office standing desk.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-NEAR-001",
-      "incident_number": "INC0099911",
-      "short_description": "Desk phone has no dial tone in meeting room",
-      "status": "PASS",
-      "best_score": 0.6395525,
-      "retrieved_count": 5,
-      "expected": "CLEAN REFUSAL",
-      "retrieved": "REFUSED",
-      "res_ok": false,
-      "filter_empty": false,
-      "query_text": "Desk phone has no dial tone in meeting room Conference room IP phone shows no signal and cannot make or receive calls since this morning.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-NEAR-002",
-      "incident_number": "INC0099912",
-      "short_description": "Request new Adobe license for design team hire",
-      "status": "PASS",
-      "best_score": 0.6257111,
-      "retrieved_count": 5,
-      "expected": "CLEAN REFUSAL",
-      "retrieved": "REFUSED",
-      "res_ok": false,
-      "filter_empty": false,
-      "query_text": "Request new Adobe license for design team hire New graphic designer starts Monday and needs a licensed copy of the creative suite installed.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-NEAR-003",
-      "incident_number": "INC0099913",
-      "short_description": "Connect personal smartwatch to corporate wifi",
-      "status": "PASS",
-      "best_score": 0.5260862,
-      "retrieved_count": 5,
-      "expected": "CLEAN REFUSAL",
-      "retrieved": "REFUSED",
-      "res_ok": false,
-      "filter_empty": false,
-      "query_text": "Connect personal smartwatch to corporate wifi Employee wants to pair a personal wearable with the office wireless network for notifications.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-NEAR-004",
-      "incident_number": "INC0099914",
-      "short_description": "How long are deleted emails kept before purge",
-      "status": "PASS",
-      "best_score": 0.63019335,
-      "retrieved_count": 5,
-      "expected": "CLEAN REFUSAL",
-      "retrieved": "REFUSED",
-      "res_ok": false,
-      "filter_empty": false,
-      "query_text": "How long are deleted emails kept before purge Manager asks about the retention period for items in the deleted folder for a legal hold request.",
-      "query_source": "incident_text"
-    },
-    {
-      "id": "INC-BENCH-NEAR-005",
-      "incident_number": "INC0099915",
-      "short_description": "Office entry badge not opening ground floor door",
-      "status": "PASS",
-      "best_score": 0.6276361,
-      "retrieved_count": 5,
-      "expected": "CLEAN REFUSAL",
-      "retrieved": "REFUSED",
-      "res_ok": false,
-      "filter_empty": false,
-      "query_text": "Office entry badge not opening ground floor door Employee access card stopped working on the main entrance turnstile after the weekend.",
       "query_source": "incident_text"
     }
   ]
