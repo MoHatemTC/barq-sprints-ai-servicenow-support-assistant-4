@@ -79,62 +79,62 @@ def search_knowledge_base(query: str) -> str:
 
 # ── Tool 2: Incident Detail Lookup ────────────────────────────────────────────
 
-@tool
-def get_incident_details(incident_id: str) -> str:
-    """
-    Retrieve structured fields for a ServiceNow incident by its INC number.
+# @tool
+# def get_incident_details(incident_id: str) -> str:
+#     """
+#     Retrieve structured fields for a ServiceNow incident by its INC number.
 
-    In production this would call the ServiceNow REST API.  Currently returns
-    a mock incident record for testing.
+#     In production this would call the ServiceNow REST API.  Currently returns
+#     a mock incident record for testing.
 
-    Args:
-        incident_id: ServiceNow incident number, e.g. 'INC0012345'.
+#     Args:
+#         incident_id: ServiceNow incident number, e.g. 'INC0012345'.
 
-    Returns:
-        Formatted string of incident fields (caller, category, description,
-        priority, state).
-    """
-    # ── MOCK — replace with real ServiceNow API call in production ────────────
-    mock_incidents = {
-        "INC0001": {
-            "number": "INC0001",
-            "caller": "Ahmed Hassan",
-            "category": "Network",
-            "subcategory": "VPN",
-            "priority": "2 - High",
-            "state": "In Progress",
-            "short_description": "Cannot connect to corporate VPN from home",
-            "description": (
-                "User reports that the Cisco AnyConnect client shows error "
-                "'Unable to establish VPN' when attempting to connect from "
-                "their home network. Issue started after Windows update on "
-                "2026-09-15. Other users on the same team are unaffected."
-            ),
-        },
-        "INC0002": {
-            "number": "INC0002",
-            "caller": "Sara Mahmoud",
-            "category": "Access Management",
-            "subcategory": "Password",
-            "priority": "3 - Moderate",
-            "state": "New",
-            "short_description": "Account locked after multiple failed login attempts",
-            "description": (
-                "User is unable to log into their Windows workstation. "
-                "Active Directory shows the account is locked. User confirmed "
-                "they did not share credentials with anyone."
-            ),
-        },
-    }
+#     Returns:
+#         Formatted string of incident fields (caller, category, description,
+#         priority, state).
+#     """
+#     # ── MOCK — replace with real ServiceNow API call in production ────────────
+#     mock_incidents = {
+#         "INC0001": {
+#             "number": "INC0001",
+#             "caller": "Ahmed Hassan",
+#             "category": "Network",
+#             "subcategory": "VPN",
+#             "priority": "2 - High",
+#             "state": "In Progress",
+#             "short_description": "Cannot connect to corporate VPN from home",
+#             "description": (
+#                 "User reports that the Cisco AnyConnect client shows error "
+#                 "'Unable to establish VPN' when attempting to connect from "
+#                 "their home network. Issue started after Windows update on "
+#                 "2026-09-15. Other users on the same team are unaffected."
+#             ),
+#         },
+#         "INC0002": {
+#             "number": "INC0002",
+#             "caller": "Sara Mahmoud",
+#             "category": "Access Management",
+#             "subcategory": "Password",
+#             "priority": "3 - Moderate",
+#             "state": "New",
+#             "short_description": "Account locked after multiple failed login attempts",
+#             "description": (
+#                 "User is unable to log into their Windows workstation. "
+#                 "Active Directory shows the account is locked. User confirmed "
+#                 "they did not share credentials with anyone."
+#             ),
+#         },
+#     }
 
-    record = mock_incidents.get(incident_id.upper(), None)
-    if record is None:
-        return f"NOT_FOUND: Incident {incident_id} was not found in the system."
+#     record = mock_incidents.get(incident_id.upper(), None)
+#     if record is None:
+#         return f"NOT_FOUND: Incident {incident_id} was not found in the system."
 
-    lines = [f"{k}: {v}" for k, v in record.items()]
-    return "\n".join(lines)
+#     lines = [f"{k}: {v}" for k, v in record.items()]
+#     return "\n".join(lines)
 
 
 # ── Exported tool list ─────────────────────────────────────────────────────────
 
-TOOLS = [search_knowledge_base, get_incident_details]
+TOOLS = [search_knowledge_base]
