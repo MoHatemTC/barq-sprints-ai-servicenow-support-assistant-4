@@ -1,0 +1,31 @@
+
+query: who receives an escalation rejected twice
+
+--- RETRIEVED (dense, Qdrant order) ---
+#1 score=0.738 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=14 chunk=1
+   A rejected escalation comes back once, and once only: A resolver group may return an escalation with a written reason and a named alternative group. The analyst
+   A rejected escalation comes back once, and once only: routes it to that group. If the second group also rejects it, the incident goes to the service owner listed in
+   A rejected escalation comes back once, and once only: Section 5 — no
+
+#2 score=0.659 source_type=pdf type=table file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=48 chunk=0
+   | Escalation | When to stop and who to send it to |
+   |---|---|
+   | Evidence | At least two incident numbers where this pattern occurred |
+   
+   Rows as records:
+   Escalation: Evidence; When to stop and who to send it to: At least two incident numbers where this pattern occurred
+
+#3 score=0.649 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=13 chunk=0
+   4. Escalation 4.1 When to escalate Escalate on the clock, not on frustration. An incident is escalated when the analyst has exhausted the documented 
+   knowledge for its category and the next response target is inside the next hour — whichever comes first. Escalating earlier 
+   is not a failure; holding a ticket past its target because you nearly have it is. 4.2 The escalation matrix Grouped by 
+
+#4 score=0.635 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=28 chunk=0
+   7.5 INC0010052 — escalated without being touched
+
+#5 score=0.630 source_type=pdf type=table file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=39 chunk=1
+   | OUTCOME | WHAT YOU SEE ON THE FORM | WHAT TO DO |
+   |---|---|---|
+   | Suggested | A numbered procedure with a cited article. Confidence between 0 and 1. | Read it against the reported symptom before applying it. If it does not match, discard it and say so in the work note — that note is what improves the corpus. |
+   | Escalated — no evidence | No draft. A work note naming what was searched an
+

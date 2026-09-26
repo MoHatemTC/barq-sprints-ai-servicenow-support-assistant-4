@@ -1,0 +1,33 @@
+
+query: Order service returning 500s under load
+
+--- RETRIEVED (dense, Qdrant order) ---
+#1 score=0.626 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=24 chunk=0
+   Resolution. 1. Do not restart the application server. A restart drops in-flight orders and caused a 40-minute outage on 14 March 
+   2026.
+
+#2 score=0.606 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=31 chunk=1
+   and applied it. Step 1 
+   of that article, as it stood, instructed a restart of the 
+   application server. Restoration. The service itself was never unavailable 
+   after 13:04. The forty minutes recorded above is the 
+   window in which orders were being accepted and lost, 
+   which is the number that matters commercially and 
+   the one this report uses. The consequence. The restart cleared th
+
+#3 score=0.606 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=23 chunk=1
+   fifteen minutes before closing. Escalation. Drops affecting several users in the same area are an infrastructure fault. Escalate to Network with the 
+   location and the approximate times. 6.13 KB0010 — Order service connection pool exhaustion This article exists in two revisions and both are reproduced, because the retired one is still quoted from memory and its 
+   procedure is now harmful. Vers
+
+#4 score=0.604 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=31 chunk=0
+   9. Major incident report MIR-2026-03 Order processing unavailable, 14 March 2026, 40 minutes. Published 27 March 2026. This report is reproduced in full 
+   because three of its actions changed procedures that appear elsewhere in this manual. 9.1 Summary 9.2 What happened The discovery. Fulfilment noticed missing orders at 
+   13:31. The bridge was reconvened, the gap was 
+   quantified at 47 unre
+
+#5 score=0.603 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=32 chunk=0
+   9.4 The bridge whiteboard The photograph below was taken in the Dubai operations room at 13:40, while the recovery was being scoped. It is 
+   included because the two boxed items on it became actions 1 and 4 below, and because it records the reasoning as it was 
+   at the time rather than as it was reconstructed afterwards. The operations room whiteboard at 13:40 on 14 March. The boxed rule at th
+

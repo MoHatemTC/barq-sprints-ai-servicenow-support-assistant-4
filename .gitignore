@@ -11,3 +11,32 @@ wheels/
 
 # Environment variables / secrets
 .env
+
+# Log and output files
+*.log
+*.jsonl
+*.jsonl.tmp
+out/
+benchmark/benchmark_results.json
+
+# Test fixtures and generated PDFs
+challenge/barq_challenge.pdf
+challenge-heldout/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Evaluation artifacts
+cli/dry-run.log
+cli/chunks.dry-run.jsonl
+out/ingest-run*.log
+out/qdrant-payloads.log
+out/search-*.log
+out/eval/

@@ -1,0 +1,14 @@
+
+query: steps in the escalation flow when not resolved in an hour
+
+--- RETRIEVED (dense, Qdrant order) ---
+#1 score=0.628 source_type=pdf type=diagram file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=39 chunk=4
+   Diagram summary:
+   (1) 1. Gate 1: Evidence, 2. Gate 2: Risk, 3. Gate 3: Confidence. (2) If no chunk clears the score threshold -> Refuse and hand off, else -> Gate 2. If risk is high or confidence sits below the floor -> Escalate to a human, else -> Gate 3 / Suggest. If all three gates pass -> Suggest. (3) Gate 1 (Evidence) -> Gate 2 (Risk), Gate 2 (Risk) -> Gate 3 (Confidence). (4) The diagram s
+
+#2 score=0.558 source_type=pdf type=diagram file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=40 chunk=2
+   Diagram summary:
+   (1) Steps: 1. Load, 2. Chunk, 3. Embed, 4. Index, 5. Query, 6. Filter, 7. Search, 8. Rerank. (2) Decisions: None. (3) Connectivity: Load -> Chunk, Chunk -> Embed, Embed -> Index, Query -> Filter, Filter -> Search, Search -> Rerank. (4) Purpose: Illustrate the build time and query time phases of a retrieval pipeline for document indexing and incident querying.
+   
+   Visible lab
+

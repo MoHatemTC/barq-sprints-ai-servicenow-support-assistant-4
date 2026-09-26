@@ -1,0 +1,101 @@
+INFO doc_id=pdf-barq-it-service-desk-manual-ed5-1 sha256=c535243f0054 endpoint=management.sprints.ai
+INFO [STEP 1/7] opened BARQ_IT_Service_Desk_Manual_Ed5.1.pdf: 52 pages, doc_id=pdf-barq-it-service-desk-manual-ed5-1
+INFO HTTP Request: POST https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333/collections/manual_test/points/scroll "HTTP/1.1 200 OK"
+INFO vision cache: 23 entries for doc_id=pdf-barq-it-service-desk-manual-ed5-1
+INFO HTTP Request: GET https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+INFO [STEP 2/7] pages normalised: 52 pages upright (rotation reset)
+INFO [STEP 3/7] pass 1: scanning text blocks + table rects (no LLM, no OCR) ...
+Consider using the pymupdf_layout package for a greatly improved page layout analysis.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+INFO [STEP 4/7] pass 2: extracting text -> tables -> images/vision per page ...
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO HTTP Request: POST https://management.sprints.ai/litellm/chat/completions "HTTP/1.1 200 OK"
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO p9 lattice grid kept (score 0.00)
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO p17 lattice grid kept (score 0.00)
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO p30 lattice grid kept (score 0.00)
+INFO p32 lattice grid kept (score 0.00)
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO p33 lattice grid kept (score 0.00)
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO p39 lattice grid kept (score 0.00)
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO p44 lattice grid kept (score 0.00)
+/workspaces/barq-sprints-ai-servicenow-support-assistant-4/cli/ingest_pdf.py:237: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  thr = sum(small.getdata()) / (small.width * small.height) * 0.9
+INFO p52 lattice grid kept (score 0.00)
+INFO extracted 206 chunks from 52 pages
+INFO [STEP 5/7] extraction done: 206 chunks (85 text / 100 table / 19 image_ocr)
+INFO [STEP 6/7] embed + upsert into collection 'manual_test' (dry_run=False) ...
+INFO HTTP Request: POST https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333/collections/manual_test/points "HTTP/1.1 200 OK"
+INFO HTTP Request: POST https://management.sprints.ai/litellm/embeddings "HTTP/1.1 200 OK"
+INFO HTTP Request: GET https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333/collections/manual_test "HTTP/1.1 200 OK"
+INFO HTTP Request: PUT https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333/collections/manual_test/index?wait=true "HTTP/1.1 200 OK"
+INFO HTTP Request: PUT https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333/collections/manual_test/index?wait=true "HTTP/1.1 200 OK"
+INFO HTTP Request: PUT https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333/collections/manual_test/index?wait=true "HTTP/1.1 200 OK"
+INFO HTTP Request: POST https://95fa2a5d-8943-473b-9c69-1c47b4393929.us-east-1-1.aws.cloud.qdrant.io:6333/collections/manual_test/points/scroll "HTTP/1.1 200 OK"
+INFO [STEP 7/7] done: upserted=0 skipped=206 pruned=0
+INFO SUCCESS pdf-barq-it-service-desk-manual-ed5-1: 206 chunks (upserted=0 skipped=206 pruned=0 vision_calls=1) in 123.7s
+{
+  "file": "BARQ_IT_Service_Desk_Manual_Ed5.1.pdf",
+  "doc_id": "pdf-barq-it-service-desk-manual-ed5-1",
+  "sha256": "c535243f00547211c2a7076bc5dc91c80d19a4960b94dc7932bbca546db7d9d4",
+  "pages": 52,
+  "chunks": 206,
+  "chunks_by_type": {
+    "text": 85,
+    "image_ocr": 19,
+    "table": 100,
+    "diagram": 2
+  },
+  "pages_rotated": 0,
+  "images_rotated": 0,
+  "tables": 72,
+  "tables_via_vision": 3,
+  "tables_degraded": 0,
+  "image_ocr_regions": 15,
+  "diagrams_summarised": 2,
+  "arabic_chunks": 1,
+  "pages_empty": 0,
+  "vector_pages_unsummarised": 0,
+  "vector_dim": 768,
+  "collection": "manual_test",
+  "vision_calls": 1,
+  "vision_cache_hits": 20,
+  "vision_cache_src_hits": 0,
+  "vision_failed": 0,
+  "upserted": 0,
+  "unchanged_skipped": 206,
+  "pruned_stale": 0,
+  "dry_run": false,
+  "seconds": 123.7
+}
