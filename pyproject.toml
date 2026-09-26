@@ -12,7 +12,9 @@ dependencies = [
     "fastapi>=0.141.1",
     "google-genai>=2.24.0",
     "httpx>=0.28.1",
+    "langchain-classic>=1.0.8",
     "langchain-core>=1.6.3",
+    "langchain-openai>=0.1.0",
     "pydantic-settings>=2.15.0",
     "python-dotenv>=1.2.3",
     "qdrant-client>=1.19.1",
@@ -20,8 +22,10 @@ dependencies = [
     "python-dotenv>=1.1.0",
     "beautifulsoup4>=4.14.0",
     "google-genai>=1.0.0",
+    "celery>=5.4.0",
+    "redis>=5.0.0",
+    "langfuse>=2.60.0",
 ]
-
 [project.scripts]
 barq-ai-support = "barq_ai_support:main"
 
@@ -32,4 +36,8 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
+    "pytest-asyncio>=0.24.0",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

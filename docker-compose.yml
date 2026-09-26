@@ -1,0 +1,62 @@
+# S3.6 — Integrated stack: API service, Redis, Celery worker, Qdrant.
+#
+# QDRANT_URL note: a local `qdrant` service is included below so the full
+# stack is runnable from a clean checkout with no external dependency.
+# If QDRANT_URL is set in your .env to the team's managed Qdrant Cloud
+# instance (from S2.2), that value wins automatically — docker compose
+# reads .env for variable substitution, so the api/worker containers will
+# use the cloud collection instead of the empty local one. Unset it (or
+# point it at http://qdrant:6333) to use the local container.
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+  api:
+    build: .
+    env_file: .env
+    environment:
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+      PYTHONUNBUFFERED: "1"
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    command: ["uv", "run", "uvicorn", "barq_ai_support.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  worker:
+    build: .
+    env_file: .env
+    environment:
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+      PYTHONUNBUFFERED: "1"
+    depends_on:
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    command: ["uv", "run", "celery", "-A", "barq_ai_support.celery_app", "worker", "--loglevel=info"]
+
+volumes:
+  qdrant_storage:
