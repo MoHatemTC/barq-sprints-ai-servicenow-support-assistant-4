@@ -1,0 +1,116 @@
+{
+  "id": "0256275b-7b25-555b-a265-d1d2fddb9e6f",
+  "payload": {
+    "source_type": "pdf",
+    "doc_id": "pdf-barq-it-service-desk-manual-ed5-1",
+    "source_filename": "BARQ_IT_Service_Desk_Manual_Ed5.1.pdf",
+    "page_number": 3,
+    "total_pages": 52,
+    "chunk_index": 0,
+    "content_type": "image_ocr",
+    "title": "BARQ_IT_Service_Desk_Manual_Ed5.1.pdf - page 3",
+    "number": "",
+    "article_number": "",
+    "short_description": "",
+    "category": "PDF",
+    "heading_path": [],
+    "languages": [
+      "en"
+    ],
+    "file_sha256": "c535243f00547211c2a7076bc5dc91c80d19a4960b94dc7932bbca546db7d9d4",
+    "embedding_model": "gemini/gemini-embedding-001",
+    "content_hash": "3024dbf3d6e069358b0c675d0e53dc3aa6597b5a3b1afe32c39cd61193dc108d",
+    "ocr_confidence": 56.6,
+    "rotation_applied": 0,
+    "deskew_angle": 0.0,
+    "origin": "full-page scan",
+    "image_hash": "25e46d5bf2185ef5600a3919126a3a2c9b983faa2e550ce4184ca60e89ec0911",
+    "vision_result": {
+      "kind": "text",
+      "transcription": "```json\n{\n \"kind\": \"text\",\n \"transcription\": \"BARQ Systems · IT Service Operations Manual INTERNAL DOCUMENT\\n\\n6.10 KB0007 — Laptop performance degrades after a system update....................................................21\\",
+      "summary": ""
+    },
+    "alt_via_disagreement": 0.391,
+    "via": "vision",
+    "ingested_at": "2026-09-25T11:16:48.803580+00:00",
+    "text": "```json\n{\n \"kind\": \"text\",\n \"transcription\": \"BARQ Systems · IT Service Operations Manual INTERNAL DOCUMENT\\n\\n6.10 KB0007 — Laptop performance degrades after a system update....................................................21\\"
+  }
+}
+{
+  "id": "03f34295-b807-5420-9ebc-cfd48282e444",
+  "payload": {
+    "source_type": "pdf",
+    "doc_id": "pdf-barq-it-service-desk-manual-ed5-1",
+    "source_filename": "BARQ_IT_Service_Desk_Manual_Ed5.1.pdf",
+    "page_number": 48,
+    "total_pages": 52,
+    "chunk_index": 0,
+    "content_type": "table",
+    "title": "BARQ_IT_Service_Desk_Manual_Ed5.1.pdf - page 48",
+    "number": "",
+    "article_number": "",
+    "short_description": "",
+    "category": "PDF",
+    "heading_path": [],
+    "languages": [
+      "en"
+    ],
+    "file_sha256": "c535243f00547211c2a7076bc5dc91c80d19a4960b94dc7932bbca546db7d9d4",
+    "embedding_model": "gemini/gemini-embedding-001",
+    "content_hash": "99fd4bf00cdd5bf46b81299d49c398f8d7cc52effd6fa73c450175a05b151e4d",
+    "quality": {
+      "compacted": true,
+      "nested_merged": false,
+      "rows": 1,
+      "cols": 2,
+      "empty_ratio": 0.0,
+      "header_rows": 1,
+      "score": 0.0,
+      "checks": {
+        "coverage": 0.7,
+        "rowlen_bad_ratio": 0.0,
+        "dup_row_ratio": 0.0,
+        "placeholder_header_ratio": 0.0,
+        "fragment_cell_ratio": 0.0,
+        "header_dup_row_ratio": 0.0
+      },
+      "failed": false,
+      "grid_source": "pymupdf"
+    },
+    "table_id": "104ffefc-27cf-5e17-88c5-38b14f9fb300",
+    "original_rotate": 0,
+    "content_rotation": 0,
+    "rotation_applied": 0,
+    "ingested_at": "2026-09-25T11:16:48.803580+00:00",
+    "text": "| Escalation | When to stop and who to send it to |\n|---|---|\n| Evidence | At least two incident numbers where this pattern occurred |\n\nRows as records:\nEscalation: Evidence; When to stop and who to send it to: At least two incident numbers where this pattern occurred"
+  }
+}
+{
+  "id": "066afdc2-9fbb-597a-8549-767d0f2e1d8d",
+  "payload": {
+    "source_type": "pdf",
+    "doc_id": "pdf-barq-it-service-desk-manual-ed5-1",
+    "source_filename": "BARQ_IT_Service_Desk_Manual_Ed5.1.pdf",
+    "page_number": 37,
+    "total_pages": 52,
+    "chunk_index": 0,
+    "content_type": "text",
+    "title": "BARQ_IT_Service_Desk_Manual_Ed5.1.pdf - page 37",
+    "number": "",
+    "article_number": "",
+    "short_description": "",
+    "category": "PDF",
+    "heading_path": [],
+    "languages": [
+      "en"
+    ],
+    "file_sha256": "c535243f00547211c2a7076bc5dc91c80d19a4960b94dc7932bbca546db7d9d4",
+    "embedding_model": "gemini/gemini-embedding-001",
+    "content_hash": "0f3446d1107441ebdd0196e06b0a5c94bc2e21c3560b5c89b0f5ab335e47036f",
+    "original_rotate": 0,
+    "content_rotation": 0,
+    "rotation_applied": 0,
+    "ingested_at": "2026-09-25T11:16:48.803580+00:00",
+    "text": "11.2 How a suggestion is produced The pilot end to end. The teal path is the write-back onto the incident form; a person always stands between the draft and the requester."
+  }
+}

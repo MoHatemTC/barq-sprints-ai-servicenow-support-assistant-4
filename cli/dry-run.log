@@ -1,0 +1,30 @@
+INFO doc_id=pdf-barq-challenge sha256=1f5a7ea87908 endpoint=-
+INFO p3 rotated: /Rotate=90 content=0 deg -> normalised upright
+INFO p4 rotated: /Rotate=0 content=270 deg -> normalised upright
+WARNING p6 looks like a vector diagram; set VISION_MODEL to summarise the flow
+INFO extracted 12 chunks from 7 pages
+
+=== ingestion summary ===
+file                   barq_challenge.pdf
+doc_id                 pdf-barq-challenge
+sha256                 1f5a7ea87908292550924f836e71990c76213a39430e6b5e4fe9a8d09ca2eace
+pages                  7
+chunks                 12
+chunks_by_type         {'text': 6, 'table': 2, 'image_ocr': 4}
+pages_rotated          2
+images_rotated         1
+tables                 2
+tables_via_vision      0
+tables_degraded        0
+image_ocr_regions      4
+diagrams_summarised    0
+arabic_chunks          2
+pages_empty            0
+vector_pages_unsummarised 1
+vector_dim             None
+collection             None
+upserted               0
+unchanged_skipped      0
+pruned_stale           0
+dry_run                True
+seconds                5.4

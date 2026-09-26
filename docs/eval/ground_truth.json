@@ -1,0 +1,589 @@
+{
+ "normalisation": "NFKC, lowercase, strip bidi marks (LRM/RLM/LRE/RLE/PDF/LRI/RLI/FSI/PDI, isolates), collapse whitespace runs to one space. Table score = fraction of expected 'Header: value' pairs with BOTH parts present in tool output. OCR score = char error rate (Levenshtein / len reference) on the same normalisation.",
+ "ocr": {
+  "challenge_p2": [
+   "Escalation and acceptance card - issue 4",
+   "بطاقة التصعيد والقبول - الإصدار الرابع",
+   "إذا لم تتم معالجة الحادث خلال ساعة يتم تصعيده إلى مجموعة الحل.",
+   "إعادة تعيين المصادقة متعددة العوامل تتطلب موافقة (RITM0010877).",
+   "رفض التصعيد مرتين يعني رفعه إلى مالك الخدمة، وليس إلى مكتب الخدمة.",
+   "Two rejections go to the service owner: KB0010 v2, CHG0030455."
+  ],
+  "challenge_p7": [
+   "بطاقة الاتصال الخارجي",
+   "للحوادث من الفئة الأولى يتم استدعاء مالك الخدمة فورا وفتح جسر الطوارئ.",
+   "P1: bridge opens immediately, service owner paged."
+  ]
+ },
+ "tables": [
+  {
+   "id": "ch-p1-sla",
+   "source": "challenge p1 (colspan header, rowspan col 0, nested table in cell)",
+   "headers": [
+    "Priority",
+    "Targets > Response",
+    "Targets > Resolution",
+    "Escalation > After",
+    "Escalation > Route"
+   ],
+   "records": [
+    "Priority: P1",
+    "Targets > Response: 15 minutes",
+    "Targets > Resolution: 4 hours",
+    "Escalation > After: 15 min",
+    "Escalation > Route: Bridge + service owner",
+    "Priority: P2",
+    "Targets > Response: 30 minutes",
+    "Targets > Resolution: 8 hours",
+    "Escalation > After: 1 hour",
+    "Escalation > Route: Resolver group",
+    "Priority: Access",
+    "Targets > Response: 4 working hours",
+    "Targets > Resolution: 3 working days",
+    "Escalation > After: MFA reset:",
+    "Escalation > Route: Step / Owner; Notify / IAM lead; Approve / Change mgr",
+    "Targets > Response: P4: 1 working day",
+    "Targets > Resolution: 5 working days",
+    "Escalation > After: 3 days",
+    "Escalation > Route: Convert to request"
+   ]
+  },
+  {
+   "id": "ch-p3-wifi",
+   "source": "challenge p3 (plain ruled table, /Rotate 90 page)",
+   "headers": [
+    "Floor",
+    "AP",
+    "Channel",
+    "Roaming drops / day"
+   ],
+   "records": [
+    "Floor: 3",
+    "AP: AP-3A",
+    "Channel: 36",
+    "Roaming drops / day: 12",
+    "AP: AP-3B",
+    "Channel: 44",
+    "Roaming drops / day: 19",
+    "Floor: 4",
+    "AP: AP-4A",
+    "Channel: 149",
+    "Roaming drops / day: 23",
+    "AP: AP-4B",
+    "Channel: 157",
+    "Roaming drops / day: 8"
+   ]
+  },
+  {
+   "id": "m-p10-lifecycle",
+   "source": "manual p10 (ruled table)",
+   "headers": [
+    "STATE",
+    "VALUE",
+    "MEANS",
+    "CLOCK",
+    "WHO MAY SET IT"
+   ],
+   "records": [
+    "STATE: New",
+    "VALUE: 1",
+    "MEANS: Created, not yet picked up.",
+    "CLOCK: Running",
+    "WHO MAY SET IT: Anyone. Set automatically on creation.",
+    "STATE: In Progress",
+    "VALUE: 2",
+    "MEANS: An analyst or resolver group is working it.",
+    "STATE: On Hold",
+    "VALUE: 3",
+    "MEANS: Waiting on the requester, a supplier or a scheduled window.",
+    "CLOCK: Paused",
+    "WHO MAY SET IT: The assignee, with a reason code. See 3.5.",
+    "STATE: Resolved",
+    "VALUE: 6",
+    "MEANS: A fix has been applied and the requester has been told.",
+    "CLOCK: Stopped",
+    "WHO MAY SET IT: The assignee.",
+    "STATE: Closed",
+    "VALUE: 7",
+    "MEANS: Resolved and either confirmed or auto-closed after five working days.",
+    "CLOCK: Stopped",
+    "WHO MAY SET IT: Automatic, or the requester.",
+    "STATE: Cancelled",
+    "VALUE: 8",
+    "MEANS: Raised in error, duplicate, or not an incident.",
+    "WHO MAY SET IT: Team lead only."
+   ]
+  },
+  {
+   "id": "m-p11-priority",
+   "source": "manual p11 (merged corner header, colour-filled cells)",
+   "headers": [
+    "1 – HIGH",
+    "2 – MEDIUM",
+    "3 – LOW"
+   ],
+   "records": [
+    "row: Impact 1 – Enterprise",
+    "1 – HIGH: P1",
+    "2 – MEDIUM: P1",
+    "3 – LOW: P2",
+    "note: Whole service, or a site",
+    "row: Impact 2 – Department",
+    "1 – HIGH: P1",
+    "2 – MEDIUM: P2",
+    "3 – LOW: P3",
+    "note: A team or a floor",
+    "row: Impact 3 – Individual",
+    "1 – HIGH: P2",
+    "2 – MEDIUM: P3",
+    "3 – LOW: P4",
+    "note: One person"
+   ]
+  },
+  {
+   "id": "m-p11-sla",
+   "source": "manual p11 (ruled table)",
+   "headers": [
+    "PRIORITY",
+    "RESPONSE",
+    "RESOLUTION",
+    "UPDATE CADENCE",
+    "CLOCK BASIS"
+   ],
+   "records": [
+    "PRIORITY: P1",
+    "RESPONSE: 15 minutes",
+    "RESOLUTION: 4 hours",
+    "UPDATE CADENCE: Every 30 minutes",
+    "CLOCK BASIS: Elapsed, 24/7",
+    "PRIORITY: P2",
+    "RESPONSE: 30 minutes",
+    "RESOLUTION: 8 hours",
+    "UPDATE CADENCE: Every 2 hours",
+    "PRIORITY: P3",
+    "RESPONSE: 4 working hours",
+    "RESOLUTION: 3 working days",
+    "UPDATE CADENCE: Daily",
+    "CLOCK BASIS: Working hours",
+    "PRIORITY: P4",
+    "RESPONSE: 1 working day",
+    "RESOLUTION: 5 working days",
+    "UPDATE CADENCE: On change of state"
+   ]
+  },
+  {
+   "id": "m-p13-escalation",
+   "source": "manual p13 (rowspan Area column)",
+   "headers": [
+    "AREA",
+    "TRIGGER",
+    "FIRST ROUTE",
+    "IF NO ACK IN 15 MIN"
+   ],
+   "records": [
+    "AREA: Network",
+    "TRIGGER: VPN, remote access, site links",
+    "FIRST ROUTE: Network Operations",
+    "IF NO ACK IN 15 MIN: NetOps duty lead",
+    "TRIGGER: Corporate Wi-Fi, roaming, coverage",
+    "TRIGGER: Firewall or segmentation change",
+    "FIRST ROUTE: Network Security",
+    "IF NO ACK IN 15 MIN: Head of Infrastructure",
+    "AREA: Identity",
+    "TRIGGER: Lockouts, password policy, directory",
+    "FIRST ROUTE: Identity & Access",
+    "IF NO ACK IN 15 MIN: IAM duty lead",
+    "TRIGGER: MFA reset or device re-enrolment",
+    "TRIGGER: Suspected compromise",
+    "FIRST ROUTE: Security Operations, immediately",
+    "IF NO ACK IN 15 MIN: CISO on-call — do not wait 15 minutes",
+    "AREA: Applications",
+    "TRIGGER: SAP availability or connectivity",
+    "FIRST ROUTE: SAP Basis",
+    "IF NO ACK IN 15 MIN: SAP service owner",
+    "TRIGGER: Order processing and fulfilment",
+    "FIRST ROUTE: Platform Engineering",
+    "IF NO ACK IN 15 MIN: Head of Platform Engineering",
+    "TRIGGER: Mail flow and collaboration",
+    "FIRST ROUTE: Collaboration Services",
+    "IF NO ACK IN 15 MIN: Collaboration duty lead",
+    "AREA: Endpoint",
+    "TRIGGER: Laptop, desktop, peripherals",
+    "FIRST ROUTE: Endpoint Engineering",
+    "IF NO ACK IN 15 MIN: Endpoint duty lead",
+    "TRIGGER: Print and reprographics",
+    "FIRST ROUTE: Print Services",
+    "IF NO ACK IN 15 MIN: Facilities duty manager"
+   ]
+  },
+  {
+   "id": "m-p15-catalogue",
+   "source": "manual p15 (outer grid with nested FIELD/VALUE table in cell)",
+   "headers": [
+    "SERVICE",
+    "CRITICALITY",
+    "Owner",
+    "Group",
+    "Window",
+    "NOTES"
+   ],
+   "records": [
+    "SERVICE: order-processing",
+    "CRITICALITY: Tier 1",
+    "Owner: K. Selim",
+    "Group: Platform Eng",
+    "Window: 24/7",
+    "NOTES: Revenue-bearing. Any P1 goes straight to the bridge. Remediation is change-controlled — see KB0010 and CHG0030455."
+   ]
+  },
+  {
+   "id": "m-p17-index",
+   "source": "manual p17 (11-row ruled index crossing pages)",
+   "headers": [
+    "ARTICLE",
+    "REPORTED AS",
+    "SERVICE",
+    "CATEGORY",
+    "OWNER"
+   ],
+   "records": [
+    "ARTICLE: KB0001",
+    "REPORTED AS: VPN says authentication failed since my password reset",
+    "SERVICE: corporate-vpn",
+    "CATEGORY: network",
+    "OWNER: Network Ops",
+    "ARTICLE: KB0002",
+    "REPORTED AS: Outlook is Disconnected and no mail is arriving",
+    "SERVICE: corporate-email",
+    "CATEGORY: software",
+    "OWNER: Collaboration",
+    "ARTICLE: KB0003",
+    "REPORTED AS: My mapped drive has disappeared since I logged in",
+    "SERVICE: file-services",
+    "OWNER: Infrastructure",
+    "ARTICLE: KB0004",
+    "REPORTED AS: Jobs queue up and nothing comes out of the printer",
+    "SERVICE: print-services",
+    "CATEGORY: hardware",
+    "OWNER: Print Services",
+    "ARTICLE: KB0005",
+    "REPORTED AS: I am locked out and nothing lets me sign in",
+    "SERVICE: identity",
+    "CATEGORY: inquiry",
+    "OWNER: Identity & Access",
+    "ARTICLE: KB0006",
+    "REPORTED AS: I changed my phone and MFA no longer works",
+    "ARTICLE: KB0007",
+    "REPORTED AS: My laptop has been slow since the update",
+    "SERVICE: endpoint",
+    "OWNER: Endpoint Eng",
+    "ARTICLE: KB0008",
+    "REPORTED AS: SAP times out with RFC_ERROR_COMMUNICATION",
+    "SERVICE: sap-erp",
+    "OWNER: SAP Basis",
+    "ARTICLE: KB0009",
+    "REPORTED AS: Wi-Fi keeps dropping on the 5 GHz network",
+    "SERVICE: corporate-wifi",
+    "CATEGORY: network",
+    "OWNER: Network Ops",
+    "ARTICLE: KB0010 v2",
+    "REPORTED AS: Order service is returning 500s under load",
+    "SERVICE: order-processing",
+    "OWNER: Platform Eng",
+    "ARTICLE: KB0010 v1",
+    "REPORTED AS: Retired 02 Apr 2026 — do not apply. See 6.12."
+   ]
+  },
+  {
+   "id": "m-p29-problems",
+   "source": "manual p29 (multi-line DESCRIPTION cells)",
+   "headers": [
+    "PROBLEM",
+    "DESCRIPTION",
+    "RAISED",
+    "INCIDENTS",
+    "OWNER AND STATUS"
+   ],
+   "records": [
+    "PROBLEM: PRB0040012",
+    "DESCRIPTION: Repeat account lockouts traced to cached credentials on mobile mail profiles.",
+    "RAISED: 12 Feb 2026",
+    "INCIDENTS: 63",
+    "OWNER AND STATUS: Identity & Access. Awaiting the modern-auth rollout, Q4.",
+    "PROBLEM: PRB0040018",
+    "DESCRIPTION: Connection pool exhaustion on order-processing under sustained load.",
+    "RAISED: 15 Mar 2026",
+    "INCIDENTS: 9",
+    "OWNER AND STATUS: Platform Engineering. Fix in test; target Q4.",
+    "PROBLEM: PRB0040021",
+    "DESCRIPTION: Wireless drops on the 5 GHz corporate SSID while roaming between access points on floors 3 and 4.",
+    "RAISED: 08 Jan 2026",
+    "INCIDENTS: 41",
+    "OWNER AND STATUS: Network Operations. Controller firmware scheduled, CHG0030588.",
+    "PROBLEM: PRB0040026",
+    "RAISED: 22 Jun 2026",
+    "INCIDENTS: 17",
+    "OWNER AND STATUS: Endpoint Engineering. Vendor case open.",
+    "PROBLEM: PRB0040029",
+    "DESCRIPTION: Print queues stalling on the third-floor device within an hour of a spooler restart.",
+    "RAISED: 30 Jul 2026",
+    "INCIDENTS: 12",
+    "OWNER AND STATUS: Print Services. Under investigation."
+   ]
+  },
+  {
+   "id": "m-p30-knownerrors",
+   "source": "manual p30 (multi-line cells)",
+   "headers": [
+    "KNOWN ERROR",
+    "SYMPTOM",
+    "WORKAROUND",
+    "PERMANENT FIX"
+   ],
+   "records": [
+    "KNOWN ERROR: KE0000034",
+    "SYMPTOM: SAP GUI times out with RFC_ERROR_COMMUNICATION from a known-good network.",
+    "WORKAROUND: The saved connection entry names a decommissioned application server. Change it to the message server and group. KB0008 step 3.",
+    "PERMANENT FIX: Connection profiles republished by SAP Basis. No date.",
+    "KNOWN ERROR: KE0000041",
+    "SYMPTOM: Mapped drive absent at sign-in although the server path opens when browsed directly.",
+    "WORKAROUND: Re-run the mapping script, or remap with reconnect-at-sign-in enabled. KB0003 step 2.",
+    "PERMANENT FIX: Login script rewrite, CHG0030602.",
+    "KNOWN ERROR: KE0000047",
+    "SYMPTOM: Account re-locks within minutes of an unlock, with no user action.",
+    "WORKAROUND: Identify the lockout source before the second unlock. Sign the mobile mail profile out first. KB0005 steps 3 and 6.",
+    "PERMANENT FIX: Modern-auth rollout under PRB0040012.",
+    "KNOWN ERROR: KE0000052",
+    "SYMPTOM: Wireless drops while walking between floors 3 and 4.",
+    "WORKAROUND: None for roaming users. For stationary users, disable adapter power saving. KB0009 step 2.",
+    "PERMANENT FIX: Controller firmware, CHG0030588.",
+    "KNOWN ERROR: KE0000055",
+    "SYMPTOM: Print queue stalls again within an hour of a spooler restart on the third-floor device.",
+    "WORKAROUND: Restart the queue on the print server rather than the client. Escalate on the second recurrence in a day.",
+    "PERMANENT FIX: Under investigation, PRB0040029."
+   ]
+  },
+  {
+   "id": "m-p33-actions",
+   "source": "manual p33 (ruled action table)",
+   "headers": [
+    "#",
+    "ACTION",
+    "OWNER",
+    "DUE",
+    "STATUS"
+   ],
+   "records": [
+    "#: 1",
+    "ACTION: Revise KB0010. Version 1 retired, version 2 published",
+    "OWNER: H. Moawad",
+    "DUE: 02 Apr 2026",
+    "STATUS: Closed",
+    "#: 2",
+    "ACTION: Build and test the pool drain procedure",
+    "OWNER: K. Selim",
+    "STATUS: Closed",
+    "#: 3",
+    "ACTION: Raise PRB0040018",
+    "OWNER: D. Halim",
+    "DUE: 20 Mar 2026",
+    "#: 4",
+    "ACTION: Add a migration-triggered review to the knowledge lifecycle",
+    "OWNER: H. Moawad",
+    "DUE: 30 Apr 2026",
+    "#: 5",
+    "ACTION: Add order continuity to the P1 restoration checklist for order-processing",
+    "OWNER: N. Abdelrahman",
+    "#: 6",
+    "ACTION: Search the estate for saved copies of KB0010 v1 outside the knowledge base",
+    "OWNER: O. Sabry",
+    "DUE: 31 May 2026",
+    "STATUS: Open"
+   ]
+  },
+  {
+   "id": "m-p50-directory",
+   "source": "manual p50 (rowspan Group column)",
+   "headers": [
+    "GROUP",
+    "ROLE",
+    "NAME",
+    "COVERS",
+    "OUT OF HOURS"
+   ],
+   "records": [
+    "GROUP: Service management",
+    "ROLE: Service Delivery Manager",
+    "NAME: N. Abdelrahman",
+    "COVERS: All services",
+    "OUT OF HOURS: On-call rota",
+    "ROLE: Service Desk Team Lead",
+    "NAME: O. Sabry",
+    "COVERS: Tier 1, both sites",
+    "OUT OF HOURS: Extended hours",
+    "ROLE: Problem Manager",
+    "NAME: D. Halim",
+    "COVERS: Problem and known error registers",
+    "OUT OF HOURS: Working hours",
+    "ROLE: Knowledge Manager",
+    "NAME: H. Moawad",
+    "COVERS: Section 6, article lifecycle",
+    "ROLE: Change Manager",
+    "NAME: Y. Naguib",
+    "COVERS: CAB, emergency approvals",
+    "GROUP: Service owners",
+    "ROLE: Head of Platform Engineering",
+    "NAME: K. Selim",
+    "COVERS: order-processing, sap-erp",
+    "ROLE: Network Operations Lead",
+    "NAME: L. Haddad",
+    "COVERS: corporate-vpn, corporate-wifi, file-services",
+    "ROLE: Identity & Access Lead",
+    "NAME: N. Abdelrahman",
+    "COVERS: identity",
+    "ROLE: Collaboration Services Lead",
+    "NAME: O. Sabry",
+    "COVERS: corporate-email",
+    "ROLE: Endpoint Engineering Lead",
+    "NAME: D. Halim",
+    "COVERS: endpoint, print-services"
+   ]
+  }
+ ],
+ "diagrams": {
+  "ch-p5-flow": {
+   "page": 5,
+   "style": "flowchart",
+   "nodes": [
+    "Incident raised",
+    "Tier 1 applies KB",
+    "Resolved in 1h?",
+    "Close + KB number",
+    "Escalate to resolver",
+    "Rejected twice?",
+    "Service owner"
+   ],
+   "decisions": [
+    {
+     "node": "Resolved in 1h?",
+     "branches": {
+      "YES": "Close + KB number",
+      "NO": "Escalate to resolver"
+     }
+    },
+    {
+     "node": "Rejected twice?",
+     "branches": {
+      "yes": "Service owner"
+     }
+    }
+   ],
+   "edges": [
+    [
+     "Incident raised",
+     "Tier 1 applies KB",
+     ""
+    ],
+    [
+     "Tier 1 applies KB",
+     "Resolved in 1h?",
+     ""
+    ],
+    [
+     "Resolved in 1h?",
+     "Close + KB number",
+     "YES"
+    ],
+    [
+     "Resolved in 1h?",
+     "Escalate to resolver",
+     "NO"
+    ],
+    [
+     "Escalate to resolver",
+     "Rejected twice?",
+     ""
+    ],
+    [
+     "Rejected twice?",
+     "Service owner",
+     "yes"
+    ]
+   ]
+  },
+  "ch-p5-net": {
+   "page": 5,
+   "style": "network",
+   "nodes": [
+    "Laptop",
+    "VPN gateway",
+    "SAP message srv",
+    "Order service",
+    "Orders DB (pool)"
+   ],
+   "decisions": [],
+   "edges": [
+    [
+     "Laptop",
+     "VPN gateway",
+     "TLS"
+    ],
+    [
+     "VPN gateway",
+     "SAP message srv",
+     "3200"
+    ],
+    [
+     "VPN gateway",
+     "Order service",
+     "443"
+    ],
+    [
+     "Order service",
+     "Orders DB (pool)",
+     "JDBC"
+    ]
+   ]
+  },
+  "ch-p6-vector": {
+   "page": 6,
+   "style": "vector flow",
+   "nodes": [
+    "Alert",
+    "P1?",
+    "Bridge",
+    "Owner paged",
+    "Change approved",
+    "Drain"
+   ],
+   "decisions": [],
+   "edges": [
+    [
+     "Alert",
+     "P1?",
+     ""
+    ],
+    [
+     "P1?",
+     "Bridge",
+     ""
+    ],
+    [
+     "Bridge",
+     "Owner paged",
+     ""
+    ],
+    [
+     "Owner paged",
+     "Change approved",
+     ""
+    ],
+    [
+     "Change approved",
+     "Drain",
+     ""
+    ]
+   ]
+  }
+ }
+}
