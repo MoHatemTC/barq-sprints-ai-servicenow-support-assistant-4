@@ -11,3 +11,6 @@ wheels/
 
 # Environment variables / secrets
 .env
+# Local test scratch files
+payload_test*.json
+claim_test.json

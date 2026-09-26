@@ -48,3 +48,48 @@ class ServiceNowClient:
             data = response.json()
 
         return data.get("result", [])
+
+    async def claim_incident(self, sys_id: str, status_value: str = "in_progress") -> dict[str, Any]:
+        """
+        S3.3 — Claim an incident by PATCHing the AI status field before agent execution.
+        Field name is scoped to this instance's custom app (x_2215387_sprint_0_ai_status),
+        not a generic 'ai_status' — confirmed via direct API testing.
+        """
+        url = f"{self.base_url}/api/now/table/incident/{sys_id}"
+
+        async with httpx.AsyncClient(
+            auth=self.auth,
+            timeout=self.timeout,
+            headers={"Content-Type": "application/json", "Accept": "application/json"},
+        ) as client:
+            response = await client.patch(url, json={"x_2215387_sprint_0_ai_status": status_value})
+            response.raise_for_status()
+            data = response.json()
+
+        return data.get("result", {})
+
+    async def get_kb_article(self, sys_id: str) -> dict[str, Any]:
+        """
+        S3.3 — Pull full article content + metadata for the KB sync worker,
+        after receiving a minimal change event (which only has sys_id).
+        """
+        url = f"{self.base_url}/api/now/table/kb_knowledge/{sys_id}"
+
+        params = {
+            "sysparm_display_value": "true",
+            "sysparm_fields": (
+                "sys_id,number,short_description,text,"
+                "workflow_state,kb_category"
+            ),
+        }
+
+        async with httpx.AsyncClient(
+            auth=self.auth,
+            timeout=self.timeout,
+            headers={"Accept": "application/json"},
+        ) as client:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+
+        return data.get("result", {})
