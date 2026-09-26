@@ -48,7 +48,7 @@ only the frozen analysis text. No synthetic stand-in will be generated; this gap
 accepted by owner decision.
 - Manual-only search re-verified after pruning: escalation query → p14 #1 (0.736), all 5 hits
   manual (`out/search-en-manualonly.log`).
-- Recapturable terminal logs pruned 2026-09-26, then recaptured same day in the final
+- Recaptured terminal logs pruned 2026-09-26, then recaptured same day in the final
   208-point state: `out/manual-ingest-rerun.log` (STEP 1–7, SUCCESS, upserted=0/skipped=208),
   `out/search-en.log`, `out/search-en-manualonly.log`, `out/search-ar.log`,
   `out/search-diagram.log` (zero hits — the manual yields 0 diagram chunks, honest empty),
@@ -57,3 +57,21 @@ accepted by owner decision.
   (exactly 1 `retired=true` point: p23 idx1, `superseded_by="KB0010 v2"` + 11 hints, live).
   Secret sweep clean (`sk-` hits are `desk-manual` substrings only). Redump of
   `manual-chunks.jsonl` byte-identical → determinism re-proven.
+
+## Diagram summaries + determinism fix (2026-09-26, prompt v3)
+- Flow figures were classified `kind=text` (0 diagram summaries). Fix (generic, no
+  per-figure rules): tightened kind rules in `VISION_PROMPT` (boxes/arrows showing
+  sequence/decision/connectivity ⇒ diagram, `VISION_PROMPT_VERSION=3`), summary-based
+  routing fallback, fence sanitiser. Result (`out/manual-ingest-canon.log`): 21 fresh
+  vision calls, `diagrams_summarised` 0 → **2** (p39 decision ladder, p40 retrieval
+  pipeline), 0 fenced transcriptions; p37/p38 stay text (empty summaries) — partial
+  flip stated in `cli/PDF_INGESTION_ANALYSIS.md` F5, not overclaimed.
+- Same round exposed rerun churn: 3/206 chunks re-upserted from newline placement alone
+  (4 vision-cache misses → fresh nondeterministic calls). Fix: whitespace-canonicalised
+  `embed_text` for hash+embed (stored text untouched). Proof: migration run upserted 206
+  once; `out/manual-ingest-canon-run2.log` → `upserted=0 skipped=206` with 1 flaky call
+  absorbed. Retrieval re-verified, ranks identical (Δ≤0.013); diagram query now returns
+  p39/p40 (`out/search-diagram.log` recaptured, superseded v3 logs pruned).
+- `cli/PDF_INGESTION_ANALYSIS.md` rewritten manual-grounded: tool comparison with sample
+  outputs (§1) + 6 failure cases with unhandled output and applied workarounds (F1–F4
+  fixed, F5–F6 accepted residuals).

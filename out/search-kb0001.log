@@ -2,23 +2,25 @@
 query: VPN says authentication failed since password reset
 
 --- RETRIEVED (dense, Qdrant order) ---
-#1 score=0.697 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=18 chunk=1
+#1 score=0.684 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=18 chunk=1
    newly typed password, so the directory rejects it. Repeated attempts can lock the account (see 
    KB0005). Resolution. 1. Confirm with the user that they changed their password within the last 24 hours. 2. Ask the user to sign out of the VPN client completely, including the system tray icon. 3. Clear the cached credential for the VPN profile from the credential store.
 
-#2 score=0.673 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=18 chunk=0
+#2 score=0.677 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=18 chunk=0
    6.3 KB0005 — the archived scan Articles predating the 2025 migration exist as scans of the printed originals, signed off by the reviewer of the day. The scan 
    is retained for audit; the published text in 6.8 is what you follow. KB0005 as it existed before the 2025 migration. Retained for audit only — the current text is in 6.8. 6.4 KB0001 — VPN authentication fails after a password change Sympt
 
-#3 score=0.662 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=20 chunk=2
+#3 score=0.648 source_type=pdf type=text file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=20 chunk=2
    or disabled account. Often follows a 
    password change, and often presents as several services failing at once. Cause. The lockout policy triggers after a threshold of failed attempts. A cached credential on any device — a phone mail 
    profile, a VPN client, a mapped drive — can retry an old password silently and lock the account repeatedly, including 
    immediately after each unlock. Resolut
 
-#4 score=0.646 source_type=pdf type=image_ocr file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=25 chunk=3
+#4 score=0.642 source_type=pdf type=image_ocr file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=25 chunk=3
    Incident INC0010023
-   ServiceNow Save Resolve Delete Number: INC0010023
+   ServiceNow Save
+   Resolve
+   Delete Number: INC0010023
    Caller: Mariam Fouad
    Category: Network
    Subcategory: VPN
@@ -28,9 +30,9 @@ query: VPN says authentication failed since password reset
    Urgency: 2 - Medium
    Priority: 3 - Moderate
    Assignment group: Service Desk Tier 1 Short description
-   Cannot connect to VPN since password reset this morning AI Status: suggeste
+   Cannot connect to VPN since password reset this morning AI Status: su
 
-#5 score=0.628 source_type=pdf type=table file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=18 chunk=2
+#5 score=0.627 source_type=pdf type=table file=BARQ_IT_Service_Desk_Manual_Ed5.1.pdf page=18 chunk=2
    | KB0001 | VPN AUTHENTICATION FAILS AFTER A PASSWORD CHANGE |
    |---|---|
    | Published | 2 |

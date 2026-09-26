@@ -19,21 +19,21 @@
     ],
     "file_sha256": "c535243f00547211c2a7076bc5dc91c80d19a4960b94dc7932bbca546db7d9d4",
     "embedding_model": "gemini/gemini-embedding-001",
-    "content_hash": "3024dbf3d6e069358b0c675d0e53dc3aa6597b5a3b1afe32c39cd61193dc108d",
+    "content_hash": "6c4048e0f156135652a5a550a4fd577bd5b5ffbe52f4a131019d1e566dd07ef8",
     "ocr_confidence": 56.6,
     "rotation_applied": 0,
     "deskew_angle": 0.0,
     "origin": "full-page scan",
-    "image_hash": "25e46d5bf2185ef5600a3919126a3a2c9b983faa2e550ce4184ca60e89ec0911",
+    "image_hash": "c82e509455ab54b5121cae00f430d0233db0fce60d93d25bc6945631d864a7b8",
     "vision_result": {
       "kind": "text",
-      "transcription": "```json\n{\n \"kind\": \"text\",\n \"transcription\": \"BARQ Systems · IT Service Operations Manual INTERNAL DOCUMENT\\n\\n6.10 KB0007 — Laptop performance degrades after a system update....................................................21\\",
+      "transcription": "{\"kind\": \"text\", \"transcription\": \"BARQ Systems · IT Service Operations Manual INTERNAL DOCUMENT\\n\\n6.10 KB0007 — Laptop performance degrades after a system update...........................................................................21\\n6.11 KB0008 — SAP GUI connection times out with RFC_ERROR_COMMUNICATION .............................................22\\n6.12 KB0009 — Wi-Fi drops repeatedly on the 5 GHz corporate network ................................................................22\\n6.13 KB0010 — Order service connection pool exhaustion................................................................................................... 23\\n7. Worked incident records ............................................................................................................................................................ 25\\n7.1 What the record looks like ............................................................................................................................................... 25\\n7.2 INC0010023 — VPN authentication failure after a password reset................................................................... 25\\n7.3 INC0010047 — a fault with no article behind it .................................................................................................... 26\\n7.4 INC0010064 — three",
       "summary": ""
     },
-    "alt_via_disagreement": 0.391,
+    "alt_via_disagreement": 0.31,
     "via": "vision",
-    "ingested_at": "2026-09-25T11:16:48.803580+00:00",
-    "text": "```json\n{\n \"kind\": \"text\",\n \"transcription\": \"BARQ Systems · IT Service Operations Manual INTERNAL DOCUMENT\\n\\n6.10 KB0007 — Laptop performance degrades after a system update....................................................21\\"
+    "ingested_at": "2026-09-26T11:40:10.440048+00:00",
+    "text": "{\"kind\": \"text\", \"transcription\": \"BARQ Systems · IT Service Operations Manual INTERNAL DOCUMENT\\n\\n6.10 KB0007 — Laptop performance degrades after a system update...........................................................................21\\n6.11 KB0008 — SAP GUI connection times out with RFC_ERROR_COMMUNICATION .............................................22\\n6.12 KB0009 — Wi-Fi drops repeatedly on the 5 GHz corporate network ................................................................22\\n6.13 KB0010 — Order service connection pool exhaustion................................................................................................... 23\\n7. Worked incident records ............................................................................................................................................................"
   }
 }
 {
@@ -57,7 +57,7 @@
     ],
     "file_sha256": "c535243f00547211c2a7076bc5dc91c80d19a4960b94dc7932bbca546db7d9d4",
     "embedding_model": "gemini/gemini-embedding-001",
-    "content_hash": "99fd4bf00cdd5bf46b81299d49c398f8d7cc52effd6fa73c450175a05b151e4d",
+    "content_hash": "94fffc1448328bf677946b0c858d4227cc47a33aeaea4c6cf6b70db40eded564",
     "quality": {
       "compacted": true,
       "nested_merged": false,
@@ -81,7 +81,7 @@
     "original_rotate": 0,
     "content_rotation": 0,
     "rotation_applied": 0,
-    "ingested_at": "2026-09-25T11:16:48.803580+00:00",
+    "ingested_at": "2026-09-26T11:40:10.440048+00:00",
     "text": "| Escalation | When to stop and who to send it to |\n|---|---|\n| Evidence | At least two incident numbers where this pattern occurred |\n\nRows as records:\nEscalation: Evidence; When to stop and who to send it to: At least two incident numbers where this pattern occurred"
   }
 }
@@ -106,11 +106,11 @@
     ],
     "file_sha256": "c535243f00547211c2a7076bc5dc91c80d19a4960b94dc7932bbca546db7d9d4",
     "embedding_model": "gemini/gemini-embedding-001",
-    "content_hash": "0f3446d1107441ebdd0196e06b0a5c94bc2e21c3560b5c89b0f5ab335e47036f",
+    "content_hash": "253c19bd66e8e11f77ad02b2b5092c1f05e0d46f0dfbe8e0b16e6a78612fa660",
     "original_rotate": 0,
     "content_rotation": 0,
     "rotation_applied": 0,
-    "ingested_at": "2026-09-25T11:16:48.803580+00:00",
+    "ingested_at": "2026-09-26T11:40:10.440048+00:00",
     "text": "11.2 How a suggestion is produced The pilot end to end. The teal path is the write-back onto the incident form; a person always stands between the draft and the requester."
   }
 }

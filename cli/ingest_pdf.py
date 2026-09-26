@@ -735,23 +735,41 @@ class Models:
                     return None
                 time.sleep(2 ** attempt)
         raw = r.choices[0].message.content or ""
+        raw = _strip_code_fences(raw)
         m = re.search(r"\{.*\}", raw, re.S)
         try:
-            return json.loads(m.group()) if m else {"kind": "text", "transcription": raw, "summary": ""}
+            v = json.loads(m.group()) if m else {"kind": "text", "transcription": raw, "summary": ""}
         except Exception as e:
             log.warning("vision non-JSON reply (%s)", type(e).__name__)
-            return {"kind": "text", "transcription": raw, "summary": ""}
+            v = {"kind": "text", "transcription": raw, "summary": ""}
+        # Model sometimes wraps values in fences/quotes despite "JSON only" (observed:
+        # a stored transcription beginning "```json"). Strip generically at parse time
+        # so stored payloads never carry wrapper markup.
+        for k in ("transcription", "summary"):
+            if isinstance(v.get(k), str):
+                v[k] = _strip_code_fences(v[k]).strip().strip("\"'")
+        return v
+
+
+def _strip_code_fences(s: str) -> str:
+    """Remove Markdown code-fence wrappers (```json ... ```) around or inside a value."""
+    s = (s or "").strip()
+    if s.startswith("```"):
+        s = re.sub(r"^```[a-zA-Z]*\s*\n?", "", s)
+        s = re.sub(r"\s*```$", "", s)
+    return s.strip()
 
 
 VISION_PROMPT = """You analyse ONE image taken from a document page. Reply with ONLY a JSON object:
 {"kind": "diagram|text|table|photo|decorative",
  "transcription": "all readable text verbatim; non-Latin scripts stay in their own script in logical (reading) order; tables as Markdown with full header paths",
  "summary": "for flowcharts, network diagrams and infographics ONLY: (1) numbered steps in order, (2) each decision as 'If <condition> -> <A>, else -> <B>', (3) connectivity as 'A -> B (label)', (4) one-sentence purpose. Empty string otherwise."}
-Never invent labels that are not visible."""
+Kind rules: boxes, lanes, arrows or connectors showing a sequence, decision or connectivity between labelled parts is a diagram — even when text-heavy. A figure that only lists information in rows/columns with no flow between parts is text (or table). If boxes/arrows are present, kind MUST be "diagram" and summary MUST be filled.
+Never invent labels that are not visible. No Markdown fences anywhere in the reply."""
 
 # Bump whenever VISION_PROMPT or the vision/OCR selection rules change: the vision cache
 # key includes this version, so a change re-analyses every image instead of reusing stale output.
-VISION_PROMPT_VERSION = 2
+VISION_PROMPT_VERSION = 3
 
 
 def norm_text(s: str) -> str:
@@ -1050,6 +1068,11 @@ def image_chunks(img, pno, models: Models, cfg: Config, stats: Counter, label: s
     if kind in ("photo", "decorative") and len(ocr_text) < 30:
         stats["images_skipped"] += 1
         return out
+    # Label-noise fallback (generic): a non-empty summary means the model saw flow
+    # structure even if it mislabelled kind. Route on the summary, not just the label.
+    if v and v.get("summary", "").strip() and kind != "diagram":
+        log.info("p%d summary present but kind=%s -> routing as diagram", pno, kind)
+        kind = "diagram"
     if v and kind == "diagram" and v.get("summary"):
         body = f"Diagram summary:\n{clean_summary(v['summary'])}"
         vt = (v.get("transcription") or "").strip()
@@ -1302,7 +1325,12 @@ def main() -> int:
              len(chunks), _bt.get("text", 0), _bt.get("table", 0), _bt.get("image_ocr", 0))
 
     def embed_text(c: Chunk) -> str:
-        return f"[{fname} | page {c.page} | {c.content_type}]\n{c.text}"
+        # Whitespace-canonicalised for hash+embed (generic): vision/OCR line-break
+        # placement varies run to run on identical content (measured: 3/206 chunks
+        # churned on a rerun from newline placement alone). Canonical form keeps the
+        # content hash stable so reruns converge. Stored Chunk.text keeps newlines.
+        canon = re.sub(r"\s+", " ", c.text).strip()
+        return f"[{fname} | page {c.page} | {c.content_type}] {canon}"
 
     if a.dump_chunks:
         a.dump_chunks.parent.mkdir(parents=True, exist_ok=True)

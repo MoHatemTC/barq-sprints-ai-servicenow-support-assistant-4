@@ -100,11 +100,12 @@ python cli/search_pdf.py --collection manual_test \
   --doc-id pdf-barq-it-service-desk-manual-ed5-1 --rerank --expect-page 18 --expect-type table \
   "VPN says authentication failed since password reset"
 
-# 6d. Diagram empty result (honest zero hits — manual yields 0 diagram chunks)
+# 6d. Diagram query (now returns 2 manual diagram chunks since prompt v3)
 python cli/search_pdf.py --collection manual_test \
   --doc-id pdf-barq-it-service-desk-manual-ed5-1 \
   "steps in the escalation flow when not resolved in an hour" --type diagram
 ```
+Expect p39 #1 (0.628), p40 #2 (0.558). (Pre-v3 this returned zero hits.)
 
 Stale (show deleted challenge points, keep as historical or delete):
 `search-en-escalation-mixed-top3.png`, `search-en-escalation-mixed-repeat.png`,
