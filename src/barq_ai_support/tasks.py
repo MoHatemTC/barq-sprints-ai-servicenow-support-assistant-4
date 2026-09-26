@@ -10,6 +10,7 @@ import asyncio
 from .celery_app import celery_app
 from .servicenow_client import ServiceNowClient
 
+from .kb_sync_service import sync_article
 
 def run_agent(incident_payload: dict) -> None:
     """
@@ -44,3 +45,18 @@ def process_incident(self, incident_payload: dict) -> dict:
     run_agent(incident_payload)
 
     return {"status": "claimed_and_dispatched", "sys_id": sys_id}
+
+@celery_app.task(name="process_kb_event", bind=True, max_retries=3, default_retry_delay=10)
+def process_kb_event(self, sys_id: str, operation: str) -> dict:
+    """
+    Entry point for a KB change event (insert/update/delete on kb_knowledge).
+    Runs the diff-and-sync logic against Qdrant, never on the request thread.
+    """
+    try:
+        result = sync_article(sys_id, operation)
+    except Exception as exc:  # noqa: BLE001 - retry on any transient failure
+        print(f"KB sync failed for sys_id={sys_id}, retrying: {exc}")
+        raise self.retry(exc=exc)
+
+    print(f"KB sync complete for sys_id={sys_id}: {result}")
+    return result
