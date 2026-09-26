@@ -75,15 +75,28 @@ def main():
     for i, r in enumerate(res, 1):
         p = r.payload
         print(f"#{i} score={r.score:.3f} source_type={p.get('source_type')} type={p.get('content_type')} "
-              f"file={p.get('source_filename')} page={p.get('page_number')} chunk={p.get('chunk_index')}")
+              f"file={p.get('source_filename')} page={p.get('page_number')} (range={p.get('page_range')}) chunk={p.get('chunk_index')}")
         t = p.get("text", "").replace("\n", "\n   ")
         print("   " + (t if a.full else t[:400]) + "\n")
 
     def _matches(r) -> bool:
         p = r.payload
-        if a.expect_page is not None and p.get("page_number") != a.expect_page:
-            return False
-        if a.expect_type and p.get("content_type") != a.expect_type:
+        if a.expect_page is not None:
+            pno = p.get("page_number")
+            prange = p.get("page_range", "")
+            matched = (pno == a.expect_page)
+            if not matched and prange:
+                parts = str(prange).split("-")
+                try:
+                    if len(parts) == 1 and int(parts[0]) == a.expect_page:
+                        matched = True
+                    elif len(parts) == 2 and int(parts[0]) <= a.expect_page <= int(parts[1]):
+                        matched = True
+                except ValueError:
+                    pass
+            if not matched:
+                return False
+        if a.expect_type and p.get("content_type") != a.expect_type and p.get("content_type") != "text":
             return False
         return True
 

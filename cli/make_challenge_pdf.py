@@ -244,7 +244,7 @@ def build(out):
     import pymupdf
     d = pymupdf.open(out)
     d[2].set_rotation(90)
-    d.saveIncr() if False else d.save(out + ".tmp", garbage=3, deflate=True)
+    d.save(out + ".tmp", garbage=3, deflate=True)
     d.close()
     os.replace(out + ".tmp", out)
 
