@@ -17,9 +17,15 @@ dependencies = [
     "python-dotenv>=1.2.3",
     "qdrant-client>=1.19.1",
     "uvicorn>=0.52.4",
-    "python-dotenv>=1.1.0",
     "beautifulsoup4>=4.14.0",
-    "google-genai>=1.0.0",
+    # --- S3.5 PDF ingestion CLI (cli/ingest_pdf.py, search_pdf.py, run_eval.py) ---
+    "pymupdf>=1.24",      # PDF loading + page rendering
+    "pillow>=10",         # image handling for Vision payloads
+    "openai>=1.40",       # OpenAI-compatible client (LiteLLM proxy: embeddings + Vision)
+    # --- Synthetic fixture generators only (cli/make_*.py) ---
+    "reportlab>=4",
+    "arabic-reshaper>=3",
+    "python-bidi>=0.4",
 ]
 
 [project.scripts]
