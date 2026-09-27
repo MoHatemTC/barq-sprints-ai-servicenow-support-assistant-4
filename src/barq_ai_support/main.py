@@ -5,6 +5,8 @@ from fastapi import FastAPI, HTTPException, Query
 from .servicenow_client import ServiceNowClient
 from .webhook import router as webhook_router
 
+from .kb_webhook import router as kb_webhook_router
+
 
 app = FastAPI(
     title="BARQ AI ServiceNow Support Assistant",
@@ -13,6 +15,7 @@ app = FastAPI(
 
 app.include_router(webhook_router)
 
+app.include_router(kb_webhook_router)
 
 client = ServiceNowClient()
 

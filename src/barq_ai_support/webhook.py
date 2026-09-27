@@ -1,22 +1,39 @@
 """
-S1.4 — ServiceNow Business Rule webhook receiver.
+S3.3 — Incident receiver with HMAC-SHA256 verification, Redis dedup,
+and Celery dispatch.
 
-Moved here from the old root-level main.py so the webhook and the
-knowledge-base endpoints live in ONE FastAPI app instead of two
-disconnected ones.
+Order of operations (do not reorder):
+  1. Read raw body bytes.
+  2. Verify HMAC-SHA256 signature over those raw bytes, constant-time.
+     Bad/missing signature -> 401, before any JSON parsing.
+  3. Parse + validate JSON (Pydantic).
+  4. Dedup check (Redis SETNX-equivalent). Replay -> 202, no Celery task.
+  5. First-seen -> enqueue Celery task, return 202.
 
-Also fixes a real gap found during review: the Business Rule
-(businessRule/business_rule.js) sends an "X-ServiceNow-Secret" header,
-but the original webhook never checked it. Anyone who found the ngrok
-URL could POST fake incidents. This version validates that header.
+The endpoint never runs agent/retrieval/embedding work itself, and never
+calls ServiceNow directly — claiming the incident happens inside the
+Celery task, not here.
 """
+import hashlib
+import hmac
+import secrets as secrets_module
 
-from fastapi import APIRouter, BackgroundTasks, Header, HTTPException
-from pydantic import BaseModel
+from fastapi import APIRouter, Request, Response, status
+from pydantic import BaseModel, ValidationError
+import redis
 
 from .config import settings
-
+from .tasks import process_incident
 router = APIRouter()
+
+_redis_client: redis.Redis | None = None
+
+
+def _get_redis() -> redis.Redis:
+    global _redis_client
+    if _redis_client is None:
+        _redis_client = redis.from_url(settings.redis_url, decode_responses=True)
+    return _redis_client
 
 
 class IncidentEvent(BaseModel):
@@ -24,35 +41,56 @@ class IncidentEvent(BaseModel):
     number: str
     short_description: str
     description: str | None = ""
+    event_id: str  # required for dedup — must be unique per event
 
 
-def _verify_webhook_secret(x_servicenow_secret: str | None) -> None:
-    """Reject the request if the shared secret header is missing or wrong."""
-    if not settings.servicenow_webhook_secret:
-        # No secret configured yet — fail closed rather than silently open.
-        raise HTTPException(
-            status_code=500,
-            detail="SERVICENOW_WEBHOOK_SECRET is not configured on the server.",
-        )
-    if x_servicenow_secret != settings.servicenow_webhook_secret:
-        raise HTTPException(status_code=401, detail="Invalid or missing webhook secret.")
+def _verify_signature(raw_body: bytes, provided_signature: str | None) -> bool:
+    """Constant-time HMAC-SHA256 verification over raw request bytes."""
+    if not provided_signature:
+        return False
+    expected = hmac.new(
+        key=settings.incident_signing_secret.encode("utf-8"),
+        msg=raw_body,
+        digestmod=hashlib.sha256,
+    ).hexdigest()
+    try:
+        return secrets_module.compare_digest(expected, provided_signature)
+    except TypeError:
+        return False
 
 
-@router.post("/webhook", status_code=202)
-async def webhook(
-    payload: IncidentEvent,
-    background_tasks: BackgroundTasks,
-    x_servicenow_secret: str | None = Header(default=None),
-):
-    _verify_webhook_secret(x_servicenow_secret)
-
-    print(f"Received event for {payload.number} (sys_id: {payload.incident_sys_id})")
-    background_tasks.add_task(handle_event, payload)
-    return {"status": "accepted", "number": payload.number}
+def _claim_event_once(event_id: str) -> bool:
+    """
+    Atomically claim an event_id in Redis. Returns True if this is the
+    first time we've seen it (should process), False if it's a replay.
+    """
+    client = _get_redis()
+    key = f"{settings.dedup_key_prefix}{event_id}"
+    was_set = client.set(key, "1", nx=True, ex=settings.dedup_ttl_seconds)
+    return bool(was_set)
 
 
-def handle_event(payload: IncidentEvent) -> None:
-    # Sprint 1 scope ends here: just prove the event was received.
-    # Retrieval, agent reasoning, and write-back are wired in later sprints
-    # (see src/barq_ai_support/ingestion, retrieval, and agent packages).
-    print(f"Background task ran for {payload.number}: {payload.short_description}")
+@router.post("/api/v1/events/servicenow", status_code=202)
+async def receive_incident_event(request: Request):
+    raw_body = await request.body()
+    signature = request.headers.get("X-Signature")
+
+    if not _verify_signature(raw_body, signature):
+        return Response(status_code=status.HTTP_401_UNAUTHORIZED)
+
+    try:
+        payload = IncidentEvent.model_validate_json(raw_body)
+    except ValidationError:
+        return Response(status_code=status.HTTP_400_BAD_REQUEST)
+
+    is_first_seen = _claim_event_once(payload.event_id)
+
+    if not is_first_seen:
+        print(f"Duplicate event_id={payload.event_id}, ack without dispatch")
+        return Response(status_code=status.HTTP_202_ACCEPTED)
+
+    from .tasks import process_incident  # local import avoids circular import at module load
+    process_incident.delay(payload.model_dump())
+
+    print(f"Dispatched event_id={payload.event_id} sys_id={payload.incident_sys_id} to Celery")
+    return{"status": "accepted", "number": payload.number}
