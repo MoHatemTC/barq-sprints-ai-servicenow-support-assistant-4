@@ -143,7 +143,10 @@ def upsert_chunks(
         point = PointStruct(
             id=point_id,
             vector=vector,
-            payload=chunk["metadata"],
+            payload={
+                **chunk["metadata"],
+                "text": chunk["text"],
+            }
         )
 
         points.append(point)

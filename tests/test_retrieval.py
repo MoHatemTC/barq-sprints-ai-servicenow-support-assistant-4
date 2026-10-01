@@ -217,3 +217,28 @@ def test_get_qdrant_client_fails_closed_when_url_unset(monkeypatch):
         get_qdrant_client()
 
     get_qdrant_client.cache_clear()  # clean up so later tests aren't affected
+
+
+def test_retrieve_drops_each_chunk_at_or_below_threshold():
+    """
+    The threshold applies to every chunk, not just the best one: weak
+    chunks are removed even when a strong one passes.
+    """
+    from types import SimpleNamespace
+
+    hits = [
+        SimpleNamespace(id=i, score=score, payload={"text": f"chunk {i}", "number": f"KB000{i}"})
+        for i, score in enumerate([0.40, 0.80, 0.65, 0.70], start=1)
+    ]
+    client = SimpleNamespace(query_points=lambda **kwargs: SimpleNamespace(points=hits))
+
+    result = retrieve(
+        "VPN not working",
+        client=client,
+        score_threshold=0.65,
+        embedding_fn=default_embedding_fn,
+    )
+
+    assert result.ok is True
+    assert [c.article_number for c in result.chunks] == ["KB0002", "KB0004"]
+    assert result.best_score == 0.80

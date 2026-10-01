@@ -1,0 +1,611 @@
+{
+  "provenance": {
+    "embedding_model": "gemini-embedding-001 (litellm-proxy)",
+    "embedding_dim": 768,
+    "collection": "barq_kb_chunks",
+    "top_k": 3,
+    "threshold_used": 0.75,
+    "agent_decision_layer": "STUB (threshold gate) \u2014 see file header"
+  },
+  "metrics": {
+    "top_3_hit_rate": 1.0,
+    "refusal_correctness": 1.0,
+    "answerable_total": 20,
+    "negative_total": 10
+  },
+  "score_distribution": {
+    "answerable": {
+      "min": 0.7573099,
+      "max": 0.8989494,
+      "avg": 0.816201628
+    },
+    "negative": {
+      "min": 0.48212898,
+      "max": 0.6719846,
+      "avg": 0.556810955
+    }
+  },
+  "threshold_sweep": [
+    {
+      "threshold": 0.5,
+      "hit_rate": 1.0,
+      "hit_count": "20/20",
+      "refusal_correctness": 0.1,
+      "refusal_count": "1/10"
+    },
+    {
+      "threshold": 0.55,
+      "hit_rate": 1.0,
+      "hit_count": "20/20",
+      "refusal_correctness": 0.6,
+      "refusal_count": "6/10"
+    },
+    {
+      "threshold": 0.6,
+      "hit_rate": 1.0,
+      "hit_count": "20/20",
+      "refusal_correctness": 0.8,
+      "refusal_count": "8/10"
+    },
+    {
+      "threshold": 0.65,
+      "hit_rate": 1.0,
+      "hit_count": "20/20",
+      "refusal_correctness": 0.9,
+      "refusal_count": "9/10"
+    },
+    {
+      "threshold": 0.7,
+      "hit_rate": 1.0,
+      "hit_count": "20/20",
+      "refusal_correctness": 1.0,
+      "refusal_count": "10/10"
+    },
+    {
+      "threshold": 0.75,
+      "hit_rate": 1.0,
+      "hit_count": "20/20",
+      "refusal_correctness": 1.0,
+      "refusal_count": "10/10"
+    },
+    {
+      "threshold": 0.8,
+      "hit_rate": 0.55,
+      "hit_count": "11/20",
+      "refusal_correctness": 1.0,
+      "refusal_count": "10/10"
+    },
+    {
+      "threshold": 0.85,
+      "hit_rate": 0.25,
+      "hit_count": "5/20",
+      "refusal_correctness": 1.0,
+      "refusal_count": "10/10"
+    },
+    {
+      "threshold": 0.9,
+      "hit_rate": 0.0,
+      "hit_count": "0/20",
+      "refusal_correctness": 1.0,
+      "refusal_count": "10/10"
+    }
+  ],
+  "rows": [
+    {
+      "id": "INC-BENCH-001",
+      "type": "answerable",
+      "incident_number": "INC0010010",
+      "short_description": "Cannot browse internet or access cloud services",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010010"
+      ],
+      "top_k_retrieved": [
+        "KB0010010",
+        "KB0010082"
+      ],
+      "confidence": 0.7903,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-002",
+      "type": "answerable",
+      "incident_number": "INC0010082",
+      "short_description": "VPN authentication fails after password change",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010082"
+      ],
+      "top_k_retrieved": [
+        "KB0010082",
+        "KB0010010"
+      ],
+      "confidence": 0.8989,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-003",
+      "type": "answerable",
+      "incident_number": "INC0010015",
+      "short_description": "Outlook will not open",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010015"
+      ],
+      "top_k_retrieved": [
+        "KB0010015",
+        "KB0010077"
+      ],
+      "confidence": 0.7985,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-004",
+      "type": "answerable",
+      "incident_number": "INC0010077",
+      "short_description": "Email not sending or receiving",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010077"
+      ],
+      "top_k_retrieved": [
+        "KB0010077",
+        "KB0010015"
+      ],
+      "confidence": 0.8432,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-005",
+      "type": "answerable",
+      "incident_number": "INC0010021",
+      "short_description": "Printer shows offline and will not print",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010021"
+      ],
+      "top_k_retrieved": [
+        "KB0010021"
+      ],
+      "confidence": 0.8126,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-006",
+      "type": "answerable",
+      "incident_number": "INC0010025",
+      "short_description": "OneDrive files not syncing",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010025"
+      ],
+      "top_k_retrieved": [
+        "KB0010025",
+        "KB0010093",
+        "KB0010079"
+      ],
+      "confidence": 0.8155,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-007",
+      "type": "answerable",
+      "incident_number": "INC0010026",
+      "short_description": "Received a suspicious phishing email",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010026"
+      ],
+      "top_k_retrieved": [
+        "KB0010026",
+        "KB0010027"
+      ],
+      "confidence": 0.7902,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-008",
+      "type": "answerable",
+      "incident_number": "INC0010027",
+      "short_description": "Possible malware infection on laptop",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010027"
+      ],
+      "top_k_retrieved": [
+        "KB0010027",
+        "KB0010026"
+      ],
+      "confidence": 0.7573,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-009",
+      "type": "answerable",
+      "incident_number": "INC0010030",
+      "short_description": "No audio or video in Teams meetings",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010030"
+      ],
+      "top_k_retrieved": [
+        "KB0010030",
+        "KB0010031",
+        "KB0010097"
+      ],
+      "confidence": 0.8371,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-010",
+      "type": "answerable",
+      "incident_number": "INC0010031",
+      "short_description": "Software update keeps failing to install",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010031"
+      ],
+      "top_k_retrieved": [
+        "KB0010031",
+        "KB0010030",
+        "KB0010097"
+      ],
+      "confidence": 0.8018,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-011",
+      "type": "answerable",
+      "incident_number": "INC0010033",
+      "short_description": "Low disk space on C drive",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010033"
+      ],
+      "top_k_retrieved": [
+        "KB0010033",
+        "KB0010084",
+        "KB0010034"
+      ],
+      "confidence": 0.7936,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-012",
+      "type": "answerable",
+      "incident_number": "INC0010034",
+      "short_description": "Computer freezes and crashes daily",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010034"
+      ],
+      "top_k_retrieved": [
+        "KB0010034",
+        "KB0010084",
+        "KB0010033"
+      ],
+      "confidence": 0.7687,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-013",
+      "type": "answerable",
+      "incident_number": "INC0010080",
+      "short_description": "Access denied to shared folder resource",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010080",
+        "KB0010088"
+      ],
+      "top_k_retrieved": [
+        "KB0010080",
+        "KB0010088",
+        "KB0010081"
+      ],
+      "confidence": 0.7759,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-014",
+      "type": "answerable",
+      "incident_number": "INC0010081",
+      "short_description": "Locked out, unable to sign in",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010081",
+        "KB0010092"
+      ],
+      "top_k_retrieved": [
+        "KB0010081",
+        "KB0010092",
+        "KB0010085"
+      ],
+      "confidence": 0.8538,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-015",
+      "type": "answerable",
+      "incident_number": "INC0010094",
+      "short_description": "MFA codes rejected after phone change",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010094"
+      ],
+      "top_k_retrieved": [
+        "KB0010094",
+        "KB0010085",
+        "KB0010087"
+      ],
+      "confidence": 0.8801,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-016",
+      "type": "answerable",
+      "incident_number": "INC0010110",
+      "short_description": "No internet, browser says page not found everywhere",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010010"
+      ],
+      "top_k_retrieved": [
+        "KB0010010",
+        "KB0010082"
+      ],
+      "confidence": 0.7951,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-017",
+      "type": "answerable",
+      "incident_number": "INC0010185",
+      "short_description": "Cant rember password, locked out of mailbox",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010085",
+        "KB0010087"
+      ],
+      "top_k_retrieved": [
+        "KB0010085",
+        "KB0010087",
+        "KB0010081"
+      ],
+      "confidence": 0.7674,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-018",
+      "type": "answerable",
+      "incident_number": "INC0010184",
+      "short_description": "Laptop super slow after the update",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010084"
+      ],
+      "top_k_retrieved": [
+        "KB0010084",
+        "KB0010034",
+        "KB0010033"
+      ],
+      "confidence": 0.8337,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-019",
+      "type": "answerable",
+      "incident_number": "INC0010179",
+      "short_description": "Network drive disappeared after signing in",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010079",
+        "KB0010093"
+      ],
+      "top_k_retrieved": [
+        "KB0010093",
+        "KB0010079",
+        "KB0010025"
+      ],
+      "confidence": 0.8559,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-020",
+      "type": "answerable",
+      "incident_number": "INC0010174",
+      "short_description": "SAP connection keeps timing out",
+      "expected_outcome": "suggested",
+      "actual_outcome": "suggested",
+      "expected_articles": [
+        "KB0010074",
+        "KB0010097"
+      ],
+      "top_k_retrieved": [
+        "KB0010074",
+        "KB0010097",
+        "KB0010030"
+      ],
+      "confidence": 0.8544,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-021",
+      "type": "negative",
+      "incident_number": "INC0090001",
+      "short_description": "Best pancake recipe with blueberries",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010087",
+        "KB0010085",
+        "KB0010010"
+      ],
+      "confidence": 0.5203,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-022",
+      "type": "negative",
+      "incident_number": "INC0090002",
+      "short_description": "How to train for a marathon in 12 weeks",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010085",
+        "KB0010087",
+        "KB0010077"
+      ],
+      "confidence": 0.5312,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-023",
+      "type": "negative",
+      "incident_number": "INC0090003",
+      "short_description": "Explain quantum entanglement simply",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010077",
+        "KB0010092",
+        "KB0010094"
+      ],
+      "confidence": 0.5175,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-024",
+      "type": "negative",
+      "incident_number": "INC0090004",
+      "short_description": "Write a birthday poem for my manager",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010087",
+        "KB0010085",
+        "KB0010081"
+      ],
+      "confidence": 0.5306,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-025",
+      "type": "negative",
+      "incident_number": "INC0090005",
+      "short_description": "What are the best tourist spots in Alexandria?",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010074",
+        "KB0010097",
+        "KB0010077"
+      ],
+      "confidence": 0.4821,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-026",
+      "type": "negative",
+      "incident_number": "INC0090006",
+      "short_description": "ERP module crashes on launch after latest patch",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010031",
+        "KB0010074",
+        "KB0010097"
+      ],
+      "confidence": 0.5932,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-027",
+      "type": "negative",
+      "incident_number": "INC0090007",
+      "short_description": "Office badge reader rejects entry on weekends",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010081",
+        "KB0010092",
+        "KB0010080"
+      ],
+      "confidence": 0.6459,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-028",
+      "type": "negative",
+      "incident_number": "INC0090008",
+      "short_description": "Request a standing desk for medical reasons",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010084",
+        "KB0010034",
+        "KB0010033"
+      ],
+      "confidence": 0.5178,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-029",
+      "type": "negative",
+      "incident_number": "INC0090009",
+      "short_description": "Conference room projector shows wrong colors",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010034",
+        "KB0010084",
+        "KB0010033"
+      ],
+      "confidence": 0.5573,
+      "status": "PASS"
+    },
+    {
+      "id": "INC-BENCH-030",
+      "type": "negative",
+      "incident_number": "INC0090010",
+      "short_description": "SAP GUI font is too small to read",
+      "expected_outcome": "escalated",
+      "actual_outcome": "escalated",
+      "expected_articles": [],
+      "top_k_retrieved": [
+        "KB0010097",
+        "KB0010074",
+        "KB0010031"
+      ],
+      "confidence": 0.672,
+      "status": "PASS"
+    }
+  ]
+}

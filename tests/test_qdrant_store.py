@@ -4,6 +4,19 @@ from barq_ai_support.ingestion.qdrant_store import (
     generate_point_id,
     upsert_chunks,
 )
+from barq_ai_support.ingestion import embedding
+from barq_ai_support.config import settings
+
+
+def test_embedding_module_imports_without_gemini_key(monkeypatch):
+    monkeypatch.setattr(settings, "gemini_api_key", "")
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.setattr(embedding, "_client", None)
+
+    import pytest
+
+    with pytest.raises(RuntimeError, match="GEMINI_API_KEY is not set"):
+        embedding.create_embedding("test")
 
 
 def test_generate_point_id_is_deterministic():

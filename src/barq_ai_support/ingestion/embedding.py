@@ -12,7 +12,7 @@ client = genai.Client(
 
 def create_embedding(text: str) -> list[float]:
     response = client.models.embed_content(
-        model="gemini-embedding-001",
+        model="gemini-embedding-2",
         contents=text,
         config={
             "output_dimensionality": 768,

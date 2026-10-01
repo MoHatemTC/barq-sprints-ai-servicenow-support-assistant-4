@@ -1,16 +1,31 @@
-# Python-generated files
+# Python
 __pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
-
-# Virtual environments
+*.py[cod]
+*$py.class
+*.so
+.Python
 .venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# uv
+.uv/
 
 # Environment variables / secrets
 .env
+
+# Local test scratch files
+payload_test*.json
+claim_test.json
 
 # Log and output files
 *.log
@@ -23,20 +38,12 @@ benchmark/benchmark_results.json
 challenge/barq_challenge.pdf
 challenge-heldout/
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE
-.idea/
+# IDE / editor
 .vscode/
+.idea/
 *.swp
 *.swo
 
-# Evaluation artifacts
-cli/dry-run.log
-cli/chunks.dry-run.jsonl
-out/ingest-run*.log
-out/qdrant-payloads.log
-out/search-*.log
-out/eval/
+# OS
+.DS_Store
+Thumbs.db

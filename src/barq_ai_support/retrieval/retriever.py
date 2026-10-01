@@ -103,7 +103,7 @@ def gemini_embedding_fn(text: str) -> list[float]:
         _gemini_client = genai.Client(api_key=api_key)
 
     response = _gemini_client.models.embed_content(
-        model="gemini-embedding-001",
+        model="gemini-embedding-2",
         contents=text,
         config={"output_dimensionality": 768},
     )
@@ -120,9 +120,9 @@ def retrieve(
     """
     Semantic search against the Qdrant collection.
 
-    Returns the top-k most similar chunks to `query`, each with its score
-    and article provenance. If the best score doesn't meet the threshold,
-    returns a refusal instead (see threshold gating, added next).
+    Returns the top-k most similar chunks to `query` that score above
+    `score_threshold`, best first, each with its score and article
+    provenance. If no chunk is above the threshold, returns a refusal.
     """
     if top_k is None:
         top_k = settings.retrieval_top_k
@@ -156,7 +156,7 @@ def retrieve(
         RetrievedChunk(
             chunk_id=str(hit.id),
             score=hit.score,
-            text=hit.payload.get("short_description", "") or hit.payload.get("text", ""),
+            text=hit.payload.get("text", "") or hit.payload.get("short_description", ""),
             article_number=hit.payload.get("number", "") or hit.payload.get("article_number", ""),
             category=(hit.payload.get("kb_category") or {}).get("display_value")
                 if isinstance(hit.payload.get("kb_category"), dict)
@@ -165,9 +165,16 @@ def retrieve(
         for hit in hits
     ]
 
-    best_score = max((c.score for c in chunks), default=None)
+    best_score = max((chunk.score for chunk in chunks), default=None)
 
-    if best_score is None or best_score < score_threshold:
+    # Keep only chunks above the threshold, best first.
+    chunks = sorted(
+        (chunk for chunk in chunks if chunk.score > score_threshold),
+        key=lambda chunk: chunk.score,
+        reverse=True,
+    )
+
+    if not chunks:
         refusal_message = (
             f"No relevant knowledge articles found for query: {query!r}. "
             f"Best score achieved: {best_score}, "

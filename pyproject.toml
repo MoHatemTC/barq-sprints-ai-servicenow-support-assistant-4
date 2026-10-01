@@ -12,17 +12,27 @@ dependencies = [
     "fastapi>=0.141.1",
     "google-genai>=2.24.0",
     "httpx>=0.28.1",
+    "langchain-classic>=1.0.8",
     "langchain-core>=1.6.3",
+    "langchain-openai>=0.1.0",
     "pydantic-settings>=2.15.0",
     "python-dotenv>=1.2.3",
     "qdrant-client>=1.19.1",
     "uvicorn>=0.52.4",
     "beautifulsoup4>=4.14.0",
-    # --- S3.5 PDF ingestion CLI (cli/ingest_pdf.py, search_pdf.py, run_eval.py) ---
-    "pymupdf>=1.24",      # PDF loading + page rendering
-    "pillow>=10",         # image handling for Vision payloads
-    "openai>=1.40",       # OpenAI-compatible client (LiteLLM proxy: embeddings + Vision)
-    # --- Synthetic fixture generators only (cli/make_*.py) ---
+
+    # --- S3.4 / S3.6 agent, worker, tracing ---
+    "celery>=5.6.3",
+    "redis>=8.1.0",
+    "sqlalchemy>=2.1.0",
+    "langfuse>=2.60.0",
+
+    # --- S3.5 PDF ingestion CLI ---
+    "pymupdf>=1.24",
+    "pillow>=10",
+    "openai>=1.40",
+
+    # --- Synthetic fixture generators ---
     "reportlab>=4",
     "arabic-reshaper>=3",
     "python-bidi>=0.4",
@@ -38,4 +48,8 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
+    "pytest-asyncio>=0.24.0",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
