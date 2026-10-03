@@ -13,9 +13,9 @@ Built by Team G4 in the Sprints × BARQ Systems internship (Sprints 1–4).
 
 | Document | Read it to… |
 |---|---|
-| [Run Guide](docs/RUN_GUIDE.md) | set up and run the system, from `git clone` to a processed incident |
-| [Architecture](docs/ARCHITECTURE.md) | understand the components, the runtime flow, and what is stubbed or partial |
-| [Decision Log](docs/DECISION_LOG.md) | see the main technical choices and why they were made |
+| [Run Guide](documentation/RUN_GUIDE.md) | set up and run the system, from `git clone` to a processed incident |
+| [Architecture](documentation/ARCHITECTURE.md) | understand the components, the runtime flow, and what is stubbed or partial |
+| [Decision Log](documentation/DECISION_LOG.md) | see the main technical choices and why they were made |
 
 ---
 
@@ -51,7 +51,7 @@ ServiceNow incident ──► Business Rule ──► POST /api/v1/events/servic
 
 A second, smaller flow keeps Qdrant in step with the ServiceNow knowledge base:
 `POST /api/v1/events/kb` → Celery `process_kb_event` → re-chunk, re-embed and
-upsert or delete the article's chunks. See [Architecture](docs/ARCHITECTURE.md)
+upsert or delete the article's chunks. See [Architecture](documentation/ARCHITECTURE.md)
 for both flows and their current status.
 
 ---
@@ -59,7 +59,7 @@ for both flows and their current status.
 ## Quick start
 
 The full steps, prerequisites and troubleshooting are in the
-**[Run Guide](docs/RUN_GUIDE.md)**. In short:
+**[Run Guide](documentation/RUN_GUIDE.md)**. In short:
 
 ```bash
 git clone https://github.com/MoHatemTC/barq-sprints-ai-servicenow-support-assistant-4.git
@@ -129,7 +129,7 @@ benchmark/                  Retrieval / pipeline benchmarks, fixture KB seeder, 
 cli/                        S3.5 offline PDF ingestion CLI (separate from the live flow)
 agent/                      S2.5 executor (earlier sprint; not used by the live flow)
 tests/                      Pytest suite
-docs/                       Run guide, architecture, decision log
+documentation/              Run guide, architecture, decision log, ServiceNow PDI notes
 Dockerfile, docker-compose.yml
 ```
 
@@ -139,7 +139,7 @@ Dockerfile, docker-compose.yml
 
 The incident flow runs end to end: receiver, dedup, Celery, the real agent,
 writeback, and tracing are all wired up. Known limits, all described in
-[Architecture](docs/ARCHITECTURE.md):
+[Architecture](documentation/ARCHITECTURE.md):
 
 - **Fixture knowledge base:** the benchmark results come from 24 synthetic KB
   articles (`benchmark/seed_fixtures.py`), not the production knowledge base.
